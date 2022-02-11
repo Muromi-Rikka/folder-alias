@@ -1,7 +1,8 @@
-import { readFileSync, statSync, writeFileSync } from "fs";
+import { existsSync, readFileSync, writeFileSync } from "fs";
 import path = require("path");
 import * as vscode from "vscode";
 import { FANode } from "../typings/common.typing";
+import { firstWorkspace } from "../utils/workspace.util";
 
 const addAlias = vscode.commands.registerCommand(
   "folder-alias.addAlias",
@@ -10,22 +11,22 @@ const addAlias = vscode.commands.registerCommand(
     // Display a message box to the user
 
     vscode.window.showInputBox().then((alias) => {
-      const workspace: vscode.WorkspaceFolder = (vscode.workspace
-        .workspaceFolders &&
-        vscode.workspace.workspaceFolders[0]) as vscode.WorkspaceFolder;
-      const relativelyPath = uri.uri.path.substring(
-        workspace.uri.path.length + 1
-      );
-      const configPath = path.join(
-        workspace.uri.fsPath,
-        ".vscode/folder-alias.json"
-      );
-      if (statSync(configPath)) {
-        const configFile = JSON.parse(readFileSync(configPath).toString());
-        configFile[relativelyPath] = { description: alias };
-        writeFileSync(configPath, JSON.stringify(configFile, null, 4));
+      const workspace = firstWorkspace();
+      if (workspace) {
+        const relativelyPath = uri.uri.path.substring(
+          workspace.uri.path.length + 1
+        );
+        const configPath = path.join(
+          workspace.uri.fsPath,
+          ".vscode/folder-alias.json"
+        );
+        if (existsSync(configPath)) {
+          const configFile = JSON.parse(readFileSync(configPath).toString());
+          configFile[relativelyPath] = { description: alias };
+          writeFileSync(configPath, JSON.stringify(configFile, null, 4));
+        }
+        vscode.commands.executeCommand("folder-alias.refresh");
       }
-      vscode.commands.executeCommand("folder-alias.refresh");
     });
   }
 );

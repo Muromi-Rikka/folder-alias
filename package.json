@@ -2,9 +2,9 @@
   "name": "folder-alias",
   "displayName": "folder-alias",
   "description": "folder alias",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
-    "vscode": "^1.64.0"
+    "vscode": "^1.60.0"
   },
   "categories": [
     "Other"
@@ -34,10 +34,6 @@
     },
     "commands": [
       {
-        "command": "folder-alias.helloWorld",
-        "title": "Hello"
-      },
-      {
         "command": "folder-alias.addAlias",
         "title": "Add Descript",
         "icon": {
@@ -47,7 +43,7 @@
       },
       {
         "command": "folder-alias.refresh",
-        "title": "Refresh"
+        "title": "refresh"
       }
     ],
     "menus": {
@@ -97,6 +93,7 @@
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
+    "istextorbinary": "^6.0.0",
     "mkdirp": "^1.0.4",
     "rimraf": "^3.0.2"
   }
