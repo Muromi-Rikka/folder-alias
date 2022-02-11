@@ -12,6 +12,7 @@
   "activationEvents": [
     "onStartupFinished"
   ],
+  "publisher": "rikka",
   "main": "./dist/extension.js",
   "contributes": {
     "viewsContainers": {
