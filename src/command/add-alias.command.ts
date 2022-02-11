@@ -26,7 +26,6 @@ const addAlias = vscode.commands.registerCommand(
         writeFileSync(configPath, JSON.stringify(configFile, null, 4));
       }
       vscode.commands.executeCommand("folder-alias.refresh");
-      console.log(alias);
     });
   }
 );

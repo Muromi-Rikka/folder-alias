@@ -249,6 +249,12 @@ export class FolderAliasTreeDataProvider
   async getChildren(element?: FANode): Promise<FANode[]> {
     if (element) {
       const children = await this.readDirectory(element.uri);
+      children.sort((a, b) => {
+        if (a[1] === b[1]) {
+          return a[0].localeCompare(b[0]);
+        }
+        return a[1] === vscode.FileType.Directory ? -1 : 1;
+      });
       const result = children.map(([name, type]) => ({
         uri: vscode.Uri.file(path.join(element.uri.fsPath, name)),
         type
@@ -258,7 +264,6 @@ export class FolderAliasTreeDataProvider
 
     if (this.workspace) {
       const children = await this.readDirectory(this.workspace.uri);
-
       children.sort((a, b) => {
         if (a[1] === b[1]) {
           return a[0].localeCompare(b[0]);
