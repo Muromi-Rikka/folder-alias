@@ -238,11 +238,11 @@ export class FolderAliasTreeDataProvider
     const fileName = relativelyPath?.substring(
       relativelyPath.lastIndexOf("/") + 1
     );
+    treeItem.label = fileName;
     if (relativelyPath && this.config[relativelyPath]) {
       treeItem.description = this.config[relativelyPath].description;
-    } else {
-      treeItem.label = fileName;
     }
+    // treeItem.resourceUri = vscode.Uri.parse("_.vue");
     return treeItem;
   }
   async getChildren(element?: FANode): Promise<FANode[]> {
