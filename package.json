@@ -4,7 +4,7 @@
   "description": "folder alias",
   "version": "0.0.2",
   "engines": {
-    "vscode": "^1.60.0"
+    "vscode": "^1.64.0"
   },
   "categories": [
     "Other"
@@ -12,8 +12,10 @@
   "activationEvents": [
     "onStartupFinished"
   ],
+  "license":"MIT",
   "publisher": "rikka",
   "main": "./dist/extension.js",
+  "repositories":"https://github.com/Muromi-Rikka/folder-alias",
   "contributes": {
     "viewsContainers": {
       "activitybar": [
