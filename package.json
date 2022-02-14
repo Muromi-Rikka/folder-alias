@@ -15,7 +15,8 @@
   "license":"MIT",
   "publisher": "rikka",
   "main": "./dist/extension.js",
-  "repositories":"https://github.com/Muromi-Rikka/folder-alias",
+  "icon": "media/icons.png",
+  "repository":"https://github.com/Muromi-Rikka/folder-alias",
   "contributes": {
     "viewsContainers": {
       "activitybar": [
