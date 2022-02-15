@@ -9,10 +9,7 @@ import { firstWorkspace } from "../utils/workspace.util";
 export function createTree(): void {
   const workspace = firstWorkspace();
   if (workspace !== null) {
-    const configPath = path.join(
-      workspace.uri.fsPath,
-      ".vscode/folder-alias.json"
-    );
+    const configPath = path.join(workspace.uri.fsPath, "folder-alias.json");
     if (!fs.existsSync(configPath)) {
       mkdirp(path.join(workspace.uri.fsPath, ".vscode"));
       fs.writeFileSync(configPath, "{}");

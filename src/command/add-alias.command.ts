@@ -16,10 +16,7 @@ const addAlias = vscode.commands.registerCommand(
         const relativelyPath = uri.uri.path.substring(
           workspace.uri.path.length + 1
         );
-        const configPath = path.join(
-          workspace.uri.fsPath,
-          ".vscode/folder-alias.json"
-        );
+        const configPath = path.join(workspace.uri.fsPath, "folder-alias.json");
         if (existsSync(configPath)) {
           const configFile = JSON.parse(readFileSync(configPath).toString());
           configFile[relativelyPath] = { description: alias };
