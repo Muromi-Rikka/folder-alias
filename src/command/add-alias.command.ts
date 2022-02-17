@@ -9,22 +9,32 @@ const addAlias = vscode.commands.registerCommand(
   (uri: FANode) => {
     // The code you place here will be executed every time your command is executed
     // Display a message box to the user
-
-    vscode.window.showInputBox().then((alias) => {
-      const workspace = firstWorkspace();
-      if (workspace) {
+    const workspace = firstWorkspace();
+    if (workspace) {
+      const configPath = path.join(workspace.uri.fsPath, "folder-alias.json");
+      if (existsSync(configPath)) {
         const relativelyPath = uri.uri.path.substring(
           workspace.uri.path.length + 1
         );
-        const configPath = path.join(workspace.uri.fsPath, "folder-alias.json");
-        if (existsSync(configPath)) {
-          const configFile = JSON.parse(readFileSync(configPath).toString());
-          configFile[relativelyPath] = { description: alias };
-          writeFileSync(configPath, JSON.stringify(configFile, null, 4));
-        }
-        vscode.commands.executeCommand("folder-alias.refresh");
+        const configFile = JSON.parse(readFileSync(configPath).toString());
+        const filename = configPath.split(path.sep)[
+          configPath.split(path.sep).length - 1
+        ];
+        const inputConfig: vscode.InputBoxOptions = {
+          title: "Input Your Alias",
+          value: configFile[relativelyPath]
+            ? configFile[relativelyPath].description
+            : filename
+        };
+        vscode.window.showInputBox(inputConfig).then((alias) => {
+          if (alias) {
+            configFile[relativelyPath] = { description: alias };
+            writeFileSync(configPath, JSON.stringify(configFile, null, 4));
+            vscode.commands.executeCommand("folder-alias.refresh");
+          }
+        });
       }
-    });
+    }
   }
 );
 export { addAlias };
