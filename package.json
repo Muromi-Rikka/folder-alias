@@ -2,7 +2,7 @@
   "name": "folder-alias",
   "displayName": "folder-alias",
   "description": "folder alias",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "engines": {
     "vscode": "^1.64.0"
   },
@@ -12,11 +12,11 @@
   "activationEvents": [
     "onStartupFinished"
   ],
-  "license":"GPLV3",
+  "license": "GPLV3",
   "publisher": "rikka",
   "main": "./dist/extension.js",
   "icon": "media/icons.png",
-  "repository":"https://github.com/Muromi-Rikka/folder-alias",
+  "repository": "https://github.com/Muromi-Rikka/folder-alias",
   "contributes": {
     "viewsContainers": {
       "activitybar": [

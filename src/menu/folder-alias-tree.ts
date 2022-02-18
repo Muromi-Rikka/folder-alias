@@ -3,36 +3,32 @@ import * as fs from "fs";
 import * as vscode from "vscode";
 import * as mkdirp from "mkdirp";
 import * as rimraf from "rimraf";
-import { ConfigItem, FANode } from "../typings/common.typing";
-import { firstWorkspace } from "../utils/workspace.util";
+import { FANode, RecordConfig } from "../typings/common.typing";
+import { readConfig } from "../utils/file.util";
 
-export function createTree(): void {
-  const workspace = firstWorkspace();
-  if (workspace !== null) {
-    const configPath = path.join(
-      workspace.uri.fsPath,
-      ".vscode/folder-alias.json"
+export function createTree(
+  workspace: vscode.WorkspaceFolder,
+  commonConfig: RecordConfig
+): void {
+  const configPath = path.join(workspace.uri.fsPath, "folder-alias.json");
+
+  if (fs.existsSync(configPath)) {
+    const configFile: RecordConfig = readConfig(configPath);
+    const myTree = new FolderAliasTreeDataProvider(
+      workspace,
+      configFile,
+      commonConfig
     );
-    if (!fs.existsSync(configPath)) {
-      mkdirp(path.join(workspace.uri.fsPath, ".vscode"));
-      fs.writeFileSync(configPath, "{}");
-    }
-    if (fs.existsSync(configPath)) {
-      const configFile: Record<string, ConfigItem> = JSON.parse(
-        fs.readFileSync(configPath).toString()
-      );
-      const myTree = new FolderAliasTreeDataProvider(workspace, configFile);
-      vscode.window.registerTreeDataProvider("folder-alias", myTree);
+    vscode.window.registerTreeDataProvider("folder-alias", myTree);
 
-      vscode.window.createTreeView("folder-alias", {
-        treeDataProvider: myTree
-      });
+    vscode.window.createTreeView("folder-alias", {
+      treeDataProvider: myTree
+    });
 
-      vscode.commands.registerCommand("folder-alias.refresh", (resource) => {
-        myTree.config = JSON.parse(fs.readFileSync(configPath).toString());
-        myTree.refresh();
-      });
-    }
+    vscode.commands.registerCommand("folder-alias.refresh", (resource) => {
+      myTree.config = readConfig(configPath);
+      myTree.refresh();
+    });
   }
 }
 
@@ -204,13 +200,22 @@ export class FolderAliasTreeDataProvider
   > = new vscode.EventEmitter<FANode | undefined | null | void>();
   readonly onDidChangeTreeData: vscode.Event<FANode | undefined | null | void> =
     this._onDidChangeTreeData.event;
-  public config: Record<string, ConfigItem>;
+  public config: RecordConfig;
+
+  private commonConfig: RecordConfig;
+
+  private get usedConfig(): RecordConfig {
+    return { ...this.commonConfig, ...this.config };
+  }
+
   constructor(
     private workspace: vscode.WorkspaceFolder,
-    config: Record<string, ConfigItem>
+    config: RecordConfig,
+    commonConfig: RecordConfig
   ) {
     this._onDidChangeFile = new vscode.EventEmitter<vscode.FileChangeEvent[]>();
     this.config = config;
+    this.commonConfig = commonConfig;
   }
 
   refresh() {
@@ -239,8 +244,8 @@ export class FolderAliasTreeDataProvider
       relativelyPath.lastIndexOf("/") + 1
     );
     treeItem.label = fileName;
-    if (relativelyPath && this.config[relativelyPath]) {
-      treeItem.description = this.config[relativelyPath].description;
+    if (relativelyPath && this.usedConfig[relativelyPath]) {
+      treeItem.description = this.usedConfig[relativelyPath].description;
     }
     // treeItem.resourceUri = vscode.Uri.parse("_.vue");
     return treeItem;

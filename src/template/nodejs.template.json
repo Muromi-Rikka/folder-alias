@@ -1,0 +1,57 @@
+{
+  "$schema": "./template-schema.json",
+  "level": 1,
+  "config": {
+    "package.json": {
+      "description": "nodejs配置"
+    },
+    "package-lock.json": {
+      "description": "package锁文件"
+    },
+    ".browserslistrc": {
+      "description": "浏览器列表"
+    },
+    "jsconfig.json": {
+      "description": "javascript配置文件"
+    },
+    "tsconfig.json": {
+      "description": "typescript配置文件"
+    },
+    "tslint.json": {
+      "description": "tslint配置文件"
+    },
+    "webpack.config.js": {
+      "description": "webpack配置文件"
+    },
+    "webpack.config.ts": {
+      "description": "webpack配置文件"
+    },
+    "webpack.prod.config.js": {
+      "description": "webpack生产配置文件"
+    },
+    "tailwind.config.js": {
+      "description": "tailwind配置文件"
+    },
+    "postcss.config.json": {
+      "description": "postcss配置文件"
+    },
+    "postcss.config.js": {
+      "description": "postcss配置文件"
+    },
+    ".babelrc": {
+      "description": "bable配置文件"
+    },
+    "babel.config.js": {
+      "description": "bable配置文件"
+    },
+    "yarn.lock": {
+      "description": "yarn锁文件"
+    },
+    "yarn-error.log": {
+      "description": "yarn错误日志"
+    },
+    "commitlint.config.js": {
+      "description": "commentlint配置文件"
+    }
+  }
+}

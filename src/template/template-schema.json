@@ -1,0 +1,22 @@
+{
+  "title": "TemplateSchema",
+  "type": "object",
+  "properties": {
+    "level": { "type": "number" },
+    "config": {
+      "type": "object",
+      "patternProperties": {
+        ".{1,}": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "description": "Description of the template",
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["level", "config"]
+}

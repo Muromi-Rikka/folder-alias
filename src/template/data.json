@@ -1,0 +1,88 @@
+[
+  {
+    "files": ["package.json"],
+    "template": "nodejs"
+  },
+  {
+    "files": ["angular.json"],
+    "template": "angular"
+  },
+  {
+    "files": [
+      ".eslintrc",
+      ".eslintrc.js",
+      ".eslintrc.cjs",
+      ".eslintrc.yaml",
+      ".eslintrc.yml",
+      ".eslintrc.json"
+    ],
+    "template": "eslint"
+  },
+  {
+    "files": [
+      ".prettierrc",
+      ".prettierrc.json",
+      ".prettierrc.yml",
+      ".prettierrc.yaml",
+      ".prettierrc.json5",
+      ".prettierrc.js",
+      ".prettierrc.cjs",
+      "prettier.config.js",
+      "prettier.config.cjs",
+      ".prettierrc.toml"
+    ],
+    "template": "prettier"
+  },
+  {
+    "files": [
+      ".stylelintrc",
+      "stylelint.config.js",
+      "stylelint.config.cjs",
+      ".stylelintrc.json",
+      ".stylelintrc.yaml",
+      ".stylelintrc.yml",
+      ".stylelintrc.js"
+    ],
+    "template": "stylelint"
+  },
+  {
+    "files": [".vscode"],
+    "template": "vscode"
+  },
+  {
+    "files": [".husky"],
+    "template": "husky"
+  },
+  {
+    "files": [".git"],
+    "template": "git"
+  },
+  {
+    "files": ["vue.config.js"],
+    "template": "vue-cli"
+  },
+  {
+    "files": ["vite.config.js", "vite.config.ts"],
+    "template": "vite"
+  },
+  {
+    "files": ["lib/main.dart"],
+    "template": "flutter"
+  },
+  {
+    "files": [
+      "src/main/resources/application.properties",
+      "src/main/resources/application.yml",
+      "src/main/resources/application.yaml"
+    ],
+    "template": "spring-boot"
+  },
+  {
+    "files": ["mvnw", "mvnw.cmd", "pom.xml"],
+    "template": "maven"
+  },
+  {
+    "files": ["build.gradle", "build.gradle.kts"],
+    "template": "gradle"
+  }
+]
