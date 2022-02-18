@@ -1,0 +1,40 @@
+{
+  "$schema": "./template-schema.json",
+  "level": 5,
+  "config": {
+    "lib": {
+      "description": "编码目录"
+    },
+
+    "lib/main.dart": {
+      "description": "flutter入口文件"
+    },
+    "analysis_options.yaml": {
+      "description": "项目分析配置文件"
+    },
+    "pubspec.yaml": {
+      "description": "dart package配置"
+    },
+    "android": {
+      "description": "android构建目录"
+    },
+    "ios": {
+      "description": "iOS构建目录"
+    },
+    "web": {
+      "description": "web构建目录"
+    },
+    "web/favicon.png": {
+      "description": "web图标"
+    },
+    "web/index.html": {
+      "description": "web index入口"
+    },
+    "windows": {
+      "description": "windows构建目录"
+    },
+    "test": {
+      "description": "测试目录"
+    }
+  }
+}

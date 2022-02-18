@@ -64,5 +64,9 @@
   {
     "files": ["vite.config.js", "vite.config.ts"],
     "template": "vite"
+  },
+  {
+    "files": ["lib/main.dart"],
+    "template": "flutter"
   }
 ]
