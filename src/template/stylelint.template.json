@@ -1,30 +1,30 @@
 {
-    "$schema": "./template-schema.json",
-    "level":2,
-    "config": {
-        ".stylelintrc":{
-            "description": "stylelint配置文件"
-        },
-        "stylelint.config.js":{
-            "description": "stylelint配置文件"
-        },
-        "stylelint.config.cjs":{
-            "description": "stylelint配置文件"
-        },
-        ".stylelintrc.json":{
-            "description": "stylelint配置文件"
-        },
-        ".stylelintrc.yaml":{
-            "description": "stylelint配置文件"
-        },
-        ".stylelintrc.yml":{
-            "description": "stylelint配置文件"
-        },
-        ".stylelintrc.js":{
-            "description": "stylelint配置文件"
-        },
-        ".stylelintignore":{
-            "description": "stylelint排除文件"
-        }
+  "$schema": "./template-schema.json",
+  "level": 2,
+  "config": {
+    ".stylelintrc": {
+      "description": "stylelint配置文件"
+    },
+    "stylelint.config.js": {
+      "description": "stylelint配置文件"
+    },
+    "stylelint.config.cjs": {
+      "description": "stylelint配置文件"
+    },
+    ".stylelintrc.json": {
+      "description": "stylelint配置文件"
+    },
+    ".stylelintrc.yaml": {
+      "description": "stylelint配置文件"
+    },
+    ".stylelintrc.yml": {
+      "description": "stylelint配置文件"
+    },
+    ".stylelintrc.js": {
+      "description": "stylelint配置文件"
+    },
+    ".stylelintignore": {
+      "description": "stylelint排除文件"
     }
+  }
 }
