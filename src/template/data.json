@@ -44,5 +44,17 @@
       ".stylelintrc.js"
     ],
     "template": "stylelint"
+  },
+  {
+    "files": [".vscode"],
+    "template": "vscode"
+  },
+  {
+    "files": [".husky"],
+    "template": "husky"
+  },
+  {
+    "files": [".git"],
+    "template": "git"
   }
 ]

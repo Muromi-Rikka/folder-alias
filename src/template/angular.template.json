@@ -5,6 +5,12 @@
     "angular.json": {
       "description": "angular配置文件"
     },
+    ".angular": {
+      "description": "angular缓存路径"
+    },
+    ".angular/cache": {
+      "description": "webpack5缓存"
+    },
     "src/app": {
       "description": "项目源码目录"
     },

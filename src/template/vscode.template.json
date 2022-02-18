@@ -1,0 +1,21 @@
+{
+  "$schema": "./template-schema.json",
+  "level": 2,
+  "config": {
+    ".vscode": {
+      "description": "工作区配置目录"
+    },
+    ".vscode/settings.json": {
+      "description": "工作区配置"
+    },
+    ".vscode/extensions.json": {
+      "description": "工作区推荐扩展"
+    },
+    ".vscode/launch.json": {
+      "description": "工作区启动配置"
+    },
+    ".vscode/tasks.json": {
+      "description": "工作区任务配置"
+    }
+  }
+}
