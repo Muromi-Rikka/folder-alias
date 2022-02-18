@@ -5,6 +5,7 @@ import * as mkdirp from "mkdirp";
 import * as rimraf from "rimraf";
 import { ConfigItem, FANode } from "../typings/common.typing";
 import { firstWorkspace } from "../utils/workspace.util";
+import { readConfig, writeConfig } from "../utils/file.util";
 
 export function createTree(): void {
   const workspace = firstWorkspace();
@@ -12,12 +13,10 @@ export function createTree(): void {
     const configPath = path.join(workspace.uri.fsPath, "folder-alias.json");
     if (!fs.existsSync(configPath)) {
       mkdirp(path.join(workspace.uri.fsPath, ".vscode"));
-      fs.writeFileSync(configPath, "{}");
+      writeConfig(configPath, {});
     }
     if (fs.existsSync(configPath)) {
-      const configFile: Record<string, ConfigItem> = JSON.parse(
-        fs.readFileSync(configPath).toString()
-      );
+      const configFile: Record<string, ConfigItem> = readConfig(configPath);
       const myTree = new FolderAliasTreeDataProvider(workspace, configFile);
       vscode.window.registerTreeDataProvider("folder-alias", myTree);
 
@@ -26,7 +25,7 @@ export function createTree(): void {
       });
 
       vscode.commands.registerCommand("folder-alias.refresh", (resource) => {
-        myTree.config = JSON.parse(fs.readFileSync(configPath).toString());
+        myTree.config = readConfig(configPath);
         myTree.refresh();
       });
     }

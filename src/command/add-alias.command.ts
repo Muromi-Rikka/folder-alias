@@ -1,7 +1,8 @@
-import { existsSync, readFileSync, writeFileSync } from "fs";
+import { existsSync } from "fs";
 import path = require("path");
 import * as vscode from "vscode";
 import { FANode } from "../typings/common.typing";
+import { readConfig, writeConfig } from "../utils/file.util";
 import { firstWorkspace } from "../utils/workspace.util";
 
 const addAlias = vscode.commands.registerCommand(
@@ -16,7 +17,7 @@ const addAlias = vscode.commands.registerCommand(
         const relativelyPath = uri.uri.path.substring(
           workspace.uri.path.length + 1
         );
-        const configFile = JSON.parse(readFileSync(configPath).toString());
+        const configFile = readConfig(configPath);
         const filename = configPath.split(path.sep)[
           configPath.split(path.sep).length - 1
         ];
@@ -29,7 +30,7 @@ const addAlias = vscode.commands.registerCommand(
         vscode.window.showInputBox(inputConfig).then((alias) => {
           if (alias) {
             configFile[relativelyPath] = { description: alias };
-            writeFileSync(configPath, JSON.stringify(configFile, null, 4));
+            writeConfig(configPath, {});
             vscode.commands.executeCommand("folder-alias.refresh");
           }
         });
