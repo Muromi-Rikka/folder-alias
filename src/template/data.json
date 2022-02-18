@@ -60,5 +60,9 @@
   {
     "files": ["vue.config.js"],
     "template": "vue-cli"
+  },
+  {
+    "files": ["vite.config.js", "vite.config.ts"],
+    "template": "vite"
   }
 ]
