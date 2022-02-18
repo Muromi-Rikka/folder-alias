@@ -1,9 +1,7 @@
 # Change Log
 
-All notable changes to the "folder-alias" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+## 0.0.5
 
-## [Unreleased]
-
-- Initial release
+- 添加默认项目模板
+- 优化工作区和配置加载
