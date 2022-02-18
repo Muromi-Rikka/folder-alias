@@ -2,7 +2,7 @@
   "name": "folder-alias",
   "displayName": "folder-alias",
   "description": "folder alias",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "engines": {
     "vscode": "^1.64.0"
   },

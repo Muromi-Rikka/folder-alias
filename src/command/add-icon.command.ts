@@ -25,19 +25,29 @@ const addIcon = (workspace: vscode.WorkspaceFolder) => {
           workspace.uri.path.length + 1
         );
         const originConfig = readConfig(configPath);
-        const inputConfig: vscode.InputBoxOptions = {
-          title: "Select Your Icon"
+        const inputConfig: vscode.QuickPickOptions = {
+          title: "Select Your Icon",
+          canPickMany: false
         };
-        vscode.window.showInputBox(inputConfig).then((alias) => {
-          if (alias) {
-            originConfig[relativelyPath] = {
-              ...originConfig[relativelyPath],
-              icon: alias
-            };
-            writeConfig(configPath, originConfig);
-            vscode.commands.executeCommand("folder-alias.refresh");
+        console.log(vscode.ThemeIcon.File.id);
+        const quickpickList: Array<vscode.QuickPickItem & { data: string }> = [
+          {
+            label: "$(svg) javascript",
+            data: "js"
           }
-        });
+        ];
+        vscode.window
+          .showQuickPick(quickpickList, inputConfig)
+          .then((alias) => {
+            if (alias) {
+              originConfig[relativelyPath] = {
+                ...originConfig[relativelyPath],
+                icon: alias.data
+              };
+              writeConfig(configPath, originConfig);
+              vscode.commands.executeCommand("folder-alias.refresh");
+            }
+          });
       }
     }
   );
