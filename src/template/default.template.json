@@ -1,0 +1,39 @@
+{
+  "$schema": "./template-schema.json",
+  "level": 1,
+  "config": {
+    ".gitignore": {
+      "description": "git排除文件"
+    },
+    "README.md": {
+      "description": "项目介绍"
+    },
+    "folder-alias.json": {
+      "description": "folder alias插件配置"
+    },
+    "src": {
+      "description": "编码目录"
+    },
+    "dist": {
+      "description": "构建成果物目录"
+    },
+    "docs": {
+      "description": "项目文档"
+    },
+    "LICENSE": {
+      "description": "项目许可证"
+    },
+    "license": {
+      "description": "项目许可证"
+    },
+    "CHANGELOG.md": {
+      "description": "项目变更日志"
+    },
+    "changelog.md": {
+      "description": "项目变更日志"
+    },
+    ".editorconfig": {
+      "description": "统一编辑器设置"
+    }
+  }
+}

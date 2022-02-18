@@ -6,3 +6,10 @@ export interface FANode {
 export interface ConfigItem {
   description: string;
 }
+
+export type RecordConfig = Record<string, ConfigItem>;
+
+export interface TemplateFile {
+  level: number;
+  config: RecordConfig;
+}

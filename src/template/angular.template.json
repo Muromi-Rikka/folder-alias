@@ -1,0 +1,69 @@
+{
+    "$schema": "./template-schema.json",
+    "level":5,
+    "config": {
+        "angular.json":{
+            "description": "angular配置文件"
+        },
+        "src/app":{
+            "description": "项目源码目录"
+        },
+        "src/assets":{
+            "description": "静态资源目录"
+        },
+        "src/environments":{
+            "description": "环境配置目录"
+        },
+        "src/environments/environment.ts":{
+            "description": "环境配置-开发环境"
+        },
+        "src/environments.prod.ts":{
+            "description": "环境配置-生产环境"
+        },
+        "src/bootstrap.ts":{
+            "description": "项目试图入口"
+        },
+        "src/favicon.ico":{
+            "description": "网站图标"
+        },
+        "src/index.html":{
+            "description": "项目首页"
+        },
+        "src/main.ts":{
+            "description": "项目主入口"
+        },
+        "src/styles.scss":{
+            "description": "样式入口文件"
+        },
+        "src/test.ts":{
+            "description": "测试入口文件"
+        },
+        "src/polyfills.ts":{
+            "description": "浏览器兼容性文件"
+        },
+        "src/app/app.module.ts":{
+            "description": "项目入口模块"
+        },
+        "src/app/app.component.ts":{
+            "description": "项目入口组件"
+        },
+        "src/app/app.component.spec.ts":{
+            "description": "项目入口测试"
+        },
+        "src/app/app.component.scss":{
+            "description": "项目入口组件样式"
+        },
+        "src/app/app.component.css":{
+            "description": "项目入口组件样式"
+        },
+        "src/app/app.component.sass":{
+            "description": "项目入口组件样式"
+        },
+        "src/app/app.component.less":{
+            "description": "项目入口组件样式"
+        },
+        "src/app/app-routing.module.ts":{
+            "description": "项目入口路由"
+        }
+    }
+}

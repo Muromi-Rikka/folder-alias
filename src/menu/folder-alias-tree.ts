@@ -3,9 +3,10 @@ import * as fs from "fs";
 import * as vscode from "vscode";
 import * as mkdirp from "mkdirp";
 import * as rimraf from "rimraf";
-import { ConfigItem, FANode } from "../typings/common.typing";
+import { FANode, RecordConfig } from "../typings/common.typing";
 import { firstWorkspace } from "../utils/workspace.util";
 import { readConfig, writeConfig } from "../utils/file.util";
+import { getCommonConfig } from "../utils/config.util";
 
 export function createTree(): void {
   const workspace = firstWorkspace();
@@ -16,7 +17,7 @@ export function createTree(): void {
       writeConfig(configPath, {});
     }
     if (fs.existsSync(configPath)) {
-      const configFile: Record<string, ConfigItem> = readConfig(configPath);
+      const configFile: RecordConfig = readConfig(configPath);
       const myTree = new FolderAliasTreeDataProvider(workspace, configFile);
       vscode.window.registerTreeDataProvider("folder-alias", myTree);
 
@@ -200,13 +201,18 @@ export class FolderAliasTreeDataProvider
   > = new vscode.EventEmitter<FANode | undefined | null | void>();
   readonly onDidChangeTreeData: vscode.Event<FANode | undefined | null | void> =
     this._onDidChangeTreeData.event;
-  public config: Record<string, ConfigItem>;
-  constructor(
-    private workspace: vscode.WorkspaceFolder,
-    config: Record<string, ConfigItem>
-  ) {
+  public config: RecordConfig;
+
+  private commonConfig: RecordConfig;
+
+  private get usedConfig(): RecordConfig {
+    return { ...this.commonConfig, ...this.config };
+  }
+
+  constructor(private workspace: vscode.WorkspaceFolder, config: RecordConfig) {
     this._onDidChangeFile = new vscode.EventEmitter<vscode.FileChangeEvent[]>();
     this.config = config;
+    this.commonConfig = getCommonConfig(workspace.uri.fsPath);
   }
 
   refresh() {
@@ -235,8 +241,8 @@ export class FolderAliasTreeDataProvider
       relativelyPath.lastIndexOf("/") + 1
     );
     treeItem.label = fileName;
-    if (relativelyPath && this.config[relativelyPath]) {
-      treeItem.description = this.config[relativelyPath].description;
+    if (relativelyPath && this.usedConfig[relativelyPath]) {
+      treeItem.description = this.usedConfig[relativelyPath].description;
     }
     // treeItem.resourceUri = vscode.Uri.parse("_.vue");
     return treeItem;

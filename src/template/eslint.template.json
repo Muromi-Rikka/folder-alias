@@ -1,0 +1,28 @@
+{
+    "$schema": "./template-schema.json",
+    "level":2,
+    "config": {
+        ".eslintrc":{
+            "description": "eslint配置文件"
+        },
+        ".eslintrc.js":{
+            "description": "eslint配置文件"
+        },
+        ".eslintrc.cjs":{
+            "description": "eslint配置文件"
+        },
+        ".eslintrc.yaml":{
+            "description": "eslint配置文件"
+        },
+        ".eslintrc.yml":{
+            "description": "eslint配置文件"
+        },
+        ".eslintrc.json":{
+            "description": "eslint配置文件"
+        },
+        ".eslintignore":{
+            "description": "eslint排除文件"
+        }
+    }
+}
+        
