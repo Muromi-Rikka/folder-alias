@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.0.6
+- 添加模板 - maven
+- 添加模板 - gradle
+- 添加模板 - spring boot
+- 添加模板 - flutter
+- 添加模板 - vite
+- 添加模板 - vue-cli
 
 ## 0.0.5
 
