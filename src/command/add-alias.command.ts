@@ -29,8 +29,11 @@ const addAlias = (
       };
       vscode.window.showInputBox(inputConfig).then((alias) => {
         if (alias) {
-          originConfig[relativelyPath] = { description: alias };
-          writeConfig(configPath, {});
+          originConfig[relativelyPath] = {
+            ...originConfig[relativelyPath],
+            description: alias
+          };
+          writeConfig(configPath, originConfig);
           vscode.commands.executeCommand("folder-alias.refresh");
         }
       });

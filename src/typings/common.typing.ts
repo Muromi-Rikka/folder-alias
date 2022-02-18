@@ -5,6 +5,7 @@ export interface FANode {
 }
 export interface ConfigItem {
   description: string;
+  icon?: string;
 }
 
 export type RecordConfig = Record<string, ConfigItem>;

@@ -2,7 +2,7 @@
   "name": "folder-alias",
   "displayName": "folder-alias",
   "description": "folder alias",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "engines": {
     "vscode": "^1.64.0"
   },
@@ -45,6 +45,14 @@
         }
       },
       {
+        "command": "folder-alias.addIcon",
+        "title": "Add Icon",
+        "icon": {
+          "light": "media/light/icon.svg",
+          "dark": "media/dark/icon.svg"
+        }
+      },
+      {
         "command": "folder-alias.refresh",
         "title": "refresh"
       }
@@ -53,6 +61,11 @@
       "view/item/context": [
         {
           "command": "folder-alias.addAlias",
+          "group": "inline",
+          "when": "view == folder-alias"
+        },
+        {
+          "command": "folder-alias.addIcon",
           "group": "inline",
           "when": "view == folder-alias"
         },

@@ -1,7 +1,7 @@
 import path = require("path");
 import * as vscode from "vscode";
 import * as fs from "fs";
-import { addAlias, openFile } from "./command";
+import { addAlias, addIcon, openFile } from "./command";
 import { createTree } from "./menu/folder-alias-tree";
 import { changeConfig } from "./utils/update.util";
 import { firstWorkspace } from "./utils/workspace.util";
@@ -20,6 +20,7 @@ export function activate(context: vscode.ExtensionContext) {
     changeConfig(onceWorkspace);
     createTree(onceWorkspace, commonConfig);
     context.subscriptions.push(addAlias(onceWorkspace, commonConfig));
+    context.subscriptions.push(addIcon(onceWorkspace));
     context.subscriptions.push(openFile);
   }
 }
