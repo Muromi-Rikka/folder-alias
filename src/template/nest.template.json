@@ -1,0 +1,27 @@
+{
+  "$schema": "./template-schema.json",
+  "level": 2,
+  "config": {
+    "nest-cli.json": {
+      "description": "nest配置文件"
+    },
+    "test": {
+      "description": "端对端测试路径"
+    },
+    "src": {
+      "description": "项目源码目录"
+    },
+    "src/main.ts": {
+      "description": "项目入口"
+    },
+    "src/app.controller.ts": {
+      "description": "项目入口控制器"
+    },
+    "src/app.module.ts": {
+      "description": "项目入口模块"
+    },
+    "src/app.service.ts": {
+      "description": "项目入口服务"
+    }
+  }
+}
