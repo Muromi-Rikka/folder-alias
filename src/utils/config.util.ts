@@ -25,54 +25,7 @@ interface HasFileItem {
   template: string;
 }
 
-const hasFileList: HasFileItem[] = [
-  {
-    files: ["package.json"],
-    template: "nodejs"
-  },
-  {
-    files: ["angular.json"],
-    template: "angular"
-  },
-  {
-    files: [
-      ".eslintrc",
-      ".eslintrc.js",
-      ".eslintrc.cjs",
-      ".eslintrc.yaml",
-      ".eslintrc.yml",
-      ".eslintrc.json"
-    ],
-    template: "eslint"
-  },
-  {
-    files: [
-      ".prettierrc",
-      ".prettierrc.json",
-      ".prettierrc.yml",
-      ".prettierrc.yaml",
-      ".prettierrc.json5",
-      ".prettierrc.js",
-      ".prettierrc.cjs",
-      "prettier.config.js",
-      "prettier.config.cjs",
-      ".prettierrc.toml"
-    ],
-    template: "prettier"
-  },
-  {
-    files: [
-      ".stylelintrc",
-      "stylelint.config.js",
-      "stylelint.config.cjs",
-      ".stylelintrc.json",
-      ".stylelintrc.yaml",
-      ".stylelintrc.yml",
-      ".stylelintrc.js"
-    ],
-    template: "stylelint"
-  }
-];
+const hasFileList: HasFileItem[] = require("../template/data.json");
 
 function projectHasType(dir: string) {
   const typeList: string[] = ["default"];
