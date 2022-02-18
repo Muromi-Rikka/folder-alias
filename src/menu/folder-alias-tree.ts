@@ -4,32 +4,31 @@ import * as vscode from "vscode";
 import * as mkdirp from "mkdirp";
 import * as rimraf from "rimraf";
 import { FANode, RecordConfig } from "../typings/common.typing";
-import { firstWorkspace } from "../utils/workspace.util";
-import { readConfig, writeConfig } from "../utils/file.util";
-import { getCommonConfig } from "../utils/config.util";
+import { readConfig } from "../utils/file.util";
 
-export function createTree(): void {
-  const workspace = firstWorkspace();
-  if (workspace !== null) {
-    const configPath = path.join(workspace.uri.fsPath, "folder-alias.json");
-    if (!fs.existsSync(configPath)) {
-      mkdirp(path.join(workspace.uri.fsPath, ".vscode"));
-      writeConfig(configPath, {});
-    }
-    if (fs.existsSync(configPath)) {
-      const configFile: RecordConfig = readConfig(configPath);
-      const myTree = new FolderAliasTreeDataProvider(workspace, configFile);
-      vscode.window.registerTreeDataProvider("folder-alias", myTree);
+export function createTree(
+  workspace: vscode.WorkspaceFolder,
+  commonConfig: RecordConfig
+): void {
+  const configPath = path.join(workspace.uri.fsPath, "folder-alias.json");
 
-      vscode.window.createTreeView("folder-alias", {
-        treeDataProvider: myTree
-      });
+  if (fs.existsSync(configPath)) {
+    const configFile: RecordConfig = readConfig(configPath);
+    const myTree = new FolderAliasTreeDataProvider(
+      workspace,
+      configFile,
+      commonConfig
+    );
+    vscode.window.registerTreeDataProvider("folder-alias", myTree);
 
-      vscode.commands.registerCommand("folder-alias.refresh", (resource) => {
-        myTree.config = readConfig(configPath);
-        myTree.refresh();
-      });
-    }
+    vscode.window.createTreeView("folder-alias", {
+      treeDataProvider: myTree
+    });
+
+    vscode.commands.registerCommand("folder-alias.refresh", (resource) => {
+      myTree.config = readConfig(configPath);
+      myTree.refresh();
+    });
   }
 }
 
@@ -209,10 +208,14 @@ export class FolderAliasTreeDataProvider
     return { ...this.commonConfig, ...this.config };
   }
 
-  constructor(private workspace: vscode.WorkspaceFolder, config: RecordConfig) {
+  constructor(
+    private workspace: vscode.WorkspaceFolder,
+    config: RecordConfig,
+    commonConfig: RecordConfig
+  ) {
     this._onDidChangeFile = new vscode.EventEmitter<vscode.FileChangeEvent[]>();
     this.config = config;
-    this.commonConfig = getCommonConfig(workspace.uri.fsPath);
+    this.commonConfig = commonConfig;
   }
 
   refresh() {
