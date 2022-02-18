@@ -1,0 +1,15 @@
+{
+  "$schema": "./template-schema.json",
+  "level": 5,
+  "config": {
+    "src": {
+      "description": "编码目录"
+    },
+    "src/main/resources/application.properties": {
+      "description": "默认配置"
+    },
+    "src/main/resources/application.yml": {
+      "description": "默认配置"
+    }
+  }
+}

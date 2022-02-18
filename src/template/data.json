@@ -68,5 +68,21 @@
   {
     "files": ["lib/main.dart"],
     "template": "flutter"
+  },
+  {
+    "files": [
+      "src/main/resources/application.properties",
+      "src/main/resources/application.yml",
+      "src/main/resources/application.yaml"
+    ],
+    "template": "spring-boot"
+  },
+  {
+    "files": ["mvnw", "mvnw.cmd", "pom.xml"],
+    "template": "maven"
+  },
+  {
+    "files": ["build.gradle", "build.gradle.kts"],
+    "template": "gradle"
   }
 ]
