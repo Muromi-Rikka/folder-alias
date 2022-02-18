@@ -8,6 +8,17 @@ const addIcon = (workspace: vscode.WorkspaceFolder) => {
   return vscode.commands.registerCommand(
     "folder-alias.addIcon",
     (uri: FANode) => {
+      const hasMIcon = vscode.extensions.all.find(
+        (ext) => ext.id === "PKief.material-icon-theme"
+      );
+      if (!hasMIcon) {
+        vscode.window.showWarningMessage(
+          "修改图标功能需要安装Material Icon Theme"
+        );
+        return;
+      }
+      vscode.window.showWarningMessage("功能待开发");
+      return;
       const configPath = path.join(workspace.uri.fsPath, "folder-alias.json");
       if (existsSync(configPath)) {
         const relativelyPath = uri.uri.path.substring(
