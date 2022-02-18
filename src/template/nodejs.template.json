@@ -11,6 +11,9 @@
     ".browserslistrc": {
       "description": "浏览器列表"
     },
+    "jsconfig.json": {
+      "description": "javascript配置文件"
+    },
     "tsconfig.json": {
       "description": "typescript配置文件"
     },
