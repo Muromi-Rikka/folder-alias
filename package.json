@@ -2,7 +2,7 @@
   "name": "folder-alias",
   "displayName": "folder-alias",
   "description": "folder alias",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "engines": {
     "vscode": "^1.64.0"
   },
@@ -18,23 +18,6 @@
   "icon": "media/icons.png",
   "repository": "https://github.com/Muromi-Rikka/folder-alias",
   "contributes": {
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "folder-alias",
-          "title": "Folder Alias",
-          "icon": "media/navAlias.svg"
-        }
-      ]
-    },
-    "views": {
-      "folder-alias": [
-        {
-          "id": "folder-alias",
-          "name": "Folder Alias"
-        }
-      ]
-    },
     "commands": [
       {
         "command": "folder-alias.addAlias",
@@ -43,35 +26,13 @@
           "light": "media/light/edit.svg",
           "dark": "media/dark/edit.svg"
         }
-      },
-      {
-        "command": "folder-alias.addIcon",
-        "title": "Add Icon",
-        "icon": {
-          "light": "media/light/icon.svg",
-          "dark": "media/dark/icon.svg"
-        }
-      },
-      {
-        "command": "folder-alias.refresh",
-        "title": "refresh"
       }
     ],
     "menus": {
-      "view/item/context": [
+      "explorer/context": [
         {
           "command": "folder-alias.addAlias",
-          "group": "inline",
-          "when": "view == folder-alias"
-        },
-        {
-          "command": "folder-alias.addIcon",
-          "group": "inline",
-          "when": "view == folder-alias"
-        },
-        {
-          "command": "folder-alias.refresh",
-          "when": "view == folder-alias"
+          "group": "1_modification"
         }
       ]
     }

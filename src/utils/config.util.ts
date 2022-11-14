@@ -10,7 +10,7 @@ function extensionConfig(
   return template.config;
 }
 
-function getCommonConfig(dir: string) {
+function getCommonConfig(dir: string): RecordConfig {
   const allConfig = projectHasType(dir)
     .map((item) => readTemplateFile(item))
     .sort((x, y) => x.level - y.level)

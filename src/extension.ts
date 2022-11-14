@@ -1,28 +1,24 @@
-import path = require("path");
-import * as vscode from "vscode";
 import * as fs from "fs";
-import { addAlias, addIcon, openFile } from "./command";
-import { createTree } from "./menu/folder-alias-tree";
-import { changeConfig } from "./utils/update.util";
-import { firstWorkspace } from "./utils/workspace.util";
+import { addAlias } from "./command";
+import path = require("path");
+import { ExtensionContext, workspace } from "vscode";
+import { FileAlias } from "./file-alias";
 import { writeConfig } from "./utils/file.util";
-import { getCommonConfig } from "./utils/config.util";
 
-export function activate(context: vscode.ExtensionContext) {
-  const onceWorkspace = firstWorkspace();
-  if (onceWorkspace) {
-    const workspaceDir: string = onceWorkspace.uri.fsPath;
+export async function activate(context: ExtensionContext) {
+  if (!workspace.workspaceFolders) {
+    return;
+  }
+
+  for (let index = 0; index < workspace.workspaceFolders.length; index++) {
+    const ws = workspace.workspaceFolders[index];
+    let fileAlias = new FileAlias(ws.uri);
+    await fileAlias.initWorkSpace();
+    const workspaceDir: string = ws.uri.fsPath;
     const configPath = path.join(workspaceDir, "folder-alias.json");
     if (!fs.existsSync(configPath)) {
       writeConfig(configPath, {});
     }
-    const commonConfig = getCommonConfig(workspaceDir);
-    changeConfig(onceWorkspace);
-    createTree(onceWorkspace, commonConfig);
-    context.subscriptions.push(addAlias(onceWorkspace, commonConfig));
-    context.subscriptions.push(addIcon(onceWorkspace));
-    context.subscriptions.push(openFile);
+    context.subscriptions.push(addAlias(ws, fileAlias));
   }
 }
-
-export function deactivate() {}

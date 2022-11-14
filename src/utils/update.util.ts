@@ -5,7 +5,6 @@ import { WorkspaceFolder } from "vscode";
 function changeConfig(workspace: WorkspaceFolder): void {
   const oldConfigPath = join(workspace.uri.fsPath, ".vscode/folder-alias.json");
   if (existsSync(oldConfigPath)) {
-    console.log("has old config");
     renameSync(oldConfigPath, join(workspace.uri.fsPath, "folder-alias.json"));
   }
 }
