@@ -5,7 +5,7 @@ import { FileAlias } from "../file-alias";
 import { RecordConfig } from "../typings/common.typing";
 import { readConfig, writeConfig } from "../utils/file.util";
 
-const addAlias = (
+const addTooltip = (
   workspace: vscode.WorkspaceFolder,
   fileAlias: FileAlias
 ): vscode.Disposable => {
@@ -25,21 +25,22 @@ const addAlias = (
   const configFile: RecordConfig = { ...commonConfig, ...originConfig };
 
   return vscode.commands.registerCommand(
-    "folder-alias.addAlias",
+    "folder-alias.addTooltip",
     (uri: vscode.Uri) => {
       const relativelyPath = uri.path.substring(workspace.uri.path.length + 1);
       const filename = path.basename(configPath);
       const inputConfig: vscode.InputBoxOptions = {
-        title: "Input Your Alias",
+        title: "Input Your Tooltip",
         value: configFile[relativelyPath]
-          ? configFile[relativelyPath].description
+          ? configFile[relativelyPath].tooltip
           : filename
       };
+
       vscode.window.showInputBox(inputConfig).then((alias) => {
         if (alias) {
           originConfig[relativelyPath] = {
             ...originConfig[relativelyPath],
-            description: alias
+            tooltip: alias
           };
           writeConfig(configPath, originConfig);
           fileAlias.setConfig();
@@ -50,4 +51,4 @@ const addAlias = (
   );
 };
 
-export { addAlias };
+export { addTooltip };

@@ -21,7 +21,15 @@
     "commands": [
       {
         "command": "folder-alias.addAlias",
-        "title": "Add Descript",
+        "title": "Add Alias",
+        "icon": {
+          "light": "media/light/edit.svg",
+          "dark": "media/dark/edit.svg"
+        }
+      },
+      {
+        "command": "folder-alias.addTooltip",
+        "title": "Add Tooltip",
         "icon": {
           "light": "media/light/edit.svg",
           "dark": "media/dark/edit.svg"
@@ -32,6 +40,10 @@
       "explorer/context": [
         {
           "command": "folder-alias.addAlias",
+          "group": "1_modification"
+        },
+        {
+          "command": "folder-alias.addTooltip",
           "group": "1_modification"
         }
       ]

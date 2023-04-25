@@ -4,8 +4,9 @@ export interface FANode {
   type: vscode.FileType;
 }
 export interface ConfigItem {
-  description: string;
+  description?: string;
   icon?: string;
+  tooltip?: string;
 }
 
 export type RecordConfig = Record<string, ConfigItem>;
