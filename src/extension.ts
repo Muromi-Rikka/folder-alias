@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import { addAlias, addTooltip } from "./command";
+import { addAlias, addTooltip, delAlias } from "./command";
 import path = require("path");
 import { ExtensionContext, workspace } from "vscode";
 import { FileAlias } from "./file-alias";
@@ -21,5 +21,6 @@ export async function activate(context: ExtensionContext) {
     }
     context.subscriptions.push(addAlias(ws, fileAlias));
     context.subscriptions.push(addTooltip(ws, fileAlias));
+    context.subscriptions.push(delAlias(ws, fileAlias));
   }
 }
