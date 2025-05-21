@@ -1,50 +1,47 @@
-import type { FileAlias } from "../file-alias";
-import type { RecordConfig } from "../typings/common.typing";
-import { existsSync } from "node:fs";
-import * as path from "node:path";
+import type { UseFileAliasReturn } from "../file-alias";
+import { useCommand } from "reactive-vscode";
 import * as vscode from "vscode";
-import { readConfig, writeConfig } from "../utils/file.util";
 
-function addAlias(workspace: vscode.WorkspaceFolder, fileAlias: FileAlias): vscode.Disposable {
-  const configPath = path.join(workspace.uri.fsPath, "folder-alias.json");
-  if (!existsSync(configPath)) {
-    throw new Error("不存在配置");
-  }
+function addAlias(workspace: vscode.WorkspaceFolder, fileAlias: UseFileAliasReturn) {
+  const { publicConfig, privateConfig, configFile, resetConfig, savePrivate, savePublic, changeEmitter } = fileAlias;
 
-  const privateConfigPath = path.resolve(
-    workspace.uri.fsPath,
-    "folder-alias.json",
-  );
-  const originConfig = readConfig(configPath);
-  const commonConfig = existsSync(privateConfigPath)
-    ? readConfig(privateConfigPath)
-    : {};
-  const configFile: RecordConfig = { ...commonConfig, ...originConfig };
-
-  return vscode.commands.registerCommand(
-    "folder-alias.addAlias",
-    (uri: vscode.Uri) => {
-      const relativelyPath = uri.path.substring(workspace.uri.path.length + 1);
-      const filename = path.basename(configPath);
-      const inputConfig: vscode.InputBoxOptions = {
-        title: "Input Your Alias",
-        value: configFile[relativelyPath]
-          ? configFile[relativelyPath].description
-          : filename,
-      };
-      vscode.window.showInputBox(inputConfig).then((alias) => {
-        if (alias) {
-          originConfig[relativelyPath] = {
-            ...originConfig[relativelyPath],
-            description: alias,
-          };
-          writeConfig(configPath, originConfig);
-          fileAlias.setConfig();
-          fileAlias.changeEmitter.fire(uri);
-        }
-      });
-    },
-  );
+  useCommand("folder-alias.addAlias", (uri: vscode.Uri) => {
+    const relativelyPath = uri.path.substring(workspace.uri.path.length + 1);
+    const inputConfig: vscode.InputBoxOptions = {
+      title: "Input Your Alias",
+      value: configFile.value[relativelyPath]
+        ? configFile.value[relativelyPath].description
+        : "folder-alias",
+    };
+    vscode.window.showQuickPick(["public", "private"]).then((scope) => {
+      if (scope === "private") {
+        vscode.window.showInputBox(inputConfig).then((alias) => {
+          resetConfig();
+          if (alias) {
+            privateConfig.value[relativelyPath] = {
+              ...privateConfig.value[relativelyPath],
+              description: alias,
+            };
+            savePrivate();
+            changeEmitter(uri);
+          }
+        });
+      }
+      else {
+        vscode.window.showInputBox(inputConfig).then((alias) => {
+          resetConfig();
+          if (alias) {
+            publicConfig.value[relativelyPath] = {
+              ...publicConfig.value[relativelyPath],
+              description: alias,
+            };
+            savePublic();
+            changeEmitter(uri);
+          }
+        });
+      }
+    });
+  });
 }
 
 export { addAlias };

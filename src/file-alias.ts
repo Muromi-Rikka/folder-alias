@@ -1,17 +1,8 @@
-import type {
-  Uri,
-} from "vscode";
-import type { RecordConfig } from "./typings/common.typing";
-import { existsSync } from "node:fs";
-import { resolve } from "pathe";
-import {
-  EventEmitter,
-  FileDecoration,
-  RelativePattern,
-  window,
-  workspace,
-} from "vscode";
-import { readConfig } from "./utils/file.util";
+import type { Uri } from "vscode";
+import type { UseConfigReturn } from "./hooks/useConfig";
+import { useEventEmitter, useFsWatcher } from "reactive-vscode";
+import { FileDecoration, RelativePattern, window } from "vscode";
+import { useConfig } from "./hooks/useConfig";
 import { logger } from "./utils/logger.util";
 
 // eslint-disable-next-line ts/ban-ts-comment
@@ -24,54 +15,36 @@ FileDecoration.validate = (d: FileDecoration): void => {
     // throw new Error(`The decoration is empty`);
   }
 };
-
-export class FileAlias {
-  changeEmitter: EventEmitter<undefined | Uri | Uri[]>;
-  _uri: Uri;
-  config: RecordConfig;
-
-  private getFileDecoration(uri: Uri) {
-    const file = uri.toString().replace(`${this._uri.toString()}/`, "");
-    if (this.config[file]) {
-      logger.info(file, JSON.stringify(this.config[file]));
-      return new FileDecoration(this.config[file].description);
-    }
-  }
-
-  private fileChange(uri: Uri) {
+export interface UseFileAliasReturn extends UseConfigReturn {
+  changeEmitter: (uri: Uri | Uri[]) => void;
+}
+export function useFileAlias(uri: Uri): UseFileAliasReturn {
+  const { publicConfig, privateConfig, configFile, resetConfig, savePublic, savePrivate } = useConfig(uri.fsPath);
+  const watcher = useFsWatcher(new RelativePattern(uri, "**/*"));
+  watcher.onDidChange((uri) => {
     if (uri.fsPath.endsWith("folder-alias.json")) {
-      this.setConfig();
+      resetConfig();
+    }
+  });
+  function getFileDecoration(_uri: Uri) {
+    const file = _uri.toString().replace(`${uri.toString()}/`, "");
+    if (configFile.value[file]) {
+      return new FileDecoration(configFile.value[file].description, configFile.value[file].tooltip);
     }
   }
+  const changeEmitter = useEventEmitter<undefined | Uri | Uri[]>([]);
+  window.registerFileDecorationProvider({
+    onDidChangeFileDecorations: changeEmitter.event,
+    provideFileDecoration: uri => getFileDecoration(uri),
+  });
 
-  async initWorkSpace() {
-    const watcher = workspace.createFileSystemWatcher(
-      new RelativePattern(this._uri, "**/*"),
-    );
-    watcher.onDidChange(this.fileChange, this);
-
-    window.registerFileDecorationProvider({
-      onDidChangeFileDecorations: this.changeEmitter.event,
-      provideFileDecoration: uri => this.getFileDecoration(uri),
-    });
-  }
-
-  public setConfig() {
-    const privateConfigPath = resolve(
-      this._uri.fsPath,
-      "folder-alias.json",
-    );
-
-    if (existsSync(privateConfigPath)) {
-      const privateConfig = readConfig(privateConfigPath);
-      this.config = privateConfig;
-    }
-  }
-
-  constructor(uri: Uri) {
-    this.changeEmitter = new EventEmitter();
-    this._uri = uri;
-    this.config = {};
-    this.setConfig();
-  }
+  return {
+    changeEmitter: (uri: Uri | Uri[]) => changeEmitter.fire(uri),
+    publicConfig,
+    privateConfig,
+    configFile,
+    resetConfig,
+    savePublic,
+    savePrivate,
+  };
 }

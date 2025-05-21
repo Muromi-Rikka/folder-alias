@@ -39,36 +39,12 @@
           "light": "media/light/edit.svg",
           "dark": "media/dark/edit.svg"
         }
-      },
-      {
-        "command": "folder-alias.addTooltip",
-        "title": "Add Tooltip",
-        "icon": {
-          "light": "media/light/edit.svg",
-          "dark": "media/dark/edit.svg"
-        }
-      },
-      {
-        "command": "folder-alias.delAlias",
-        "title": "Delete Alias",
-        "icon": {
-          "light": "media/light/edit.svg",
-          "dark": "media/dark/edit.svg"
-        }
       }
     ],
     "menus": {
       "explorer/context": [
         {
           "command": "folder-alias.addAlias",
-          "group": "1_modification"
-        },
-        {
-          "command": "folder-alias.addTooltip",
-          "group": "1_modification"
-        },
-        {
-          "command": "folder-alias.delAlias",
           "group": "1_modification"
         }
       ]
@@ -80,15 +56,16 @@
     "prepare": "pnpm update:gen",
     "update:gen": "vscode-ext-gen --output src/generated/meta.ts",
     "lint": "eslint .",
-    "vscode:prepublish": "pnpm build",
+    "vscode:prepublish": "pnpm run build",
     "publish": "vsce publish --no-dependencies",
     "pack": "vsce package --no-dependencies",
     "test": "vitest",
     "typecheck": "tsc --noEmit",
-    "release": "bumpp && pnpm publish"
+    "release": "bumpp && pnpm run publish"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.13.1",
+    "@types/lodash-es": "^4.17.12",
     "@types/node": "^18.19.103",
     "@types/vscode": "^1.100.0",
     "@typescript-eslint/eslint-plugin": "^8.32.1",
@@ -97,6 +74,7 @@
     "@vscode/vsce": "^3.4.1",
     "destr": "^2.0.5",
     "eslint": "^9.27.0",
+    "lodash-es": "^4.17.21",
     "mkdirp": "^3.0.1",
     "pathe": "^2.0.3",
     "reactive-vscode": "^0.2.17",
