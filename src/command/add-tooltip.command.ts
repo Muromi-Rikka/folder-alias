@@ -1,6 +1,6 @@
 import type { FileAlias } from "../file-alias";
 import type { RecordConfig } from "../typings/common.typing";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync } from "node:fs";
 import * as path from "node:path";
 import * as vscode from "vscode";
 import { readConfig, writeConfig } from "../utils/file.util";
@@ -17,7 +17,7 @@ function addTooltip(workspace: vscode.WorkspaceFolder, fileAlias: FileAlias): vs
   );
   const originConfig = readConfig(configPath);
   const commonConfig = existsSync(privateConfigPath)
-    ? JSON.parse(readFileSync(privateConfigPath).toString())
+    ? readConfig(privateConfigPath)
     : {};
   const configFile: RecordConfig = { ...commonConfig, ...originConfig };
 

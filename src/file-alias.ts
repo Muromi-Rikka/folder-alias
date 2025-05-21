@@ -2,8 +2,8 @@ import type {
   Uri,
 } from "vscode";
 import type { RecordConfig } from "./typings/common.typing";
-import { existsSync, readFileSync } from "node:fs";
-import path from "node:path";
+import { existsSync } from "node:fs";
+import { resolve } from "pathe";
 import {
   EventEmitter,
   FileDecoration,
@@ -11,6 +11,7 @@ import {
   window,
   workspace,
 } from "vscode";
+import { readConfig } from "./utils/file.util";
 import { logger } from "./utils/logger.util";
 
 // eslint-disable-next-line ts/ban-ts-comment
@@ -20,7 +21,7 @@ FileDecoration.validate = (d: FileDecoration): void => {
     // throw new Error(`The 'badge'-property must be undefined or a short character`);
   }
   if (!d.color && !d.badge && !d.tooltip) {
-    throw new Error(`The decoration is empty`);
+    // throw new Error(`The decoration is empty`);
   }
 };
 
@@ -56,15 +57,13 @@ export class FileAlias {
   }
 
   public setConfig() {
-    const privateConfigPath = path.resolve(
+    const privateConfigPath = resolve(
       this._uri.fsPath,
       "folder-alias.json",
     );
 
     if (existsSync(privateConfigPath)) {
-      const privateConfig = JSON.parse(
-        readFileSync(privateConfigPath).toString(),
-      );
+      const privateConfig = readConfig(privateConfigPath);
       this.config = privateConfig;
     }
   }

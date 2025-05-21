@@ -87,26 +87,23 @@
     "typecheck": "tsc --noEmit",
     "release": "bumpp && pnpm publish"
   },
-  "dependencies": {
-    "istextorbinary": "^9.5.0",
-    "mkdirp": "^3.0.1",
-    "rimraf": "^5.0.10"
-  },
   "devDependencies": {
     "@antfu/eslint-config": "^4.13.1",
-    "@types/glob": "^8.1.0",
     "@types/node": "^18.19.103",
     "@types/vscode": "^1.100.0",
     "@typescript-eslint/eslint-plugin": "^8.32.1",
     "@typescript-eslint/parser": "^8.32.1",
     "@vscode/test-electron": "^2.5.2",
     "@vscode/vsce": "^3.4.1",
+    "destr": "^2.0.5",
     "eslint": "^9.27.0",
-    "glob": "^11.0.2",
+    "mkdirp": "^3.0.1",
+    "pathe": "^2.0.3",
     "reactive-vscode": "^0.2.17",
     "taze": "^19.1.0",
     "tsdown": "^0.11.12",
     "typescript": "^5.8.3",
+    "ufo": "^1.6.1",
     "vscode-ext-gen": "^1.0.2"
   }
 }
