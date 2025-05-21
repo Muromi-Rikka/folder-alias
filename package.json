@@ -72,6 +72,7 @@
     "@typescript-eslint/parser": "^8.32.1",
     "@vscode/test-electron": "^2.5.2",
     "@vscode/vsce": "^3.4.1",
+    "bumpp": "^10.1.1",
     "destr": "^2.0.5",
     "eslint": "^9.27.0",
     "lodash-es": "^4.17.21",
