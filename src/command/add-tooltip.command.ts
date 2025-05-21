@@ -5,7 +5,7 @@ import * as path from "node:path";
 import * as vscode from "vscode";
 import { readConfig, writeConfig } from "../utils/file.util";
 
-function addAlias(workspace: vscode.WorkspaceFolder, fileAlias: FileAlias): vscode.Disposable {
+function addTooltip(workspace: vscode.WorkspaceFolder, fileAlias: FileAlias): vscode.Disposable {
   const configPath = path.join(workspace.uri.fsPath, "folder-alias.json");
   if (!existsSync(configPath)) {
     throw new Error("不存在配置");
@@ -22,21 +22,22 @@ function addAlias(workspace: vscode.WorkspaceFolder, fileAlias: FileAlias): vsco
   const configFile: RecordConfig = { ...commonConfig, ...originConfig };
 
   return vscode.commands.registerCommand(
-    "folder-alias.addAlias",
+    "folder-alias.addTooltip",
     (uri: vscode.Uri) => {
       const relativelyPath = uri.path.substring(workspace.uri.path.length + 1);
       const filename = path.basename(configPath);
       const inputConfig: vscode.InputBoxOptions = {
-        title: "Input Your Alias",
+        title: "Input Your Tooltip",
         value: configFile[relativelyPath]
-          ? configFile[relativelyPath].description
+          ? configFile[relativelyPath].tooltip
           : filename,
       };
+
       vscode.window.showInputBox(inputConfig).then((alias) => {
         if (alias) {
           originConfig[relativelyPath] = {
             ...originConfig[relativelyPath],
-            description: alias,
+            tooltip: alias,
           };
           writeConfig(configPath, originConfig);
           fileAlias.setConfig();
@@ -47,4 +48,4 @@ function addAlias(workspace: vscode.WorkspaceFolder, fileAlias: FileAlias): vsco
   );
 }
 
-export { addAlias };
+export { addTooltip };

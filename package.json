@@ -1,102 +1,106 @@
 {
+  "publisher": "rikka",
   "name": "folder-alias",
   "displayName": "folder-alias",
+  "version": "0.1.0",
   "description": "folder alias",
-  "version": "0.0.6",
-  "engines": {
-    "vscode": "^1.64.0"
+  "author": "Rikka",
+  "license": "GPLV3",
+  "homepage": "https://github.com/Muromi-Rikka/folder-alias#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Muromi-Rikka/folder-alias"
+  },
+  "bugs": {
+    "url": "https://github.com/Muromi-Rikka/folder-alias/issues"
   },
   "categories": [
     "Other"
   ],
+  "main": "./dist/index.js",
+  "icon": "media/icons.png",
+  "engines": {
+    "vscode": "^1.97.0"
+  },
   "activationEvents": [
     "onStartupFinished"
   ],
-  "license": "GPLV3",
-  "publisher": "rikka",
-  "main": "./dist/extension.js",
-  "icon": "media/icons.png",
-  "repository": "https://github.com/Muromi-Rikka/folder-alias",
   "contributes": {
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "folder-alias",
-          "title": "Folder Alias",
-          "icon": "media/navAlias.svg"
-        }
-      ]
-    },
-    "views": {
-      "folder-alias": [
-        {
-          "id": "folder-alias",
-          "name": "Folder Alias"
-        }
-      ]
-    },
     "commands": [
       {
         "command": "folder-alias.addAlias",
-        "title": "Add Descript",
+        "title": "Add Alias",
         "icon": {
           "light": "media/light/edit.svg",
           "dark": "media/dark/edit.svg"
         }
       },
       {
-        "command": "folder-alias.refresh",
-        "title": "refresh"
+        "command": "folder-alias.addTooltip",
+        "title": "Add Tooltip",
+        "icon": {
+          "light": "media/light/edit.svg",
+          "dark": "media/dark/edit.svg"
+        }
+      },
+      {
+        "command": "folder-alias.delAlias",
+        "title": "Delete Alias",
+        "icon": {
+          "light": "media/light/edit.svg",
+          "dark": "media/dark/edit.svg"
+        }
       }
     ],
     "menus": {
-      "view/item/context": [
+      "explorer/context": [
         {
           "command": "folder-alias.addAlias",
-          "group": "inline",
-          "when": "view == folder-alias"
+          "group": "1_modification"
         },
         {
-          "command": "folder-alias.refresh",
-          "when": "view == folder-alias"
+          "command": "folder-alias.addTooltip",
+          "group": "1_modification"
+        },
+        {
+          "command": "folder-alias.delAlias",
+          "group": "1_modification"
         }
       ]
     }
   },
   "scripts": {
-    "vscode:prepublish": "yarn run package",
-    "compile": "webpack",
-    "watch": "webpack --watch",
-    "package": "webpack --mode production --devtool hidden-source-map",
-    "compile-tests": "tsc -p . --outDir out",
-    "watch-tests": "tsc -p . -w --outDir out",
-    "pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
-    "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
-  },
-  "devDependencies": {
-    "@types/glob": "^8.1.0",
-    "@types/mkdirp": "^2.0.0",
-    "@types/node": "14.x",
-    "@types/rimraf": "^4.0.5",
-    "@types/vscode": "^1.64.0",
-    "@typescript-eslint/eslint-plugin": "^5.59.1",
-    "@typescript-eslint/parser": "^5.59.1",
-    "@vscode/test-electron": "^2.3.0",
-    "eslint": "^8.39.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "glob": "^10.2.2",
-    "prettier": "^2.8.8",
-    "taze": "^0.9.1",
-    "ts-loader": "^9.4.2",
-    "typescript": "^4.5.4",
-    "webpack": "^5.80.0",
-    "webpack-cli": "^5.0.2"
+    "build": "tsdown src/index.ts --external vscode",
+    "dev": "pnpm build --watch --sourcemap",
+    "prepare": "pnpm update:gen",
+    "update:gen": "vscode-ext-gen --output src/generated/meta.ts",
+    "lint": "eslint .",
+    "vscode:prepublish": "pnpm build",
+    "publish": "vsce publish --no-dependencies",
+    "pack": "vsce package --no-dependencies",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit",
+    "release": "bumpp && pnpm publish"
   },
   "dependencies": {
-    "istextorbinary": "^6.0.0",
+    "istextorbinary": "^9.5.0",
     "mkdirp": "^3.0.1",
-    "rimraf": "^5.0.0"
+    "rimraf": "^5.0.10"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.13.1",
+    "@types/glob": "^8.1.0",
+    "@types/node": "^18.19.103",
+    "@types/vscode": "^1.100.0",
+    "@typescript-eslint/eslint-plugin": "^8.32.1",
+    "@typescript-eslint/parser": "^8.32.1",
+    "@vscode/test-electron": "^2.5.2",
+    "eslint": "^9.27.0",
+    "glob": "^11.0.2",
+    "reactive-vscode": "^0.2.17",
+    "taze": "^19.1.0",
+    "tsdown": "^0.11.12",
+    "typescript": "^5.8.3",
+    "vscode-ext-gen": "^1.0.2"
   }
 }

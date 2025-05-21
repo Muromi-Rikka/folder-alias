@@ -1,4 +1,9 @@
 # Change Log
+## 0.1.0
+- Migrated extension to use reactive-vscode for better maintainability
+- Removed deprecated templates and utilities
+- Added new commands for managing aliases and tooltips
+- Updated build and configuration files to modern standards
 
 ## 0.0.6
 - 添加模板 - maven

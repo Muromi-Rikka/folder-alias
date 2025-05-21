@@ -1,10 +1,13 @@
-import * as vscode from "vscode";
+import type * as vscode from "vscode";
+
 export interface FANode {
   uri: vscode.Uri;
   type: vscode.FileType;
 }
 export interface ConfigItem {
-  description: string;
+  description?: string;
+  icon?: string;
+  tooltip?: string;
 }
 
 export type RecordConfig = Record<string, ConfigItem>;
