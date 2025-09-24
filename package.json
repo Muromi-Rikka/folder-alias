@@ -25,7 +25,7 @@
     "media/*"
   ],
   "engines": {
-    "vscode": "^1.100.0"
+    "vscode": "^1.104.0"
   },
   "activationEvents": [
     "onStartupFinished"
@@ -64,23 +64,23 @@
     "release": "bumpp && pnpm run publish"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.13.1",
+    "@antfu/eslint-config": "^5.4.1",
     "@types/lodash-es": "^4.17.12",
-    "@types/node": "^18.19.103",
-    "@types/vscode": "^1.100.0",
+    "@types/node": "^18.19.127",
+    "@types/vscode": "^1.104.0",
     "@vscode/test-electron": "^2.5.2",
-    "@vscode/vsce": "^3.4.1",
-    "bumpp": "^10.1.1",
+    "@vscode/vsce": "^3.6.1",
+    "bumpp": "^10.2.3",
     "destr": "^2.0.5",
-    "eslint": "^9.27.0",
+    "eslint": "^9.36.0",
     "lodash-es": "^4.17.21",
     "mkdirp": "^3.0.1",
     "pathe": "^2.0.3",
-    "reactive-vscode": "^0.2.17",
-    "taze": "^19.1.0",
-    "tsdown": "^0.11.12",
-    "typescript": "^5.8.3",
+    "reactive-vscode": "^0.3.2",
+    "taze": "^19.7.0",
+    "tsdown": "^0.15.4",
+    "typescript": "^5.9.2",
     "ufo": "^1.6.1",
-    "vscode-ext-gen": "^1.0.2"
+    "vscode-ext-gen": "^1.2.1"
   }
 }
