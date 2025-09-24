@@ -55,6 +55,15 @@ A powerful VS Code extension that allows you to add customizable aliases and rem
 3. Edit the existing text or clear it to remove the alias
 4. Press **Enter** to update
 
+### Refreshing Aliases
+
+After manually editing the JSON configuration files, you can refresh the file explorer display:
+
+1. **Right-click** anywhere in the Explorer
+2. Select **"Refresh Aliases"** 
+3. Or use **Command Palette** (`Ctrl+Shift+P` / `Cmd+Shift+P`) and type "Refresh Aliases"
+4. The file explorer will reload all alias configurations from the JSON files
+
 ### File Structure
 
 The extension creates two configuration files in your workspace root:

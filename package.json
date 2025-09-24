@@ -39,6 +39,14 @@
           "light": "media/light/edit.svg",
           "dark": "media/dark/edit.svg"
         }
+      },
+      {
+        "command": "folder-alias.refresh",
+        "title": "Refresh Aliases",
+        "icon": {
+          "light": "media/light/refresh.svg",
+          "dark": "media/dark/refresh.svg"
+        }
       }
     ],
     "menus": {
@@ -46,6 +54,16 @@
         {
           "command": "folder-alias.addAlias",
           "group": "1_modification"
+        },
+        {
+          "command": "folder-alias.refresh",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "folder-alias.refresh",
+          "when": "workspaceHasFolderAlias"
         }
       ]
     }

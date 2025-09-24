@@ -1,8 +1,8 @@
 import * as fs from "node:fs";
 import { defineExtension } from "reactive-vscode";
 import { joinURL } from "ufo";
-import { workspace } from "vscode";
-import { addAlias } from "./command";
+import { commands, workspace } from "vscode";
+import { addAlias, refreshAliases } from "./command";
 import { useFileAlias } from "./file-alias";
 import { writeConfig } from "./utils/file.util";
 
@@ -25,7 +25,11 @@ const { activate, deactivate } = defineExtension(async () => {
 
     const fileAlias = useFileAlias(ws.uri);
     addAlias(ws, fileAlias);
+    refreshAliases(ws, fileAlias);
   }
+
+  // Set context to enable refresh command in command palette
+  commands.executeCommand("setContext", "workspaceHasFolderAlias", true);
 });
 
 export { activate, deactivate };
