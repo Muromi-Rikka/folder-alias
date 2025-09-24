@@ -21,6 +21,8 @@
   "icon": "media/icons.png",
   "files": [
     "LICENSE",
+    "README.md",
+    "README.zh-CN.md",
     "dist/*",
     "media/*"
   ],
