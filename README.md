@@ -1,23 +1,185 @@
-# Folder Alias
+# Folder Alias - VS Code Extension
 
-This vscode extension allows you to add remarks to the file tree on the left-hand side, helping you identify and organize your code projects better.
+[![Version](https://img.shields.io/visual-studio-marketplace/v/rikka.folder-alias)](https://marketplace.visualstudio.com/items?itemName=rikka.folder-alias)
+[![Downloads](https://img.shields.io/visual-studio-marketplace/d/rikka.folder-alias)](https://marketplace.visualstudio.com/items?itemName=rikka.folder-alias)
+[![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](LICENSE)
 
-![simple](./docs/images/simple.gif)
+**English** | [中文](./README.zh-CN.md)
 
-## Installation
+A powerful VS Code extension that allows you to add customizable aliases and remarks to files and folders in your file tree, making project navigation and organization more intuitive.
 
-1. Open VSCode and select "Extensions" from the sidebar
-2. Search for "Folder Alias" and click install
-3. Restart VSCode
+![Demo](./docs/images/simple.gif)
 
-## How to use
+## 🌟 Features
 
-1. Right-click on the folder or file you want to add a remark, or alias, for
-2. Select "Add Alias"
-3. Enter the remark you want to add and press Enter
-4. The remark will be displayed on the file tree
+- **Customizable Aliases**: Add meaningful names and descriptions to any file or folder
+- **Dual Configuration**: Support for both public (shared) and private (personal) aliases
+- **Visual Integration**: Seamlessly integrated into VS Code's file explorer
+- **Easy Management**: Simple right-click interface for adding and modifying aliases
+- **Persistent Storage**: Aliases are saved in JSON configuration files within your workspace
 
-You can add remarks using either of the following methods:
+## 🚀 Installation
 
-* Right-click on the file or folder, select "Add Alias", and enter the desired remark.
-* Right-click on the file or folder and select "Add Alias" to modify an existing remark.
+### From VS Code Marketplace
+
+1. Open VS Code
+2. Go to **Extensions** (`Ctrl+Shift+X` / `Cmd+Shift+X`)
+3. Search for **"Folder Alias"**
+4. Click **Install**
+5. Reload VS Code when prompted
+
+### Manual Installation
+
+1. Download the latest `.vsix` file from [releases](https://github.com/Muromi-Rikka/folder-alias/releases)
+2. Open VS Code
+3. Go to **Extensions**
+4. Click **...** (More Actions) → **Install from VSIX...**
+5. Select the downloaded `.vsix` file
+
+## 🎯 Usage
+
+### Adding an Alias
+
+1. **Right-click** on any file or folder in the VS Code Explorer
+2. Select **"Add Alias"**
+3. Choose the alias scope:
+   - **Public**: Saved in `folder-alias.json` (can be committed to version control)
+   - **Private**: Saved in `private-folder-alias.json` (ignored by version control)
+4. Enter your desired alias/description
+5. Press **Enter** to save
+
+### Modifying an Alias
+
+1. **Right-click** on a file/folder that already has an alias
+2. Select **"Add Alias"**
+3. Edit the existing text or clear it to remove the alias
+4. Press **Enter** to update
+
+### File Structure
+
+The extension creates two configuration files in your workspace root:
+
+- **`folder-alias.json`** - Public aliases for team sharing
+- **`private-folder-alias.json`** - Personal aliases (recommended to add to `.gitignore`)
+
+#### Example Configuration
+
+```json
+{
+  "src/components/Button": {
+    "description": "🎛️ Reusable Button Component",
+    "tooltip": "Primary button component with variants"
+  },
+  "docs/api": {
+    "description": "📚 API Documentation",
+    "tooltip": "REST API endpoints documentation"
+  }
+}
+```
+
+## 🛠️ Development
+
+### Prerequisites
+
+- Node.js (v18+)
+- pnpm (preferred package manager)
+- VS Code
+
+### Setup Development Environment
+
+```bash
+# Clone the repository
+git clone https://github.com/Muromi-Rikka/folder-alias.git
+cd folder-alias
+
+# Install dependencies
+pnpm install
+
+# Build the extension
+pnpm build
+
+# Run in development mode (with watch)
+pnpm dev
+```
+
+### Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `pnpm build` | Build the extension |
+| `pnpm dev` | Build in watch mode for development |
+| `pnpm test` | Run tests |
+| `pnpm lint` | Run ESLint |
+| `pnpm typecheck` | Run TypeScript type checking |
+| `pnpm pack` | Package the extension |
+| `pnpm publish` | Publish to VS Code Marketplace |
+
+### Debugging
+
+1. Open the project in VS Code
+2. Press `F5` to open a new Extension Development Host window
+3. Make changes to the source code
+4. Reload (`Ctrl+R` / `Cmd+R`) the Extension Development Host to see changes
+
+## 📝 Configuration
+
+### Extension Settings
+
+The extension automatically creates and manages configuration files in your workspace. No additional settings are required.
+
+### Workspace Integration
+
+For team collaboration, consider adding this to your `.gitignore`:
+
+```gitignore
+# Folder Alias - Personal aliases
+private-folder-alias.json
+```
+
+## 🔧 Architecture
+
+### Core Components
+
+- **`src/index.ts`** - Extension entry point and activation
+- **`src/command/add-alias.command.ts`** - Command handler for adding/modifying aliases
+- **`src/file-alias.ts`** - File decoration provider and alias management
+- **`src/utils/file.util.ts`** - File I/O utilities for configuration management
+
+### Technologies Used
+
+- **TypeScript** - Primary language
+- **reactive-vscode** - Reactive programming for VS Code extensions
+- **tsdown** - Build tool for TypeScript
+- **ESLint** - Code linting
+- **Vitest** - Testing framework
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+### Quick Start for Contributors
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/new-feature`
+3. Make your changes
+4. Run tests: `pnpm test`
+5. Run linting: `pnpm lint`
+6. Commit your changes: `git commit -am 'Add new feature'`
+7. Push to the branch: `git push origin feature/new-feature`
+8. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the [GPLv3 License](LICENSE).
+
+## 🐛 Issues and Support
+
+If you encounter any issues or have feature requests, please [create an issue](https://github.com/Muromi-Rikka/folder-alias/issues) on GitHub.
+
+## 📈 Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for a detailed history of changes and updates.
+
+---
+
+**Made with ❤️ by [Rikka](https://github.com/Muromi-Rikka)**
