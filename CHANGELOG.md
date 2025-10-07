@@ -1,4 +1,10 @@
 # Change Log
+## 0.1.3
+- Added support for `.vscode` directory configuration priority
+- Configuration files can now be placed in `.vscode/` directory with higher priority
+- Smart initialization: only creates root-level config files when `.vscode` versions don't exist
+- Improved file organization: keep workspace root clean by using `.vscode/` directory
+
 ## 0.1.0
 - Migrated extension to use reactive-vscode for better maintainability
 - Removed deprecated templates and utilities

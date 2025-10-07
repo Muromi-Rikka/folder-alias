@@ -60,16 +60,34 @@ A powerful VS Code extension that allows you to add customizable aliases and rem
 After manually editing the JSON configuration files, you can refresh the file explorer display:
 
 1. **Right-click** anywhere in the Explorer
-2. Select **"Refresh Aliases"** 
+2. Select **"Refresh Aliases"**
 3. Or use **Command Palette** (`Ctrl+Shift+P` / `Cmd+Shift+P`) and type "Refresh Aliases"
 4. The file explorer will reload all alias configurations from the JSON files
 
 ### File Structure
 
-The extension creates two configuration files in your workspace root:
+The extension supports two configuration locations with smart priority:
 
-- **`folder-alias.json`** - Public aliases for team sharing
-- **`private-folder-alias.json`** - Personal aliases (recommended to add to `.gitignore`)
+#### Configuration Priority
+
+The extension will **prioritize** `.vscode` directory over root directory:
+
+- **`.vscode/folder-alias.json`** - Public aliases (highest priority)
+- **`.vscode/private-folder-alias.json`** - Private aliases (highest priority)
+- **`folder-alias.json`** - Public aliases (fallback)
+- **`private-folder-alias.json`** - Private aliases (fallback)
+
+**Behavior Rules:**
+- **Reading**: If `.vscode/folder-alias.json` exists, it will be used instead of root `folder-alias.json`
+- **Initialization**: The extension will only create configuration files in the root directory if no corresponding files exist in `.vscode`
+- **Saving**: When saving aliases, the extension will save to `.vscode` only if the corresponding file already exists there, otherwise to root directory
+
+#### File Locations
+
+You can organize your aliases in either location:
+
+- **`.vscode/` directory**: Keeps your workspace root clean and organized
+- **Root directory**: Traditional location, compatible with existing setups
 
 #### Example Configuration
 

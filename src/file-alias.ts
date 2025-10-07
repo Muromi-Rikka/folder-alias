@@ -3,7 +3,6 @@ import type { UseConfigReturn } from "./hooks/useConfig";
 import { useEventEmitter, useFsWatcher } from "reactive-vscode";
 import { FileDecoration, RelativePattern, window } from "vscode";
 import { useConfig } from "./hooks/useConfig";
-import { logger } from "./utils/logger.util";
 
 // eslint-disable-next-line ts/ban-ts-comment
 // @ts-expect-error
@@ -22,7 +21,7 @@ export function useFileAlias(uri: Uri): UseFileAliasReturn {
   const { publicConfig, privateConfig, configFile, resetConfig, savePublic, savePrivate } = useConfig(uri.fsPath);
   const watcher = useFsWatcher(new RelativePattern(uri, "**/*"));
   watcher.onDidChange((uri) => {
-    if (uri.fsPath.endsWith("folder-alias.json")) {
+    if (uri.fsPath.endsWith("folder-alias.json") || uri.fsPath.endsWith("private-folder-alias.json")) {
       resetConfig();
     }
   });
