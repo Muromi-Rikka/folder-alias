@@ -93,7 +93,7 @@
     "bumpp": "^10.2.3",
     "destr": "^2.0.5",
     "eslint": "^9.36.0",
-    "lodash-es": "^4.17.21",
+    "lodash-es": "^4.17.23",
     "mkdirp": "^3.0.1",
     "pathe": "^2.0.3",
     "reactive-vscode": "^0.3.2",
