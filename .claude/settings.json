@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "command": "npx eslint --fix \"$CLAUDE_FILE_PATH\" 2>/dev/null || true"
+      },
+      {
+        "matcher": "Edit|Write",
+        "command": "npx tsc --noEmit 2>&1 | head -20 || true"
+      }
+    ]
+  }
+}
