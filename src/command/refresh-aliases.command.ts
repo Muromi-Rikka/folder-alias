@@ -11,22 +11,19 @@ function refreshAliases(
   useCommand("folder-alias.refresh", () => {
     const instances = workspaceManager.getInstances();
 
-    let totalRefreshed = 0;
-    const allUris: vscode.Uri[] = [];
-
-    for (const { folder, fileAlias } of instances) {
-      const { resetConfig, configFile } = fileAlias;
-
-      resetConfig();
-
-      const configuredFiles = Object.keys(configFile.value);
-      for (const filePath of configuredFiles) {
-        const fullPath = join(folder.uri.fsPath, filePath);
-        allUris.push(vscode.Uri.file(fullPath));
-      }
-
-      totalRefreshed += configuredFiles.length;
+    // Reset all configs first
+    for (const { fileAlias } of instances) {
+      fileAlias.resetConfig();
     }
+
+    // Collect all configured URIs
+    const allUris = instances.flatMap(({ folder, fileAlias }) =>
+      Object.keys(fileAlias.configFile.value).map(
+        filePath => vscode.Uri.file(join(folder.uri.fsPath, filePath)),
+      ),
+    );
+
+    const totalRefreshed = allUris.length;
 
     if (allUris.length > 0) {
       decorationChangeEvent.fire(allUris);
