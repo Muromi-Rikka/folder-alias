@@ -1,6 +1,5 @@
 import type { Uri } from "vscode";
-import { useEventEmitter } from "reactive-vscode";
-import { defineExtension } from "reactive-vscode";
+import { defineExtension, useEventEmitter } from "reactive-vscode";
 import { commands, FileDecoration, window, workspace } from "vscode";
 import { addAlias, refreshAliases } from "./command";
 import { useWorkspaceManager } from "./hooks/useWorkspaceManager";

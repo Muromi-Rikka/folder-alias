@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -41,8 +41,8 @@ afterEach(() => {
 
 describe("useConfig", () => {
   it("should load public and private configs", async () => {
-    const publicData = { "src": { description: "Public" } };
-    const privateData = { "lib": { description: "Private" } };
+    const publicData = { src: { description: "Public" } };
+    const privateData = { lib: { description: "Private" } };
 
     writeFileSync(join(TEST_DIR, "folder-alias.json"), JSON.stringify(publicData));
     writeFileSync(join(TEST_DIR, "private-folder-alias.json"), JSON.stringify(privateData));
@@ -55,8 +55,8 @@ describe("useConfig", () => {
   });
 
   it("should merge public and private with private taking priority", async () => {
-    const publicData = { "src": { description: "Public" }, "shared": { description: "Shared" } };
-    const privateData = { "src": { description: "Private Override" } };
+    const publicData = { src: { description: "Public" }, shared: { description: "Shared" } };
+    const privateData = { src: { description: "Private Override" } };
 
     writeFileSync(join(TEST_DIR, "folder-alias.json"), JSON.stringify(publicData));
     writeFileSync(join(TEST_DIR, "private-folder-alias.json"), JSON.stringify(privateData));
@@ -64,13 +64,13 @@ describe("useConfig", () => {
     const { useConfig } = await import("../useConfig");
     const config = useConfig(TEST_DIR);
 
-    expect(config.configFile.value["src"].description).toBe("Private Override");
-    expect(config.configFile.value["shared"].description).toBe("Shared");
+    expect(config.configFile.value.src.description).toBe("Private Override");
+    expect(config.configFile.value.shared.description).toBe("Shared");
   });
 
   it("should not mutate publicConfig when computing configFile", async () => {
-    const publicData = { "src": { description: "Public" } };
-    const privateData = { "src": { description: "Private" } };
+    const publicData = { src: { description: "Public" } };
+    const privateData = { src: { description: "Private" } };
 
     writeFileSync(join(TEST_DIR, "folder-alias.json"), JSON.stringify(publicData));
     writeFileSync(join(TEST_DIR, "private-folder-alias.json"), JSON.stringify(privateData));
@@ -82,21 +82,21 @@ describe("useConfig", () => {
     const _ = config.configFile.value;
 
     // publicConfig should NOT be mutated
-    expect(config.publicConfig.value["src"].description).toBe("Public");
+    expect(config.publicConfig.value.src.description).toBe("Public");
   });
 
   it("should re-read configs on resetConfig", async () => {
-    writeFileSync(join(TEST_DIR, "folder-alias.json"), JSON.stringify({ "src": { description: "V1" } }));
+    writeFileSync(join(TEST_DIR, "folder-alias.json"), JSON.stringify({ src: { description: "V1" } }));
 
     const { useConfig } = await import("../useConfig");
     const config = useConfig(TEST_DIR);
 
-    expect(config.publicConfig.value["src"].description).toBe("V1");
+    expect(config.publicConfig.value.src.description).toBe("V1");
 
     // Update file on disk
-    writeFileSync(join(TEST_DIR, "folder-alias.json"), JSON.stringify({ "src": { description: "V2" } }));
+    writeFileSync(join(TEST_DIR, "folder-alias.json"), JSON.stringify({ src: { description: "V2" } }));
 
     config.resetConfig();
-    expect(config.publicConfig.value["src"].description).toBe("V2");
+    expect(config.publicConfig.value.src.description).toBe("V2");
   });
 });

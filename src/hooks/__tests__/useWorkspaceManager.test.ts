@@ -24,7 +24,7 @@ const mockUseFileAlias = vi.fn((uri: any) => ({
 }));
 
 vi.mock("../../file-alias", () => ({
-  useFileAlias: (...args: any[]) => mockUseFileAlias(...args),
+  useFileAlias: (uri: any) => mockUseFileAlias(uri),
 }));
 
 // Mock logger
