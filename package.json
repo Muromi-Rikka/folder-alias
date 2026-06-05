@@ -75,7 +75,7 @@
     }
   },
   "scripts": {
-    "build": "tsdown src/index.ts --external vscode",
+    "build": "tsdown src/index.ts",
     "dev": "pnpm build --watch --sourcemap",
     "prepare": "pnpm update:gen",
     "update:gen": "vscode-ext-gen --output src/generated/meta.ts",
