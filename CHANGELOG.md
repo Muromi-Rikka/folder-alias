@@ -7,7 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Internationalization (i18n) support for English and Chinese
+- Workspace manager for multi-workspace folder support
+- Context menu grouping for Add Alias and Refresh Aliases
+
 ### Changed
+- Migrated from lodash-es to es-toolkit for smaller bundle size
+- Simplified findInstanceByUri with es-toolkit maxBy
+- Simplified refresh-aliases URI collection with flatMap
 - Migrated to vitest for testing
 - Added CI/CD via GitHub Actions
 - Improved error handling in file I/O utilities
@@ -21,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Removed
 - Dead code: `update.util.ts`, `config.ts`, unused types
+- lodash-es dependency (replaced by es-toolkit)
 
 ## [0.1.3]
 
