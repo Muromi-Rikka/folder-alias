@@ -1,4 +1,7 @@
-onlyBuiltDependencies:
-  - "@vscode/vsce-sign"
-  - keytar
-  - unrs-resolver
+minimumReleaseAge: 0
+shellEmulator: true
+
+trustPolicy: off
+allowBuilds:
+  "@vscode/vsce-sign": true
+  keytar: true

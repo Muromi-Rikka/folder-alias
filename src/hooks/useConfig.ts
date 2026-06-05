@@ -1,7 +1,7 @@
 import type { ComputedRef, Ref } from "reactive-vscode";
 import type { RecordConfig } from "../typings/common.typing";
 import { existsSync } from "node:fs";
-import { merge } from "lodash-es";
+import { merge } from "es-toolkit";
 import { join } from "pathe";
 import { computed, ref } from "reactive-vscode";
 import { readConfigWithVscodePriority, writeConfig } from "../utils/file.util";
@@ -18,7 +18,7 @@ export interface UseConfigReturn {
 export function useConfig(fileDir: string): UseConfigReturn {
   const publicConfig = ref(readConfigWithVscodePriority(fileDir, "folder-alias.json"));
   const privateConfig = ref(readConfigWithVscodePriority(fileDir, "private-folder-alias.json"));
-  const configFile = computed<RecordConfig>(() => merge(publicConfig.value, privateConfig.value));
+  const configFile = computed<RecordConfig>(() => merge(merge({}, publicConfig.value), privateConfig.value));
 
   function resetConfig() {
     publicConfig.value = readConfigWithVscodePriority(fileDir, "folder-alias.json");

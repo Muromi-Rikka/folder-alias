@@ -1,43 +1,59 @@
 import type { Uri } from "vscode";
 import type { UseConfigReturn } from "./hooks/useConfig";
-import { useEventEmitter, useFsWatcher } from "reactive-vscode";
-import { FileDecoration, RelativePattern, window } from "vscode";
+import { useEventEmitter, useFileSystemWatcher } from "reactive-vscode";
+import { Disposable, FileDecoration, RelativePattern } from "vscode";
 import { useConfig } from "./hooks/useConfig";
+import { logger } from "./utils/logger.util";
 
-// eslint-disable-next-line ts/ban-ts-comment
-// @ts-expect-error
+// Monkey-patch FileDecoration.validate to allow extended badge support
+// (VS Code's default validation rejects badges longer than 2 chars)
+// @ts-expect-error - monkey-patching for extended badge support
+const originalValidate = FileDecoration.validate;
+// @ts-expect-error - monkey-patching for extended badge support
 FileDecoration.validate = (d: FileDecoration): void => {
-  if (d.badge && d.badge.length !== 1 && d.badge.length !== 2) {
-    // throw new Error(`The 'badge'-property must be undefined or a short character`);
+  if (d.badge && d.badge.length > 2) {
+    logger.warn(`Badge "${d.badge}" exceeds 2 characters, may not display correctly`);
   }
   if (!d.color && !d.badge && !d.tooltip) {
-    // throw new Error(`The decoration is empty`);
+    logger.warn("Empty file decoration provided");
+    return;
+  }
+  try {
+    originalValidate.call(FileDecoration, d);
+  }
+  catch {
+    // Silently handle validation errors for extended badge support
   }
 };
+
 export interface UseFileAliasReturn extends UseConfigReturn {
+  /** The workspace folder URI this instance manages */
+  workspaceUri: Uri;
+  /** Fire to notify VS Code that decorations changed for this instance */
   changeEmitter: (uri: Uri | Uri[]) => void;
+  /** Dispose watchers and emitters for this folder instance */
+  dispose: () => void;
 }
+
 export function useFileAlias(uri: Uri): UseFileAliasReturn {
   const { publicConfig, privateConfig, configFile, resetConfig, savePublic, savePrivate } = useConfig(uri.fsPath);
-  const watcher = useFsWatcher(new RelativePattern(uri, "**/*"));
-  watcher.onDidChange((uri) => {
-    if (uri.fsPath.endsWith("folder-alias.json") || uri.fsPath.endsWith("private-folder-alias.json")) {
-      resetConfig();
-    }
-  });
-  function getFileDecoration(_uri: Uri) {
-    const file = _uri.toString().replace(`${uri.toString()}/`, "");
-    if (configFile.value[file]) {
-      return new FileDecoration(configFile.value[file].description, configFile.value[file].tooltip);
-    }
-  }
+
+  const { watchers } = useFileSystemWatcher(
+    new RelativePattern(uri, "{folder-alias.json,private-folder-alias.json,.vscode/folder-alias.json,.vscode/private-folder-alias.json}"),
+    { onDidChange: () => resetConfig() },
+  );
+
   const changeEmitter = useEventEmitter<undefined | Uri | Uri[]>([]);
-  window.registerFileDecorationProvider({
-    onDidChangeFileDecorations: changeEmitter.event,
-    provideFileDecoration: uri => getFileDecoration(uri),
+
+  const disposable = new Disposable(() => {
+    for (const watcher of watchers.values()) {
+      watcher.dispose();
+    }
+    changeEmitter.emitter.dispose();
   });
 
   return {
+    workspaceUri: uri,
     changeEmitter: (uri: Uri | Uri[]) => changeEmitter.fire(uri),
     publicConfig,
     privateConfig,
@@ -45,5 +61,6 @@ export function useFileAlias(uri: Uri): UseFileAliasReturn {
     resetConfig,
     savePublic,
     savePrivate,
+    dispose: () => disposable.dispose(),
   };
 }
