@@ -3,5 +3,6 @@
   "extension.description": "自定义资源管理器中文件和文件夹的别名与提示信息",
   "configuration.title": "文件夹别名",
   "command.addAlias": "添加别名",
-  "command.refresh": "刷新别名"
+  "command.refresh": "刷新别名",
+  "command.deleteAlias": "删除别名"
 }

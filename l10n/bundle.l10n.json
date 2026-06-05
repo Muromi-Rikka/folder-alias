@@ -3,5 +3,10 @@
   "Input Your Alias": "Input Your Alias",
   "public": "public",
   "private": "private",
-  "Refreshed {0} folder aliases": "Refreshed {0} folder aliases"
+  "Refreshed {0} folder aliases": "Refreshed {0} folder aliases",
+  "No alias found for \"{0}\".": "No alias found for \"{0}\".",
+  "Are you sure you want to delete the alias for \"{0}\"?": "Are you sure you want to delete the alias for \"{0}\"?",
+  "Delete": "Delete",
+  "Cancel": "Cancel",
+  "Deleted alias for \"{0}\".": "Deleted alias for \"{0}\"."
 }

@@ -27,6 +27,7 @@ vi.mock("./hooks/useWorkspaceManager", () => ({
 // Mock commands
 vi.mock("./command", () => ({
   addAlias: vi.fn(),
+  deleteAlias: vi.fn(),
   refreshAliases: vi.fn(),
 }));
 
