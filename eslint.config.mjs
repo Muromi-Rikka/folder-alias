@@ -6,4 +6,9 @@ export default antfu({
     semi: true,
   },
   jsonc: true,
+}, {
+  files: ["pnpm-workspace.yaml"],
+  rules: {
+    "pnpm/yaml-enforce-settings": "off",
+  },
 });
