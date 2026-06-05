@@ -82,3 +82,96 @@ describe("provideFileDecoration path resolution", () => {
     expect(config[decodedPath]).toEqual({ description: "Nested" });
   });
 });
+
+describe("provideFileDecoration end-to-end", () => {
+  it("should return decoration for folder with space in name", async () => {
+    const workspaceUri = { toString: () => "file:///home/user/project" };
+    const configMap: Record<string, any> = {
+      "folder 2": { description: "My Folder Alias", tooltip: "A tooltip" },
+    };
+
+    const fileUri = { toString: () => "file:///home/user/project/folder%202" };
+    mockFindInstanceByUri.mockReturnValue({
+      folder: { uri: workspaceUri },
+      fileAlias: {
+        workspaceUri,
+        configFile: { value: configMap },
+      },
+    });
+
+    // Simulate the fixed lookup logic from index.ts
+    const instance = mockFindInstanceByUri(fileUri);
+    const file = decodeURIComponent(fileUri.toString().replace(`${workspaceUri.toString()}/`, ""));
+    const config = instance.fileAlias.configFile.value[file];
+
+    expect(config).toBeDefined();
+    expect(config.description).toBe("My Folder Alias");
+    expect(config.tooltip).toBe("A tooltip");
+  });
+
+  it("should return decoration for nested path with spaces", async () => {
+    const workspaceUri = { toString: () => "file:///home/user/project" };
+    const configMap: Record<string, any> = {
+      "my folder/sub dir": { description: "Nested Alias" },
+    };
+
+    const fileUri = { toString: () => "file:///home/user/project/my%20folder/sub%20dir" };
+    mockFindInstanceByUri.mockReturnValue({
+      folder: { uri: workspaceUri },
+      fileAlias: {
+        workspaceUri,
+        configFile: { value: configMap },
+      },
+    });
+
+    const instance = mockFindInstanceByUri(fileUri);
+    const file = decodeURIComponent(fileUri.toString().replace(`${workspaceUri.toString()}/`, ""));
+    const config = instance.fileAlias.configFile.value[file];
+
+    expect(config).toBeDefined();
+    expect(config.description).toBe("Nested Alias");
+  });
+
+  it("should still work for paths without spaces (regression check)", async () => {
+    const workspaceUri = { toString: () => "file:///home/user/project" };
+    const configMap: Record<string, any> = {
+      "src/components": { description: "Components" },
+    };
+
+    const fileUri = { toString: () => "file:///home/user/project/src/components" };
+    mockFindInstanceByUri.mockReturnValue({
+      folder: { uri: workspaceUri },
+      fileAlias: {
+        workspaceUri,
+        configFile: { value: configMap },
+      },
+    });
+
+    const instance = mockFindInstanceByUri(fileUri);
+    const file = decodeURIComponent(fileUri.toString().replace(`${workspaceUri.toString()}/`, ""));
+    const config = instance.fileAlias.configFile.value[file];
+
+    expect(config).toBeDefined();
+    expect(config.description).toBe("Components");
+  });
+
+  it("should return undefined for path not in config", async () => {
+    const workspaceUri = { toString: () => "file:///home/user/project" };
+    const configMap: Record<string, any> = {};
+
+    const fileUri = { toString: () => "file:///home/user/project/some%20file.txt" };
+    mockFindInstanceByUri.mockReturnValue({
+      folder: { uri: workspaceUri },
+      fileAlias: {
+        workspaceUri,
+        configFile: { value: configMap },
+      },
+    });
+
+    const instance = mockFindInstanceByUri(fileUri);
+    const file = decodeURIComponent(fileUri.toString().replace(`${workspaceUri.toString()}/`, ""));
+    const config = instance.fileAlias.configFile.value[file];
+
+    expect(config).toBeUndefined();
+  });
+});
