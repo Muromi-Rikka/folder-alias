@@ -108,7 +108,7 @@ You can organize your aliases in either location:
 
 ### Prerequisites
 
-- Node.js (v18+)
+- Node.js (v24+)
 - pnpm (preferred package manager)
 - VS Code
 
@@ -136,8 +136,11 @@ pnpm dev
 | `pnpm build` | Build the extension |
 | `pnpm dev` | Build in watch mode for development |
 | `pnpm test` | Run tests |
+| `pnpm test:watch` | Run tests in watch mode |
+| `pnpm test:coverage` | Run tests with coverage report |
 | `pnpm lint` | Run ESLint |
 | `pnpm typecheck` | Run TypeScript type checking |
+| `pnpm update:gen` | Regenerate VS Code extension metadata |
 | `pnpm pack` | Package the extension |
 | `pnpm publish` | Publish to VS Code Marketplace |
 
@@ -167,33 +170,37 @@ private-folder-alias.json
 
 ### Core Components
 
-- **`src/index.ts`** - Extension entry point and activation
+- **`src/index.ts`** - Extension entry point, registers decoration provider and commands
+- **`src/file-alias.ts`** - File decoration provider and alias management per workspace folder
+- **`src/hooks/useWorkspaceManager.ts`** - Manages workspace folder instances and URI resolution
+- **`src/hooks/useConfig.ts`** - Loads, merges, and saves public/private JSON configs
 - **`src/command/add-alias.command.ts`** - Command handler for adding/modifying aliases
-- **`src/file-alias.ts`** - File decoration provider and alias management
+- **`src/command/refresh-aliases.command.ts`** - Command handler for refreshing all aliases
 - **`src/utils/file.util.ts`** - File I/O utilities for configuration management
+- **`src/utils/logger.util.ts`** - Logging utility
 
 ### Technologies Used
 
 - **TypeScript** - Primary language
 - **reactive-vscode** - Reactive programming for VS Code extensions
+- **es-toolkit** - Modern utility library (replaces lodash)
+- **destr** - Safe JSON parsing
+- **pathe** - Cross-platform file path utilities
 - **tsdown** - Build tool for TypeScript
-- **ESLint** - Code linting
+- **ESLint** (antfu config) - Code linting
 - **Vitest** - Testing framework
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-### Quick Start for Contributors
+Contributions are welcome! To get started:
 
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/new-feature`
 3. Make your changes
 4. Run tests: `pnpm test`
 5. Run linting: `pnpm lint`
-6. Commit your changes: `git commit -am 'Add new feature'`
-7. Push to the branch: `git push origin feature/new-feature`
-8. Submit a pull request
+6. Commit your changes and push
+7. Submit a pull request
 
 ## 📄 License
 
