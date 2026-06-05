@@ -83,7 +83,9 @@
     "vscode:prepublish": "pnpm run build",
     "publish": "vsce publish --no-dependencies",
     "pack": "vsce package --no-dependencies",
-    "test": "vitest",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit",
     "release": "bumpp && pnpm run publish"
   },
@@ -92,6 +94,7 @@
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^24.13.0",
     "@types/vscode": "^1.120.0",
+    "@vitest/coverage-v8": "^4.1.8",
     "@vscode/vsce": "^3.9.2",
     "bumpp": "^11.1.0",
     "destr": "^2.0.5",
@@ -102,6 +105,7 @@
     "taze": "^19.14.1",
     "tsdown": "^0.22.2",
     "typescript": "^6.0.3",
+    "vitest": "^4.1.8",
     "vscode-ext-gen": "^1.6.0"
   }
 }
