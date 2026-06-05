@@ -1,6 +1,7 @@
 import type { Uri, WorkspaceFolder } from "vscode";
 import type { UseFileAliasReturn } from "../file-alias";
 import { useWorkspaceFolders, watch } from "reactive-vscode";
+import { maxBy } from "es-toolkit";
 import { useFileAlias } from "../file-alias";
 import { logger } from "../utils/logger.util";
 
@@ -61,18 +62,12 @@ export function useWorkspaceManager(): UseWorkspaceManagerReturn {
 
   function findInstanceByUri(uri: Uri): WorkspaceFolderInstance | undefined {
     const uriStr = uri.toString();
-    let bestMatch: WorkspaceFolderInstance | undefined;
-    let bestLength = 0;
 
-    for (const [, instance] of instances) {
-      const folderPrefix = `${instance.folder.uri.toString()}/`;
-      if (uriStr.startsWith(folderPrefix) && folderPrefix.length > bestLength) {
-        bestMatch = instance;
-        bestLength = folderPrefix.length;
-      }
-    }
+    const candidates = Array.from(instances.values()).filter(
+      (instance) => uriStr.startsWith(`${instance.folder.uri.toString()}/`),
+    );
 
-    return bestMatch;
+    return maxBy(candidates, (instance) => instance.folder.uri.toString().length);
   }
 
   function getInstances(): WorkspaceFolderInstance[] {
