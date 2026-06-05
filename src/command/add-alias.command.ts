@@ -1,13 +1,24 @@
-import type { UseFileAliasReturn } from "../file-alias";
+import type { EventEmitter as VscodeEventEmitter } from "vscode";
+import type { UseWorkspaceManagerReturn } from "../hooks/useWorkspaceManager";
 import { relative } from "pathe";
 import { useCommand } from "reactive-vscode";
 import * as vscode from "vscode";
 
-function addAlias(workspace: vscode.WorkspaceFolder, fileAlias: UseFileAliasReturn) {
-  const { publicConfig, privateConfig, configFile, resetConfig, savePrivate, savePublic, changeEmitter } = fileAlias;
-
+function addAlias(
+  workspaceManager: UseWorkspaceManagerReturn,
+  decorationChangeEvent: VscodeEventEmitter<undefined | vscode.Uri | vscode.Uri[]>,
+) {
   useCommand("folder-alias.addAlias", (uri: vscode.Uri) => {
-    const relativelyPath = relative(workspace.uri.fsPath, uri.fsPath);
+    const instance = workspaceManager.findInstanceByUri(uri);
+    if (!instance) {
+      vscode.window.showWarningMessage("Selected file is not inside any workspace folder.");
+      return;
+    }
+
+    const { folder, fileAlias } = instance;
+    const { publicConfig, privateConfig, configFile, resetConfig, savePrivate, savePublic } = fileAlias;
+
+    const relativelyPath = relative(folder.uri.fsPath, uri.fsPath);
     const inputConfig: vscode.InputBoxOptions = {
       title: "Input Your Alias",
       value: configFile.value[relativelyPath]
@@ -27,7 +38,7 @@ function addAlias(workspace: vscode.WorkspaceFolder, fileAlias: UseFileAliasRetu
             description: alias,
           };
           save();
-          changeEmitter(uri);
+          decorationChangeEvent.fire(uri);
         }
       });
     });
