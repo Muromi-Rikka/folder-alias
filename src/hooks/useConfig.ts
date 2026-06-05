@@ -18,7 +18,7 @@ export interface UseConfigReturn {
 export function useConfig(fileDir: string): UseConfigReturn {
   const publicConfig = ref(readConfigWithVscodePriority(fileDir, "folder-alias.json"));
   const privateConfig = ref(readConfigWithVscodePriority(fileDir, "private-folder-alias.json"));
-  const configFile = computed<RecordConfig>(() => merge(publicConfig.value, privateConfig.value));
+  const configFile = computed<RecordConfig>(() => merge({}, publicConfig.value, privateConfig.value));
 
   function resetConfig() {
     publicConfig.value = readConfigWithVscodePriority(fileDir, "folder-alias.json");
