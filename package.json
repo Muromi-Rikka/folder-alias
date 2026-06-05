@@ -17,7 +17,7 @@
   "categories": [
     "Other"
   ],
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
   "icon": "media/icons.png",
   "files": [
     "LICENSE",

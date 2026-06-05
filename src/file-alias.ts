@@ -1,6 +1,6 @@
 import type { Uri } from "vscode";
 import type { UseConfigReturn } from "./hooks/useConfig";
-import { useEventEmitter, useFsWatcher } from "reactive-vscode";
+import { useEventEmitter, useFileSystemWatcher } from "reactive-vscode";
 import { FileDecoration, RelativePattern, window } from "vscode";
 import { useConfig } from "./hooks/useConfig";
 
@@ -19,11 +19,12 @@ export interface UseFileAliasReturn extends UseConfigReturn {
 }
 export function useFileAlias(uri: Uri): UseFileAliasReturn {
   const { publicConfig, privateConfig, configFile, resetConfig, savePublic, savePrivate } = useConfig(uri.fsPath);
-  const watcher = useFsWatcher(new RelativePattern(uri, "**/*"));
-  watcher.onDidChange((uri) => {
-    if (uri.fsPath.endsWith("folder-alias.json") || uri.fsPath.endsWith("private-folder-alias.json")) {
-      resetConfig();
-    }
+  useFileSystemWatcher(new RelativePattern(uri, "**/*"), {
+    onDidChange: (uri) => {
+      if (uri.fsPath.endsWith("folder-alias.json") || uri.fsPath.endsWith("private-folder-alias.json")) {
+        resetConfig();
+      }
+    },
   });
   function getFileDecoration(_uri: Uri) {
     const file = _uri.toString().replace(`${uri.toString()}/`, "");
