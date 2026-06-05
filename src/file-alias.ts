@@ -1,7 +1,7 @@
 import type { Uri } from "vscode";
 import type { UseConfigReturn } from "./hooks/useConfig";
 import { useEventEmitter, useFileSystemWatcher } from "reactive-vscode";
-import { FileDecoration, RelativePattern, window } from "vscode";
+import { Disposable, FileDecoration, RelativePattern } from "vscode";
 import { useConfig } from "./hooks/useConfig";
 import { logger } from "./utils/logger.util";
 
@@ -25,27 +25,35 @@ FileDecoration.validate = (d: FileDecoration): void => {
     // Silently handle validation errors for extended badge support
   }
 };
+
 export interface UseFileAliasReturn extends UseConfigReturn {
+  /** The workspace folder URI this instance manages */
+  workspaceUri: Uri;
+  /** Fire to notify VS Code that decorations changed for this instance */
   changeEmitter: (uri: Uri | Uri[]) => void;
+  /** Dispose watchers and emitters for this folder instance */
+  dispose: () => void;
 }
+
 export function useFileAlias(uri: Uri): UseFileAliasReturn {
   const { publicConfig, privateConfig, configFile, resetConfig, savePublic, savePrivate } = useConfig(uri.fsPath);
-  useFileSystemWatcher(new RelativePattern(uri, "{folder-alias.json,private-folder-alias.json,.vscode/folder-alias.json,.vscode/private-folder-alias.json}"), {
-    onDidChange: () => resetConfig(),
-  });
-  function getFileDecoration(_uri: Uri) {
-    const file = _uri.toString().replace(`${uri.toString()}/`, "");
-    if (configFile.value[file]) {
-      return new FileDecoration(configFile.value[file].description, configFile.value[file].tooltip);
-    }
-  }
+
+  const { watchers } = useFileSystemWatcher(
+    new RelativePattern(uri, "{folder-alias.json,private-folder-alias.json,.vscode/folder-alias.json,.vscode/private-folder-alias.json}"),
+    { onDidChange: () => resetConfig() },
+  );
+
   const changeEmitter = useEventEmitter<undefined | Uri | Uri[]>([]);
-  window.registerFileDecorationProvider({
-    onDidChangeFileDecorations: changeEmitter.event,
-    provideFileDecoration: uri => getFileDecoration(uri),
+
+  const disposable = new Disposable(() => {
+    for (const watcher of watchers.values()) {
+      watcher.dispose();
+    }
+    changeEmitter.emitter.dispose();
   });
 
   return {
+    workspaceUri: uri,
     changeEmitter: (uri: Uri | Uri[]) => changeEmitter.fire(uri),
     publicConfig,
     privateConfig,
@@ -53,5 +61,6 @@ export function useFileAlias(uri: Uri): UseFileAliasReturn {
     resetConfig,
     savePublic,
     savePrivate,
+    dispose: () => disposable.dispose(),
   };
 }
