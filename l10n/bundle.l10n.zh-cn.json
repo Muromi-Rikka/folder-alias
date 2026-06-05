@@ -3,5 +3,10 @@
   "Input Your Alias": "输入别名",
   "public": "公开",
   "private": "私有",
-  "Refreshed {0} folder aliases": "已刷新 {0} 个文件夹别名"
+  "Refreshed {0} folder aliases": "已刷新 {0} 个文件夹别名",
+  "No alias found for \"{0}\".": "未找到 \"{0}\" 的别名。",
+  "Are you sure you want to delete the alias for \"{0}\"?": "确定要删除 \"{0}\" 的别名吗？",
+  "Delete": "删除",
+  "Cancel": "取消",
+  "Deleted alias for \"{0}\".": "已删除 \"{0}\" 的别名。"
 }

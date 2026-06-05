@@ -56,6 +56,14 @@
         }
       },
       {
+        "command": "folder-alias.deleteAlias",
+        "title": "%command.deleteAlias%",
+        "icon": {
+          "light": "media/light/delete.svg",
+          "dark": "media/dark/delete.svg"
+        }
+      },
+      {
         "command": "folder-alias.refresh",
         "title": "%command.refresh%"
       }
@@ -66,12 +74,17 @@
           "command": "folder-alias.addAlias",
           "group": "1_modification"
         },
+        { "command": "folder-alias.deleteAlias", "group": "1_modification" },
         {
           "command": "folder-alias.refresh",
           "group": "1_modification"
         }
       ],
       "commandPalette": [
+        {
+          "command": "folder-alias.deleteAlias",
+          "when": "workspaceHasFolderAlias"
+        },
         {
           "command": "folder-alias.refresh",
           "when": "workspaceHasFolderAlias"
