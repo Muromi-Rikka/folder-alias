@@ -6,7 +6,7 @@
   "packageManager": "pnpm@11.5.0",
   "description": "%extension.description%",
   "author": "Rikka",
-  "license": "GPLV3",
+  "license": "GPL-3.0-only",
   "homepage": "https://github.com/Muromi-Rikka/folder-alias#readme",
   "repository": {
     "type": "git",
@@ -15,11 +15,25 @@
   "bugs": {
     "url": "https://github.com/Muromi-Rikka/folder-alias/issues"
   },
+  "keywords": [
+    "alias",
+    "folder-alias",
+    "file-alias",
+    "explorer",
+    "tooltip",
+    "rename",
+    "bookmark",
+    "navigation"
+  ],
   "categories": [
     "Other"
   ],
   "main": "./dist/index.cjs",
   "icon": "media/icons.png",
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
   "files": [
     "LICENSE",
     "README.md",
