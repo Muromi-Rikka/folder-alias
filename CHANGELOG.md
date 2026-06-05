@@ -1,25 +1,53 @@
-# Change Log
-## 0.1.3
-- Added support for `.vscode` directory configuration priority
-- Configuration files can now be placed in `.vscode/` directory with higher priority
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/),
+and this project adheres to [Semantic Versioning](https://semver.org/).
+
+## [Unreleased]
+
+### Changed
+- Migrated to vitest for testing
+- Added CI/CD via GitHub Actions
+- Improved error handling in file I/O utilities
+- Narrowed FileSystemWatcher scope for better performance
+
+### Fixed
+- Fixed `merge()` mutating publicConfig in computed
+- Fixed cross-platform path handling in add-alias command
+- Replaced ufo with pathe for file path operations
+- Restored FileDecoration.validate with proper error handling
+
+### Removed
+- Dead code: `update.util.ts`, `config.ts`, unused types
+
+## [0.1.3]
+
+### Added
+- `.vscode` directory configuration priority
 - Smart initialization: only creates root-level config files when `.vscode` versions don't exist
 - Improved file organization: keep workspace root clean by using `.vscode/` directory
 
-## 0.1.0
+## [0.1.0]
+
+### Changed
 - Migrated extension to use reactive-vscode for better maintainability
-- Removed deprecated templates and utilities
-- Added new commands for managing aliases and tooltips
 - Updated build and configuration files to modern standards
 
-## 0.0.6
-- 添加模板 - maven
-- 添加模板 - gradle
-- 添加模板 - spring boot
-- 添加模板 - flutter
-- 添加模板 - vite
-- 添加模板 - vue-cli
+### Added
+- New commands for managing aliases and tooltips
 
-## 0.0.5
+### Removed
+- Deprecated templates and utilities
 
-- 添加默认项目模板
-- 优化工作区和配置加载
+## [0.0.6]
+
+### Added
+- Templates: maven, gradle, spring boot, flutter, vite, vue-cli
+
+## [0.0.5]
+
+### Added
+- Default project templates
+- Optimized workspace and config loading
