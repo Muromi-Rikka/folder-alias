@@ -1,10 +1,10 @@
 {
   "publisher": "rikka",
   "name": "folder-alias",
-  "displayName": "folder-alias",
+  "displayName": "%extension.displayName%",
   "version": "0.1.3",
   "packageManager": "pnpm@11.5.0",
-  "description": "folder alias",
+  "description": "%extension.description%",
   "author": "Rikka",
   "license": "GPLV3",
   "homepage": "https://github.com/Muromi-Rikka/folder-alias#readme",
@@ -25,23 +25,25 @@
     "README.md",
     "README.zh-CN.md",
     "dist/*",
+    "l10n/*",
     "media/*"
   ],
   "engines": {
     "vscode": "^1.120.0"
   },
+  "l10n": "./l10n",
   "activationEvents": [
     "onStartupFinished"
   ],
   "contributes": {
     "configuration": {
-      "title": "Folder Alias",
+      "title": "%configuration.title%",
       "properties": {}
     },
     "commands": [
       {
         "command": "folder-alias.addAlias",
-        "title": "Add Alias",
+        "title": "%command.addAlias%",
         "icon": {
           "light": "media/light/edit.svg",
           "dark": "media/dark/edit.svg"
@@ -49,7 +51,7 @@
       },
       {
         "command": "folder-alias.refresh",
-        "title": "Refresh Aliases"
+        "title": "%command.refresh%"
       }
     ],
     "menus": {
@@ -60,7 +62,7 @@
         },
         {
           "command": "folder-alias.refresh",
-          "group": "navigation"
+          "group": "1_modification"
         }
       ],
       "commandPalette": [

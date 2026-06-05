@@ -1,0 +1,7 @@
+{
+  "extension.displayName": "Folder Alias",
+  "extension.description": "Customize aliases and tooltips for files and folders in the explorer tree",
+  "configuration.title": "Folder Alias",
+  "command.addAlias": "Add Alias",
+  "command.refresh": "Refresh Aliases"
+}
