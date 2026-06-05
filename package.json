@@ -48,11 +48,7 @@
       },
       {
         "command": "folder-alias.refresh",
-        "title": "Refresh Aliases",
-        "icon": {
-          "light": "media/light/refresh.svg",
-          "dark": "media/dark/refresh.svg"
-        }
+        "title": "Refresh Aliases"
       }
     ],
     "menus": {
