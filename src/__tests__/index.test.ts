@@ -34,7 +34,7 @@ describe("provideFileDecoration path resolution", () => {
   it("should find config for paths containing spaces", async () => {
     const workspaceUri = "file:///home/user/project";
     const fileUri = { toString: () => "file:///home/user/project/folder%202" };
-    const configWithSpaces = { "folder 2": { description: "My Alias" } };
+    const configWithSpaces: Record<string, any> = { "folder 2": { description: "My Alias" } };
 
     mockFindInstanceByUri.mockReturnValue({
       folder: { uri: { toString: () => workspaceUri } },
@@ -56,7 +56,7 @@ describe("provideFileDecoration path resolution", () => {
   });
 
   it("should find config for simple paths without spaces (no regression)", async () => {
-    const config = { "src/components": { description: "Components" } };
+    const config: Record<string, any> = { "src/components": { description: "Components" } };
 
     const workspaceUri = "file:///home/user/project";
     const fileUri = { toString: () => "file:///home/user/project/src/components" };
@@ -68,7 +68,7 @@ describe("provideFileDecoration path resolution", () => {
   });
 
   it("should find config for paths with multiple special characters", async () => {
-    const config = { "my folder/sub dir": { description: "Nested" } };
+    const config: Record<string, any> = { "my folder/sub dir": { description: "Nested" } };
 
     const workspaceUri = "file:///home/user/project";
     const fileUri = { toString: () => "file:///home/user/project/my%20folder/sub%20dir" };
