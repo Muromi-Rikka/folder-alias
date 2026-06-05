@@ -108,7 +108,7 @@
 
 ### 前置要求
 
-- Node.js (v18+)
+- Node.js (v24+)
 - pnpm（推荐包管理器）
 - VS Code
 
@@ -136,8 +136,11 @@ pnpm dev
 | `pnpm build` | 构建扩展 |
 | `pnpm dev` | 开发模式构建（带监听） |
 | `pnpm test` | 运行测试 |
+| `pnpm test:watch` | 监听模式运行测试 |
+| `pnpm test:coverage` | 运行测试并生成覆盖率报告 |
 | `pnpm lint` | 运行 ESLint |
 | `pnpm typecheck` | 运行 TypeScript 类型检查 |
+| `pnpm update:gen` | 重新生成 VS Code 扩展元数据 |
 | `pnpm pack` | 打包扩展 |
 | `pnpm publish` | 发布到 VS Code 市场 |
 
@@ -167,33 +170,37 @@ private-folder-alias.json
 
 ### 核心组件
 
-- **`src/index.ts`** - 扩展入口点和激活
+- **`src/index.ts`** - 扩展入口点，注册装饰提供者和命令
+- **`src/file-alias.ts`** - 每个工作区文件夹的文件装饰提供者和别名管理
+- **`src/hooks/useWorkspaceManager.ts`** - 管理工作区文件夹实例和 URI 解析
+- **`src/hooks/useConfig.ts`** - 加载、合并和保存公共/私有 JSON 配置
 - **`src/command/add-alias.command.ts`** - 添加/修改别名的命令处理器
-- **`src/file-alias.ts`** - 文件装饰提供者和别名管理
+- **`src/command/refresh-aliases.command.ts`** - 刷新所有别名的命令处理器
 - **`src/utils/file.util.ts`** - 配置管理的文件 I/O 工具
+- **`src/utils/logger.util.ts`** - 日志工具
 
 ### 使用的技术
 
 - **TypeScript** - 主要语言
 - **reactive-vscode** - VS Code 扩展的响应式编程
+- **es-toolkit** - 现代工具库（替代 lodash）
+- **destr** - 安全的 JSON 解析
+- **pathe** - 跨平台文件路径工具
 - **tsdown** - TypeScript 构建工具
-- **ESLint** - 代码检查
+- **ESLint**（antfu 配置）- 代码检查
 - **Vitest** - 测试框架
 
 ## 🤝 贡献
 
-我们欢迎贡献！请查看我们的 [贡献指南](CONTRIBUTING.md) 了解详情。
-
-### 贡献者快速开始
+欢迎贡献！快速开始：
 
 1. Fork 仓库
 2. 创建功能分支：`git checkout -b feature/new-feature`
 3. 进行更改
 4. 运行测试：`pnpm test`
 5. 运行检查：`pnpm lint`
-6. 提交更改：`git commit -am '添加新功能'`
-7. 推送到分支：`git push origin feature/new-feature`
-8. 提交拉取请求
+6. 提交更改并推送
+7. 提交拉取请求
 
 ## 📄 许可证
 
