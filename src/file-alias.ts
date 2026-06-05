@@ -3,15 +3,26 @@ import type { UseConfigReturn } from "./hooks/useConfig";
 import { useEventEmitter, useFileSystemWatcher } from "reactive-vscode";
 import { FileDecoration, RelativePattern, window } from "vscode";
 import { useConfig } from "./hooks/useConfig";
+import { logger } from "./utils/logger.util";
 
-// eslint-disable-next-line ts/ban-ts-comment
-// @ts-expect-error
+// Monkey-patch FileDecoration.validate to allow extended badge support
+// (VS Code's default validation rejects badges longer than 2 chars)
+// @ts-expect-error - monkey-patching for extended badge support
+const originalValidate = FileDecoration.validate;
+// @ts-expect-error - monkey-patching for extended badge support
 FileDecoration.validate = (d: FileDecoration): void => {
-  if (d.badge && d.badge.length !== 1 && d.badge.length !== 2) {
-    // throw new Error(`The 'badge'-property must be undefined or a short character`);
+  if (d.badge && d.badge.length > 2) {
+    logger.warn(`Badge "${d.badge}" exceeds 2 characters, may not display correctly`);
   }
   if (!d.color && !d.badge && !d.tooltip) {
-    // throw new Error(`The decoration is empty`);
+    logger.warn("Empty file decoration provided");
+    return;
+  }
+  try {
+    originalValidate.call(FileDecoration, d);
+  }
+  catch {
+    // Silently handle validation errors for extended badge support
   }
 };
 export interface UseFileAliasReturn extends UseConfigReturn {
@@ -19,12 +30,8 @@ export interface UseFileAliasReturn extends UseConfigReturn {
 }
 export function useFileAlias(uri: Uri): UseFileAliasReturn {
   const { publicConfig, privateConfig, configFile, resetConfig, savePublic, savePrivate } = useConfig(uri.fsPath);
-  useFileSystemWatcher(new RelativePattern(uri, "**/*"), {
-    onDidChange: (uri) => {
-      if (uri.fsPath.endsWith("folder-alias.json") || uri.fsPath.endsWith("private-folder-alias.json")) {
-        resetConfig();
-      }
-    },
+  useFileSystemWatcher(new RelativePattern(uri, "{folder-alias.json,private-folder-alias.json,.vscode/folder-alias.json,.vscode/private-folder-alias.json}"), {
+    onDidChange: () => resetConfig(),
   });
   function getFileDecoration(_uri: Uri) {
     const file = _uri.toString().replace(`${uri.toString()}/`, "");
