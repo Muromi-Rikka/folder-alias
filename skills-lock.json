@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "skills": {
+    "unjs": {
+      "source": "hairyf/skills",
+      "sourceType": "github",
+      "skillPath": "skills/unjs/SKILL.md",
+      "computedHash": "5c989509bc08d22e3345db8c3d626fec701a1a68e32c7663e6de0b898eff01ff"
+    },
+    "vscode-ext-commands": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/vscode-ext-commands/SKILL.md",
+      "computedHash": "26c40c1adb82b80a88e2e4b11307924e9f5cdc19c5c0cbb2a96aa02535034f70"
+    },
+    "vscode-ext-localization": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/vscode-ext-localization/SKILL.md",
+      "computedHash": "d35790138865dae71d8627c11c398b3eda6f00c23f34f51f9b6fd01ed1e21ced"
+    }
+  }
+}
