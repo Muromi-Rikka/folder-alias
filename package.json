@@ -34,14 +34,6 @@
     "color": "#1e1e1e",
     "theme": "dark"
   },
-  "files": [
-    "LICENSE",
-    "README.md",
-    "README.zh-CN.md",
-    "dist/*",
-    "l10n/*",
-    "media/*"
-  ],
   "engines": {
     "vscode": "^1.120.0"
   },
