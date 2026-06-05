@@ -36,7 +36,7 @@ function refreshAliases(
       decorationChangeEvent.fire(undefined);
     }
 
-    vscode.window.showInformationMessage(`Refreshed ${totalRefreshed} folder aliases`);
+    vscode.window.showInformationMessage(vscode.l10n.t("Refreshed {0} folder aliases", totalRefreshed));
   });
 }
 
