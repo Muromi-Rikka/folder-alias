@@ -22,7 +22,7 @@ const { activate, deactivate } = defineExtension(async () => {
       }
 
       const { fileAlias } = instance;
-      const file = uri.toString().replace(`${fileAlias.workspaceUri.toString()}/`, "");
+      const file = decodeURIComponent(uri.toString().replace(`${fileAlias.workspaceUri.toString()}/`, ""));
       const config = fileAlias.configFile.value[file];
       if (config) {
         return new FileDecoration(config.description, config.tooltip);
