@@ -8,8 +8,6 @@
 
 A powerful VS Code extension that allows you to add customizable aliases and remarks to files and folders in your file tree, making project navigation and organization more intuitive.
 
-![Demo](./docs/images/simple.gif)
-
 ## 🌟 Features
 
 - **Customizable Aliases**: Add meaningful names and descriptions to any file or folder
