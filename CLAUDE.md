@@ -38,3 +38,35 @@ The extension uses `reactive-vscode` for lifecycle and reactive state management
 - Linting: `@antfu/eslint-config` with `stylistic` (double quotes, semicolons) and JSONC support
 - Reactive primitives (`ref`, `computed`, `useCommand`, `useFileSystemWatcher`, `defineLogger`) come from `reactive-vscode`
 - The `vscode` module is externalized at build time (never bundled)
+
+## Commit Convention
+
+This project enforces [Conventional Commits](https://www.conventionalcommits.org/) via **commitlint** and **husky**. Every commit message MUST follow this format:
+
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+**Allowed types:** `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`
+
+**Rules:**
+- The subject line MUST start with a type followed by `: ` (e.g., `feat: add new feature`)
+- The `scope` is optional but must be in parentheses after the type (e.g., `fix(config): fix .vscode path`)
+- The body is optional but MUST be separated from the subject by a blank line
+- The footer is optional but MUST be separated from the body by a blank line
+- The commit-msg hook will REJECT any commit that does not follow this convention
+- ALL commits, including those made by Claude Code, must pass commitlint validation
+
+**Examples:**
+```
+feat: add delete alias command
+fix: decode URI-encoded path segments
+docs: update README with current architecture
+refactor: simplify findInstanceByUri with es-toolkit maxBy
+build: add changelogen and configure release flow
+chore(release): v1.0.3
+```
