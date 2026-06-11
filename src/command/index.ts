@@ -1,5 +1,6 @@
 export { addAlias } from "./add-alias.command";
 export { applyPreset } from "./apply-preset.command";
 export { deleteAlias } from "./delete-alias.command";
+export { deletePreset } from "./delete-preset.command";
 export { refreshAliases } from "./refresh-aliases.command";
 export { savePreset } from "./save-preset.command";
