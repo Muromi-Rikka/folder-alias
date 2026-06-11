@@ -1,0 +1,12 @@
+{
+  "name": "Single Project",
+  "description": "Standard Node/Python project structure",
+  "aliases": {
+    "src/": { "description": "📁", "tooltip": "Source code" },
+    "tests/": { "description": "🧪", "tooltip": "Test files" },
+    "docs/": { "description": "📖", "tooltip": "Documentation" },
+    "config/": { "description": "⚙️", "tooltip": "Configuration files" },
+    "scripts/": { "description": "📜", "tooltip": "Build and utility scripts" },
+    "dist/": { "description": "📦", "tooltip": "Build output" }
+  }
+}
