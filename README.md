@@ -264,6 +264,59 @@ Contributions are welcome! To get started:
 6. Commit your changes and push
 7. Submit a pull request
 
+### Contributing Presets
+
+We welcome contributions of new presets! Presets help developers quickly set up aliases for common project types.
+
+#### Preset File Format
+
+Create a JSON file in `media/presets/` with the following structure:
+
+```json
+{
+  "name": "My Preset",
+  "description": "Description of what this preset is for",
+  "localized": {
+    "zh-cn": {
+      "name": "我的预设",
+      "description": "此预设的用途说明",
+      "aliases": {
+        "path/to/file": { "description": "中文描述", "tooltip": "中文提示" }
+      }
+    }
+  },
+  "aliases": {
+    "path/to/file": { "description": "English description", "tooltip": "English tooltip" }
+  }
+}
+```
+
+#### Preset Guidelines
+
+- **File naming**: Use lowercase with hyphens (e.g., `react-framework.json`)
+- **Description**: Use format `"ToolName + 描述类型"` (e.g., `"Vite配置"`, `"ESLint配置"`)
+- **Tooltips**: Provide clear, concise explanations in both English and Chinese
+- **Aliases**: Include the most common and useful files/directories for the project type
+- **Localization**: Always include both English (default) and Chinese (`zh-cn`) translations
+- **No duplicates**: Check existing presets to avoid redundancy
+
+#### Currently Available Presets
+
+| Preset | Description |
+|--------|-------------|
+| `ai-agents.json` | AI agent config directories and instruction files |
+| `frontend-tooling.json` | Frontend build tools and configuration files |
+
+#### Submitting a New Preset
+
+1. Create your preset file in `media/presets/`
+2. Follow the format and guidelines above
+3. Run `pnpm test` to ensure everything works
+4. Submit a pull request with a clear description of:
+   - What project type this preset targets
+   - Why it's useful for developers
+   - Example use cases
+
 ## 📄 License
 
 This project is licensed under the [GPLv3 License](LICENSE).
