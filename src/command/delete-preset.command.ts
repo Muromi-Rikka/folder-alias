@@ -8,7 +8,7 @@ interface PresetQuickPickItem extends vscode.QuickPickItem {
 }
 
 function deletePreset(
-  workspaceManager: UseWorkspaceManagerReturn,
+  _workspaceManager: UseWorkspaceManagerReturn,
 ) {
   useCommand("folder-alias.deletePreset", (uri?: vscode.Uri) => {
     let targetUri: vscode.Uri | undefined = uri;
@@ -67,7 +67,7 @@ function deletePresetFromFolder(folderUri: vscode.Uri) {
     if (selected) {
       deleteUserPreset(folderUri.fsPath, selected.presetName);
       vscode.window.showInformationMessage(
-        vscode.l10n.t('Preset "{0}" deleted.', selected.presetName),
+        vscode.l10n.t("Preset \"{0}\" deleted.", selected.presetName),
       );
     }
   });
