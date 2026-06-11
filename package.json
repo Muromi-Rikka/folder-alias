@@ -82,6 +82,18 @@
       {
         "command": "folder-alias.refresh",
         "title": "%command.refresh%"
+      },
+      {
+        "command": "folder-alias.applyPreset",
+        "title": "%command.applyPreset%"
+      },
+      {
+        "command": "folder-alias.saveAsPreset",
+        "title": "%command.saveAsPreset%"
+      },
+      {
+        "command": "folder-alias.deletePreset",
+        "title": "%command.deletePreset%"
       }
     ],
     "menus": {
@@ -97,6 +109,21 @@
         {
           "command": "folder-alias.refresh",
           "group": "1_modification"
+        },
+        {
+          "command": "folder-alias.applyPreset",
+          "when": "explorerResourceIsFolder",
+          "group": "1_modification"
+        },
+        {
+          "command": "folder-alias.saveAsPreset",
+          "when": "explorerResourceIsFolder",
+          "group": "1_modification"
+        },
+        {
+          "command": "folder-alias.deletePreset",
+          "when": "explorerResourceIsFolder",
+          "group": "1_modification"
         }
       ],
       "commandPalette": [
@@ -107,6 +134,15 @@
         {
           "command": "folder-alias.refresh",
           "when": "workspaceHasFolderAlias"
+        },
+        {
+          "command": "folder-alias.applyPreset"
+        },
+        {
+          "command": "folder-alias.saveAsPreset"
+        },
+        {
+          "command": "folder-alias.deletePreset"
         }
       ]
     }
