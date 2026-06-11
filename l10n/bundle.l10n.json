@@ -8,5 +8,20 @@
   "Are you sure you want to delete the alias for \"{0}\"?": "Are you sure you want to delete the alias for \"{0}\"?",
   "Delete": "Delete",
   "Cancel": "Cancel",
-  "Deleted alias for \"{0}\".": "Deleted alias for \"{0}\"."
+  "Deleted alias for \"{0}\".": "Deleted alias for \"{0}\".",
+  "Select workspace folder": "Select workspace folder",
+  "Select preset to apply": "Select preset to apply",
+  "Choose a preset to merge into your aliases": "Choose a preset to merge into your aliases",
+  "Preset \"{0}\" applied successfully.": "Preset \"{0}\" applied successfully.",
+  "No presets available.": "No presets available.",
+  "Select workspace folder to save preset from": "Select workspace folder to save preset from",
+  "Save current config as preset": "Save current config as preset",
+  "Enter a name for this preset": "Enter a name for this preset",
+  "my-preset": "my-preset",
+  "Preset \"{0}\" saved successfully.": "Preset \"{0}\" saved successfully.",
+  "Current config is empty. Add some aliases first.": "Current config is empty. Add some aliases first.",
+  "Select preset to delete": "Select preset to delete",
+  "Choose a custom preset to remove": "Choose a custom preset to remove",
+  "No custom presets found in this workspace.": "No custom presets found in this workspace.",
+  "Preset \"{0}\" deleted.": "Preset \"{0}\" deleted."
 }

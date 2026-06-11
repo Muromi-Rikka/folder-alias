@@ -8,5 +8,20 @@
   "Are you sure you want to delete the alias for \"{0}\"?": "确定要删除 \"{0}\" 的别名吗？",
   "Delete": "删除",
   "Cancel": "取消",
-  "Deleted alias for \"{0}\".": "已删除 \"{0}\" 的别名。"
+  "Deleted alias for \"{0}\".": "已删除 \"{0}\" 的别名。",
+  "Select workspace folder": "选择工作区文件夹",
+  "Select preset to apply": "选择要应用的预设",
+  "Choose a preset to merge into your aliases": "选择要合并到别名中的预设",
+  "Preset \"{0}\" applied successfully.": "预设 \"{0}\" 已成功应用。",
+  "No presets available.": "没有可用的预设。",
+  "Select workspace folder to save preset from": "选择要从其保存预设的工作区文件夹",
+  "Save current config as preset": "将当前配置保存为预设",
+  "Enter a name for this preset": "输入预设名称",
+  "my-preset": "我的预设",
+  "Preset \"{0}\" saved successfully.": "预设 \"{0}\" 已成功保存。",
+  "Current config is empty. Add some aliases first.": "当前配置为空。请先添加一些别名。",
+  "Select preset to delete": "选择要删除的预设",
+  "Choose a custom preset to remove": "选择要删除的自定义预设",
+  "No custom presets found in this workspace.": "在此工作区中未找到自定义预设。",
+  "Preset \"{0}\" deleted.": "预设 \"{0}\" 已删除。"
 }

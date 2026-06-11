@@ -8,5 +8,8 @@
   "configuration.configLocation.enum.root": "Save alias files in the workspace root.",
   "command.addAlias": "Add Alias",
   "command.refresh": "Refresh Aliases",
-  "command.deleteAlias": "Delete Alias"
+  "command.deleteAlias": "Delete Alias",
+  "command.applyPreset": "Apply Preset",
+  "command.saveAsPreset": "Save Config as Preset",
+  "command.deletePreset": "Delete Preset"
 }
