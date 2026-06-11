@@ -64,7 +64,7 @@ export function useWorkspaceManager(): UseWorkspaceManagerReturn {
     const uriStr = uri.toString();
 
     const candidates = Array.from(instances.values()).filter(
-      instance => uriStr.startsWith(`${instance.folder.uri.toString()}/`),
+      instance => uriStr === instance.folder.uri.toString() || uriStr.startsWith(`${instance.folder.uri.toString()}/`),
     );
 
     return maxBy(candidates, instance => instance.folder.uri.toString().length);
