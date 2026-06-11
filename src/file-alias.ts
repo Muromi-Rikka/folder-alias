@@ -39,7 +39,7 @@ export function useFileAlias(uri: Uri): UseFileAliasReturn {
   const { publicConfig, privateConfig, configFile, resetConfig, savePublic, savePrivate } = useConfig(uri.fsPath);
 
   const { watchers } = useFileSystemWatcher(
-    new RelativePattern(uri, "{folder-alias.json,private-folder-alias.json,.vscode/folder-alias.json,.vscode/private-folder-alias.json}"),
+    new RelativePattern(uri, "{folder-alias.json,private-folder-alias.json,.vscode/folder-alias.json,.vscode/private-folder-alias.json,.vscode/folder-alias-selected-presets.json}"),
     { onDidChange: () => resetConfig() },
   );
 

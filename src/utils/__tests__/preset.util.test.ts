@@ -1,4 +1,3 @@
-import type { RecordConfig } from "../../typings/common.typing";
 import type { Preset } from "../../typings/preset.typing";
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "pathe";
@@ -75,32 +74,57 @@ describe("getUserPresets", () => {
   });
 });
 
-describe("mergePresetIntoConfig", () => {
-  it("replaces config with preset entries", async () => {
-    const { mergePresetIntoConfig } = await import("../preset.util");
-    const existing: RecordConfig = {
-      "src/": { description: "Existing src" },
-    };
-    const preset: Preset = {
-      name: "test",
-      aliases: {
-        "lib/": { description: "Preset lib" },
-      },
-    };
-    const result = mergePresetIntoConfig(existing, preset);
-    expect(result["src/"]).toBeUndefined();
-    expect(result["lib/"].description).toBe("Preset lib");
+describe("getSelectedPresets", () => {
+  it("returns empty array when file does not exist", async () => {
+    const { getSelectedPresets } = await import("../preset.util");
+    const result = getSelectedPresets(TEST_DIR);
+    expect(result).toEqual([]);
   });
 
-  it("does not mutate the original config", async () => {
-    const { mergePresetIntoConfig } = await import("../preset.util");
-    const existing: RecordConfig = {};
-    const preset: Preset = {
-      name: "test",
-      aliases: { "a/": { description: "A" } },
-    };
-    mergePresetIntoConfig(existing, preset);
-    expect(existing["a/"]).toBeUndefined();
+  it("reads selected presets from file", async () => {
+    const { getSelectedPresets } = await import("../preset.util");
+    const vscodeDir = join(TEST_DIR, ".vscode");
+    mkdirSync(vscodeDir, { recursive: true });
+    writeFileSync(join(vscodeDir, "folder-alias-selected-presets.json"), JSON.stringify(["Monorepo", "AI Agents"]));
+
+    const result = getSelectedPresets(TEST_DIR);
+    expect(result).toEqual(["Monorepo", "AI Agents"]);
+  });
+});
+
+describe("saveSelectedPresets", () => {
+  it("creates file with selected presets", async () => {
+    const { saveSelectedPresets, getSelectedPresets } = await import("../preset.util");
+    saveSelectedPresets(TEST_DIR, ["Monorepo"]);
+
+    const result = getSelectedPresets(TEST_DIR);
+    expect(result).toEqual(["Monorepo"]);
+  });
+
+  it("overwrites existing selection", async () => {
+    const { saveSelectedPresets, getSelectedPresets } = await import("../preset.util");
+    saveSelectedPresets(TEST_DIR, ["Monorepo"]);
+    saveSelectedPresets(TEST_DIR, ["AI Agents", "Vue"]);
+
+    const result = getSelectedPresets(TEST_DIR);
+    expect(result).toEqual(["AI Agents", "Vue"]);
+  });
+});
+
+describe("loadSelectedPresetAliases", () => {
+  it("returns empty object when no presets selected", async () => {
+    const { loadSelectedPresetAliases } = await import("../preset.util");
+    const result = loadSelectedPresetAliases(TEST_DIR);
+    expect(result).toEqual({});
+  });
+
+  it("loads aliases from selected presets", async () => {
+    const { loadSelectedPresetAliases, saveSelectedPresets } = await import("../preset.util");
+    saveSelectedPresets(TEST_DIR, ["Monorepo"]);
+
+    const result = loadSelectedPresetAliases(TEST_DIR);
+    expect(result["packages/"]).toBeTruthy();
+    expect(result["apps/"]).toBeTruthy();
   });
 });
 

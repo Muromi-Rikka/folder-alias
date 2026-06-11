@@ -5,6 +5,7 @@ import { merge } from "es-toolkit";
 import { computed, ref } from "reactive-vscode";
 import { workspace } from "vscode";
 import { readConfigWithVscodePriority, resolveConfigPath, writeConfig } from "../utils/file.util";
+import { loadSelectedPresetAliases } from "../utils/preset.util";
 
 export interface UseConfigReturn {
   publicConfig: Ref<RecordConfig, RecordConfig>;
@@ -18,7 +19,10 @@ export interface UseConfigReturn {
 export function useConfig(fileDir: string): UseConfigReturn {
   const publicConfig = ref(readConfigWithVscodePriority(fileDir, "folder-alias.json"));
   const privateConfig = ref(readConfigWithVscodePriority(fileDir, "private-folder-alias.json"));
-  const configFile = computed<RecordConfig>(() => merge(merge({}, publicConfig.value), privateConfig.value));
+  const configFile = computed<RecordConfig>(() => {
+    const presetAliases = loadSelectedPresetAliases(fileDir);
+    return merge(merge(merge({}, presetAliases), publicConfig.value), privateConfig.value);
+  });
 
   function getConfigLocation(): ConfigLocation {
     return workspace.getConfiguration("folder-alias").get<ConfigLocation>("configLocation", "auto");

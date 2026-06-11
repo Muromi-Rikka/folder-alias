@@ -2,7 +2,6 @@ import type { RecordConfig } from "../typings/common.typing";
 import type { Preset } from "../typings/preset.typing";
 import { existsSync, mkdirSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { destr } from "destr";
-import { merge } from "es-toolkit";
 import { join } from "pathe";
 import { logger } from "./logger.util";
 
@@ -91,14 +90,68 @@ function deleteUserPreset(workspacePath: string, presetName: string): boolean {
   return false;
 }
 
-function mergePresetIntoConfig(_existing: RecordConfig, preset: Preset): RecordConfig {
-  return { ...preset.aliases };
+function getSelectedPresetsPath(workspacePath: string): string {
+  return join(workspacePath, ".vscode", "folder-alias-selected-presets.json");
+}
+
+function getSelectedPresets(workspacePath: string): string[] {
+  const filePath = getSelectedPresetsPath(workspacePath);
+  if (!existsSync(filePath)) {
+    return [];
+  }
+  try {
+    const content = readFileSync(filePath, "utf-8");
+    const parsed = destr<string[]>(content);
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+    return parsed;
+  }
+  catch {
+    return [];
+  }
+}
+
+function saveSelectedPresets(workspacePath: string, presetNames: string[]): void {
+  const dir = join(workspacePath, ".vscode");
+  if (!existsSync(dir)) {
+    mkdirSync(dir, { recursive: true });
+  }
+  const filePath = getSelectedPresetsPath(workspacePath);
+  writeFileSync(filePath, JSON.stringify(presetNames, null, 4));
+}
+
+function getPresetByName(name: string): Preset | undefined {
+  const allPresets = [...getBuiltInPresets(), ...getSelectedPresets("") ? [] : []];
+  return allPresets.find(p => p.name === name);
+}
+
+function loadSelectedPresetAliases(workspacePath: string): RecordConfig {
+  const selectedNames = getSelectedPresets(workspacePath);
+  if (selectedNames.length === 0) {
+    return {};
+  }
+
+  const allPresets = [...getBuiltInPresets()];
+  const userPresets = getUserPresets(workspacePath);
+  allPresets.push(...userPresets);
+
+  const result: RecordConfig = {};
+  for (const name of selectedNames) {
+    const preset = allPresets.find(p => p.name === name);
+    if (preset) {
+      Object.assign(result, preset.aliases);
+    }
+  }
+  return result;
 }
 
 export {
   deleteUserPreset,
   getBuiltInPresets,
+  getSelectedPresets,
   getUserPresets,
-  mergePresetIntoConfig,
+  loadSelectedPresetAliases,
+  saveSelectedPresets,
   saveUserPreset,
 };
