@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -110,5 +110,44 @@ describe("writeConfig", () => {
     const content = readFileSync(configPath, "utf-8");
     expect(JSON.parse(content)).toEqual(data);
     expect(content).toContain("    ");
+  });
+});
+
+describe("resolveConfigPath", () => {
+  it("should use root config in auto mode when .vscode config does not exist", async () => {
+    const { resolveConfigPath } = await import("../file.util");
+
+    const result = resolveConfigPath(TEST_DIR, "folder-alias.json", "auto");
+
+    expect(result).toBe(join(TEST_DIR, "folder-alias.json"));
+  });
+
+  it("should use .vscode config in auto mode when .vscode config exists", async () => {
+    const { resolveConfigPath } = await import("../file.util");
+    const vscodeDir = join(TEST_DIR, ".vscode");
+    const vscodeConfigPath = join(vscodeDir, "folder-alias.json");
+    mkdirSync(vscodeDir, { recursive: true });
+    writeFileSync(vscodeConfigPath, "{}");
+
+    const result = resolveConfigPath(TEST_DIR, "folder-alias.json", "auto");
+
+    expect(result).toBe(vscodeConfigPath);
+  });
+
+  it("should create .vscode and use it in vscode mode", async () => {
+    const { resolveConfigPath } = await import("../file.util");
+
+    const result = resolveConfigPath(TEST_DIR, "private-folder-alias.json", "vscode");
+
+    expect(result).toBe(join(TEST_DIR, ".vscode", "private-folder-alias.json"));
+    expect(existsSync(join(TEST_DIR, ".vscode"))).toBe(true);
+  });
+
+  it("should use root config in root mode", async () => {
+    const { resolveConfigPath } = await import("../file.util");
+
+    const result = resolveConfigPath(TEST_DIR, "private-folder-alias.json", "root");
+
+    expect(result).toBe(join(TEST_DIR, "private-folder-alias.json"));
   });
 });

@@ -1,10 +1,10 @@
 import type { ComputedRef, Ref } from "reactive-vscode";
 import type { RecordConfig } from "../typings/common.typing";
-import { existsSync } from "node:fs";
+import type { ConfigLocation } from "../utils/file.util";
 import { merge } from "es-toolkit";
-import { join } from "pathe";
 import { computed, ref } from "reactive-vscode";
-import { readConfigWithVscodePriority, writeConfig } from "../utils/file.util";
+import { workspace } from "vscode";
+import { readConfigWithVscodePriority, resolveConfigPath, writeConfig } from "../utils/file.util";
 
 export interface UseConfigReturn {
   publicConfig: Ref<RecordConfig, RecordConfig>;
@@ -20,37 +20,23 @@ export function useConfig(fileDir: string): UseConfigReturn {
   const privateConfig = ref(readConfigWithVscodePriority(fileDir, "private-folder-alias.json"));
   const configFile = computed<RecordConfig>(() => merge(merge({}, publicConfig.value), privateConfig.value));
 
+  function getConfigLocation(): ConfigLocation {
+    return workspace.getConfiguration("folder-alias").get<ConfigLocation>("configLocation", "auto");
+  }
+
   function resetConfig() {
     publicConfig.value = readConfigWithVscodePriority(fileDir, "folder-alias.json");
     privateConfig.value = readConfigWithVscodePriority(fileDir, "private-folder-alias.json");
   }
 
   function savePublic() {
-    const vscodeConfigPath = join(fileDir, ".vscode", "folder-alias.json");
-    const rootConfigPath = join(fileDir, "folder-alias.json");
-
-    // 只在.vscode目录下存在配置文件时保存到.vscode目录
-    if (existsSync(vscodeConfigPath)) {
-      writeConfig(vscodeConfigPath, publicConfig.value);
-    }
-    else {
-      // 否则保存到根目录
-      writeConfig(rootConfigPath, publicConfig.value);
-    }
+    const configPath = resolveConfigPath(fileDir, "folder-alias.json", getConfigLocation());
+    writeConfig(configPath, publicConfig.value);
   }
 
   function savePrivate() {
-    const vscodeConfigPath = join(fileDir, ".vscode", "private-folder-alias.json");
-    const rootConfigPath = join(fileDir, "private-folder-alias.json");
-
-    // 只在.vscode目录下存在配置文件时保存到.vscode目录
-    if (existsSync(vscodeConfigPath)) {
-      writeConfig(vscodeConfigPath, privateConfig.value);
-    }
-    else {
-      // 否则保存到根目录
-      writeConfig(rootConfigPath, privateConfig.value);
-    }
+    const configPath = resolveConfigPath(fileDir, "private-folder-alias.json", getConfigLocation());
+    writeConfig(configPath, privateConfig.value);
   }
 
   return {

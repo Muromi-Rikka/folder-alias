@@ -1,8 +1,10 @@
 import type { RecordConfig } from "../typings/common.typing";
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { destr } from "destr";
 import { join } from "pathe";
 import { logger } from "./logger.util";
+
+type ConfigLocation = "auto" | "vscode" | "root";
 
 function readConfig(configPath: string): RecordConfig {
   try {
@@ -34,6 +36,26 @@ function readConfigWithVscodePriority(basePath: string, fileName: string): Recor
   return {};
 }
 
+function resolveConfigPath(basePath: string, fileName: string, configLocation: ConfigLocation): string {
+  const vscodeConfigPath = join(basePath, ".vscode", fileName);
+  const rootConfigPath = join(basePath, fileName);
+
+  if (configLocation === "vscode") {
+    mkdirSync(join(basePath, ".vscode"), { recursive: true });
+    return vscodeConfigPath;
+  }
+
+  if (configLocation === "root") {
+    return rootConfigPath;
+  }
+
+  if (existsSync(vscodeConfigPath)) {
+    return vscodeConfigPath;
+  }
+
+  return rootConfigPath;
+}
+
 function writeConfig(configPath: string, config: RecordConfig): void {
   try {
     writeFileSync(configPath, JSON.stringify(config, null, 4));
@@ -43,4 +65,5 @@ function writeConfig(configPath: string, config: RecordConfig): void {
   }
 }
 
-export { readConfig, readConfigWithVscodePriority, writeConfig };
+export type { ConfigLocation };
+export { readConfig, readConfigWithVscodePriority, resolveConfigPath, writeConfig };

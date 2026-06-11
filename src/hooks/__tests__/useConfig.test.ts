@@ -1,8 +1,9 @@
-import { mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const TEST_DIR = join(__dirname, "__fixtures__");
+let configLocation = "auto";
 
 // Mock reactive-vscode's ref/computed to work outside VS Code
 vi.mock("reactive-vscode", () => {
@@ -31,7 +32,16 @@ vi.mock("../../utils/logger.util", () => ({
   },
 }));
 
+vi.mock("vscode", () => ({
+  workspace: {
+    getConfiguration: () => ({
+      get: (_key: string, defaultValue: string) => configLocation || defaultValue,
+    }),
+  },
+}));
+
 beforeEach(() => {
+  configLocation = "auto";
   mkdirSync(TEST_DIR, { recursive: true });
 });
 
@@ -98,5 +108,31 @@ describe("useConfig", () => {
 
     config.resetConfig();
     expect(config.publicConfig.value.src.description).toBe("V2");
+  });
+
+  it("should save public config to root when configLocation is root", async () => {
+    configLocation = "root";
+
+    const { useConfig } = await import("../useConfig");
+    const config = useConfig(TEST_DIR);
+    config.publicConfig.value = { src: { description: "Root" } };
+
+    config.savePublic();
+
+    expect(JSON.parse(readFileSync(join(TEST_DIR, "folder-alias.json"), "utf-8"))).toEqual(config.publicConfig.value);
+    expect(existsSync(join(TEST_DIR, ".vscode", "folder-alias.json"))).toBe(false);
+  });
+
+  it("should create .vscode and save private config there when configLocation is vscode", async () => {
+    configLocation = "vscode";
+
+    const { useConfig } = await import("../useConfig");
+    const config = useConfig(TEST_DIR);
+    config.privateConfig.value = { secret: { description: "Private" } };
+
+    config.savePrivate();
+
+    expect(JSON.parse(readFileSync(join(TEST_DIR, ".vscode", "private-folder-alias.json"), "utf-8"))).toEqual(config.privateConfig.value);
+    expect(existsSync(join(TEST_DIR, "private-folder-alias.json"))).toBe(false);
   });
 });
