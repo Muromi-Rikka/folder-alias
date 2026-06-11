@@ -2,7 +2,7 @@
   "publisher": "rikka",
   "name": "folder-alias",
   "displayName": "%extension.displayName%",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "packageManager": "pnpm@11.5.0",
   "description": "%extension.description%",
   "author": "Rikka",
@@ -90,7 +90,10 @@
           "command": "folder-alias.addAlias",
           "group": "1_modification"
         },
-        { "command": "folder-alias.deleteAlias", "group": "1_modification" },
+        {
+          "command": "folder-alias.deleteAlias",
+          "group": "1_modification"
+        },
         {
           "command": "folder-alias.refresh",
           "group": "1_modification"
@@ -111,7 +114,7 @@
   "scripts": {
     "build": "tsdown src/index.ts",
     "dev": "pnpm build --watch --sourcemap",
-    "prepare": "pnpm update:gen",
+    "prepare": "husky",
     "update:gen": "vscode-ext-gen --output src/generated/meta.ts",
     "lint": "eslint .",
     "vscode:prepublish": "pnpm run build",
@@ -121,18 +124,24 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit",
+    "changelog": "changelogen --from \"$(git tag --sort=-version:refname | head -1)\"",
+    "changelog:write": "changelogen --from \"$(git tag --sort=-version:refname | head -1)\" --output",
     "release": "bumpp && pnpm run publish"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^9.0.0",
+    "@commitlint/cli": "^21.0.2",
+    "@commitlint/config-conventional": "^21.0.2",
     "@types/node": "^24.13.0",
     "@types/vscode": "^1.120.0",
     "@vitest/coverage-v8": "^4.1.8",
     "@vscode/vsce": "^3.9.2",
     "bumpp": "^11.1.0",
+    "changelogen": "^0.6.2",
     "destr": "^2.0.5",
     "es-toolkit": "^1.47.0",
     "eslint": "^10.4.1",
+    "husky": "^9.1.7",
     "pathe": "^2.0.3",
     "reactive-vscode": "^1.0.2",
     "taze": "^19.14.1",
