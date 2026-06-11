@@ -44,7 +44,23 @@
   "contributes": {
     "configuration": {
       "title": "%configuration.title%",
-      "properties": {}
+      "properties": {
+        "folder-alias.configLocation": {
+          "type": "string",
+          "default": "auto",
+          "enum": [
+            "auto",
+            "vscode",
+            "root"
+          ],
+          "enumDescriptions": [
+            "%configuration.configLocation.enum.auto%",
+            "%configuration.configLocation.enum.vscode%",
+            "%configuration.configLocation.enum.root%"
+          ],
+          "description": "%configuration.configLocation.description%"
+        }
+      }
     },
     "commands": [
       {

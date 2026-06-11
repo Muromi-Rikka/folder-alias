@@ -2,6 +2,10 @@
   "extension.displayName": "Folder Alias",
   "extension.description": "Customize aliases and tooltips for files and folders in the explorer tree",
   "configuration.title": "Folder Alias",
+  "configuration.configLocation.description": "Controls where folder-alias JSON files are saved.",
+  "configuration.configLocation.enum.auto": "Save under .vscode only when the alias file already exists there.",
+  "configuration.configLocation.enum.vscode": "Create .vscode and save alias files there.",
+  "configuration.configLocation.enum.root": "Save alias files in the workspace root.",
   "command.addAlias": "Add Alias",
   "command.refresh": "Refresh Aliases",
   "command.deleteAlias": "Delete Alias"

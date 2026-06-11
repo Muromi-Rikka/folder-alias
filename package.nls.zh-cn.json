@@ -2,6 +2,10 @@
   "extension.displayName": "文件夹别名",
   "extension.description": "自定义资源管理器中文件和文件夹的别名与提示信息",
   "configuration.title": "文件夹别名",
+  "configuration.configLocation.description": "控制 folder-alias JSON 文件的保存位置。",
+  "configuration.configLocation.enum.auto": "仅当别名文件已存在于 .vscode 下时保存到 .vscode。",
+  "configuration.configLocation.enum.vscode": "创建 .vscode 并将别名文件保存到其中。",
+  "configuration.configLocation.enum.root": "将别名文件保存到工作区根目录。",
   "command.addAlias": "添加别名",
   "command.refresh": "刷新别名",
   "command.deleteAlias": "删除别名"
