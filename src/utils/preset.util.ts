@@ -1,13 +1,44 @@
 import type { RecordConfig } from "../typings/common.typing";
-import type { Preset } from "../typings/preset.typing";
+import type { Preset, PresetLocalized } from "../typings/preset.typing";
 import { existsSync, mkdirSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { destr } from "destr";
+import { merge } from "es-toolkit";
 import { join } from "pathe";
+import { env } from "vscode";
 import { logger } from "./logger.util";
 
 const BUILT_IN_PRESETS_DIR = existsSync(join(__dirname, "..", "media", "presets"))
   ? join(__dirname, "..", "media", "presets")
   : join(__dirname, "..", "..", "media", "presets");
+
+function getWorkspaceLanguage(): string {
+  const lang = env.language;
+  if (lang.startsWith("zh")) {
+    return "zh-cn";
+  }
+  return "en";
+}
+
+function localizePreset(preset: Preset): Preset {
+  const lang = getWorkspaceLanguage();
+  if (lang === "en" || !preset.localized) {
+    return preset;
+  }
+
+  const localized = preset.localized[lang];
+  if (!localized) {
+    return preset;
+  }
+
+  return {
+    ...preset,
+    name: localized.name ?? preset.name,
+    description: localized.description ?? preset.description,
+    aliases: localized.aliases
+      ? merge({}, preset.aliases, localized.aliases)
+      : preset.aliases,
+  };
+}
 
 function readPresetFile(filePath: string): Preset | null {
   try {
@@ -40,7 +71,7 @@ function getBuiltInPresets(): Preset[] {
   for (const file of files) {
     const preset = readPresetFile(join(BUILT_IN_PRESETS_DIR, file));
     if (preset) {
-      presets.push(preset);
+      presets.push(localizePreset(preset));
     }
   }
   return presets;
@@ -60,7 +91,7 @@ function getUserPresets(workspacePath: string): Preset[] {
   for (const file of files) {
     const preset = readPresetFile(join(dir, file));
     if (preset) {
-      presets.push(preset);
+      presets.push(localizePreset(preset));
     }
   }
   return presets;
@@ -119,11 +150,6 @@ function saveSelectedPresets(workspacePath: string, presetNames: string[]): void
   }
   const filePath = getSelectedPresetsPath(workspacePath);
   writeFileSync(filePath, JSON.stringify(presetNames, null, 4));
-}
-
-function getPresetByName(name: string): Preset | undefined {
-  const allPresets = [...getBuiltInPresets(), ...getSelectedPresets("") ? [] : []];
-  return allPresets.find(p => p.name === name);
 }
 
 function loadSelectedPresetAliases(workspacePath: string): RecordConfig {

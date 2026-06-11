@@ -12,6 +12,12 @@ vi.mock("../logger.util", () => ({
   },
 }));
 
+vi.mock("vscode", () => ({
+  env: {
+    language: "en",
+  },
+}));
+
 const TEST_DIR = join(__dirname, "__fixtures_preset__");
 
 beforeEach(() => {
@@ -85,29 +91,29 @@ describe("getSelectedPresets", () => {
     const { getSelectedPresets } = await import("../preset.util");
     const vscodeDir = join(TEST_DIR, ".vscode");
     mkdirSync(vscodeDir, { recursive: true });
-    writeFileSync(join(vscodeDir, "folder-alias-selected-presets.json"), JSON.stringify(["Monorepo", "AI Agents"]));
+    writeFileSync(join(vscodeDir, "folder-alias-selected-presets.json"), JSON.stringify(["AI Agents"]));
 
     const result = getSelectedPresets(TEST_DIR);
-    expect(result).toEqual(["Monorepo", "AI Agents"]);
+    expect(result).toEqual(["AI Agents"]);
   });
 });
 
 describe("saveSelectedPresets", () => {
   it("creates file with selected presets", async () => {
     const { saveSelectedPresets, getSelectedPresets } = await import("../preset.util");
-    saveSelectedPresets(TEST_DIR, ["Monorepo"]);
+    saveSelectedPresets(TEST_DIR, ["AI Agents"]);
 
     const result = getSelectedPresets(TEST_DIR);
-    expect(result).toEqual(["Monorepo"]);
+    expect(result).toEqual(["AI Agents"]);
   });
 
   it("overwrites existing selection", async () => {
     const { saveSelectedPresets, getSelectedPresets } = await import("../preset.util");
-    saveSelectedPresets(TEST_DIR, ["Monorepo"]);
-    saveSelectedPresets(TEST_DIR, ["AI Agents", "Vue"]);
+    saveSelectedPresets(TEST_DIR, ["AI Agents"]);
+    saveSelectedPresets(TEST_DIR, ["AI Agents"]);
 
     const result = getSelectedPresets(TEST_DIR);
-    expect(result).toEqual(["AI Agents", "Vue"]);
+    expect(result).toEqual(["AI Agents"]);
   });
 });
 

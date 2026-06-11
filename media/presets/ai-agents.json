@@ -1,6 +1,30 @@
 {
   "name": "AI Agents",
   "description": "Common AI agent config directories and instruction files",
+  "localized": {
+    "zh-cn": {
+      "name": "AI 代理",
+      "description": "常见 AI 代理配置目录和指令文件",
+      "aliases": {
+        ".claude/": { "description": "Claude 代码", "tooltip": "Claude Code 配置" },
+        ".cursor/": { "description": "Cursor", "tooltip": "Cursor IDE 配置" },
+        ".github/copilot-instructions.md": { "description": "Copilot GH", "tooltip": "GitHub Copilot 自定义指令" },
+        ".vscode/copilot-instructions.md": { "description": "Copilot VS", "tooltip": "VS Code Copilot 自定义指令" },
+        "CLAUDE.md": { "description": "Claude", "tooltip": "Claude 项目指令" },
+        "AGENTS.md": { "description": "代理", "tooltip": "通用 AI 代理指令" },
+        ".clinerules": { "description": "Cline", "tooltip": "Cline AI 代理规则" },
+        ".windsurfrules": { "description": "Windsurf", "tooltip": "Windsurf AI 代理规则" },
+        ".aiderignore": { "description": "Aider", "tooltip": "Aider 忽略列表" },
+        ".aider.model.settings.yml": { "description": "Aider", "tooltip": "Aider 模型配置" },
+        ".opencode/": { "description": "OpenCode", "tooltip": "OpenCode 配置" },
+        ".roo/": { "description": "Roo Code", "tooltip": "Roo Code 代理配置" },
+        ".roomodes": { "description": "Roo Code", "tooltip": "Roo Code 代理模式" },
+        ".cline_mcp_settings.json": { "description": "MCP Cline", "tooltip": "Cline MCP 服务器配置" },
+        ".mcp.json": { "description": "MCP", "tooltip": "Model Context Protocol 服务器配置" },
+        "mcp.json": { "description": "MCP", "tooltip": "Model Context Protocol 服务器配置" }
+      }
+    }
+  },
   "aliases": {
     ".claude/": { "description": "Claude Code", "tooltip": "Claude Code configuration" },
     ".cursor/": { "description": "Cursor", "tooltip": "Cursor IDE configuration" },
