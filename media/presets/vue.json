@@ -2,12 +2,12 @@
   "name": "Vue",
   "description": "Alias structure for Vue applications",
   "aliases": {
-    "src/": { "description": "src", "tooltip": "Source code root" },
-    "components/": { "description": "cmp", "tooltip": "Vue components" },
-    "views/": { "description": "viw", "tooltip": "Page views" },
-    "store/": { "description": "str", "tooltip": "Vuex/Pinia store" },
-    "composables/": { "description": "cps", "tooltip": "Vue composables" },
-    "assets/": { "description": "ast", "tooltip": "Static assets" },
-    "utils/": { "description": "utl", "tooltip": "Utility functions" }
+    "src/": { "description": "Source", "tooltip": "Source code root" },
+    "components/": { "description": "Components", "tooltip": "Vue components" },
+    "views/": { "description": "Views", "tooltip": "Page views" },
+    "store/": { "description": "Store", "tooltip": "Vuex/Pinia store" },
+    "composables/": { "description": "Composables", "tooltip": "Vue composables" },
+    "assets/": { "description": "Assets", "tooltip": "Static assets" },
+    "utils/": { "description": "Utils", "tooltip": "Utility functions" }
   }
 }
