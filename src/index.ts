@@ -3,9 +3,8 @@ import { defineExtension, useEventEmitter } from "reactive-vscode";
 import { commands, FileDecoration, window, workspace } from "vscode";
 import { addAlias, applyPreset, deleteAlias, deletePreset, refreshAliases, savePreset } from "./command";
 import { useWorkspaceManager } from "./hooks/useWorkspaceManager";
-import { getBuiltInPresets, getSelectedPresets } from "./utils/preset.util";
 
-const { activate, deactivate } = defineExtension(async (context) => {
+const { activate, deactivate } = defineExtension(async () => {
   if (!workspace.workspaceFolders) {
     return;
   }
@@ -41,26 +40,6 @@ const { activate, deactivate } = defineExtension(async (context) => {
 
   // Set context to enable refresh command in command palette
   commands.executeCommand("setContext", "workspaceHasFolderAlias", true);
-
-  // Show welcome message on first activation
-  const hasShownWelcome = context.globalState.get("folder-alias.hasShownWelcome", false);
-  if (!hasShownWelcome) {
-    const folder = workspace.workspaceFolders[0];
-    const selectedPresets = getSelectedPresets(folder.uri.fsPath);
-    const builtInPresets = getBuiltInPresets();
-
-    if (builtInPresets.length > 0 && selectedPresets.length === 0) {
-      const action = await window.showInformationMessage(
-        "Folder Alias: Apply a preset to quickly set up common aliases for this workspace?",
-        "Apply Preset",
-        "Dismiss",
-      );
-      if (action === "Apply Preset") {
-        commands.executeCommand("folder-alias.applyPreset", folder.uri);
-      }
-    }
-    context.globalState.update("folder-alias.hasShownWelcome", true);
-  }
 });
 
 export { activate, deactivate };

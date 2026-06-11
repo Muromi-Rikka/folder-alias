@@ -39,6 +39,19 @@ A powerful VS Code extension that allows you to add customizable aliases and rem
 
 ## 🎯 Usage
 
+### Getting Started
+
+The quickest way to get started is to apply a preset that matches your project type:
+
+1. Open **Command Palette** (`Ctrl+Shift+P` / `Cmd+Shift+P`)
+2. Type **"Apply Preset"** and select it
+3. Choose a preset from the list:
+   - **AI Agents** - For projects using AI coding assistants (Claude, Cursor, Copilot, etc.)
+   - **Frontend Tooling** - For frontend projects with common build tools (Vite, ESLint, Prettier, etc.)
+4. The preset aliases will be applied to your workspace immediately
+
+> **Tip**: Preset aliases have lower priority than your manually configured aliases. You can customize any preset alias afterward using "Add Alias".
+
 ### Adding an Alias
 
 1. **Right-click** on any file or folder in the VS Code Explorer
