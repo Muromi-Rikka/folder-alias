@@ -4,7 +4,7 @@
 [![下载量](https://img.shields.io/visual-studio-marketplace/d/rikka.folder-alias)](https://marketplace.visualstudio.com/items?itemName=rikka.folder-alias)
 [![许可证](https://img.shields.io/badge/license-GPLv3-blue.svg)](LICENSE)
 
-**English** | [中文](./README.zh-CN.md)
+[English](./README.md) | **中文**
 
 一个强大的 VS Code 扩展，允许您为文件树中的文件和文件夹添加可自定义的别名和备注，让项目导航和组织更加直观。
 
@@ -14,6 +14,7 @@
 
 - **可自定义别名**：为任何文件或文件夹添加有意义的名称和描述
 - **双重配置**：支持公共（共享）和私有（个人）别名
+- **预设系统**：为常见工作区配置提供预置别名集（AI 代理、前端工具链）
 - **视觉集成**：无缝集成到 VS Code 的文件资源管理器中
 - **简易管理**：简单的右键界面用于添加和修改别名
 - **持久存储**：别名保存在工作区内的 JSON 配置文件中
@@ -37,6 +38,19 @@
 5. 选择下载的 `.vsix` 文件
 
 ## 🎯 使用方法
+
+### 快速开始
+
+最快的方式是应用一个与您项目类型匹配的预设：
+
+1. 打开 **命令面板** (`Ctrl+Shift+P` / `Cmd+Shift+P`)
+2. 输入 **"Apply Preset"** 并选择
+3. 从列表中选择预设：
+   - **AI 代理** - 适用于使用 AI 编码助手的项目（Claude、Cursor、Copilot 等）
+   - **前端工具链** - 适用于使用常见构建工具的前端项目（Vite、ESLint、Prettier 等）
+4. 预设别名将立即应用到您的工作区
+
+> **提示**：预设别名的优先级低于您手动配置的别名。您可以使用"添加别名"功能自定义任何预设别名。
 
 ### 添加别名
 
@@ -63,6 +77,49 @@
 2. 选择 **"刷新别名"**
 3. 或使用 **命令面板** (`Ctrl+Shift+P` / `Cmd+Shift+P`) 并输入 "Refresh Aliases"
 4. 文件资源管理器将重新加载所有别名配置
+
+### 预设
+
+预设允许您快速应用为常见工作区配置预置的别名集。预设别名在运行时加载，优先级**低于**您的工作区配置（工作区配置优先于预设）。
+
+#### 可用预设
+
+| 预设 | 描述 |
+|------|------|
+| **AI 代理** | 常见 AI 代理配置目录和指令文件（Claude Code、Cursor、Copilot、MCP 等） |
+| **前端工具链** | 常见前端构建工具和配置文件（Vite、Webpack、ESLint、Prettier、Tailwind 等） |
+
+#### 应用预设
+
+1. **右键点击** 资源管理器中的工作区文件夹，或使用 **命令面板** (`Ctrl+Shift+P`)
+2. 选择 **"Apply Preset"**
+3. 从列表中选择预设（内置预设标记为 📄）
+4. 预设别名将应用到您的工作区
+5. 再次选择已应用的预设可以移除它
+
+#### 保存自定义预设
+
+1. 添加您想要保存的别名
+2. **右键点击** 工作区文件夹，或使用 **命令面板**
+3. 选择 **"Save Config as Preset"**
+4. 输入预设名称
+5. 预设将保存到 `.vscode/folder-alias-presets/`
+
+#### 删除自定义预设
+
+1. **右键点击** 工作区文件夹，或使用 **命令面板**
+2. 选择 **"Delete Preset"**
+3. 选择要删除的自定义预设
+
+#### 预设存储
+
+- **内置预设**：随扩展一起发布（`media/presets/`）
+- **用户预设**：存储在 `.vscode/folder-alias-presets/<name>.json`
+- **已选预设**：存储在 `.vscode/folder-alias-selected-presets.json`
+
+#### 多语言支持
+
+预设支持本地化。扩展会检测您的工作区语言并以适当的语言显示预设名称和描述（目前支持英语和中文）。
 
 ### 文件结构
 
@@ -173,9 +230,14 @@ private-folder-alias.json
 - **`src/index.ts`** - 扩展入口点，注册装饰提供者和命令
 - **`src/file-alias.ts`** - 每个工作区文件夹的文件装饰提供者和别名管理
 - **`src/hooks/useWorkspaceManager.ts`** - 管理工作区文件夹实例和 URI 解析
-- **`src/hooks/useConfig.ts`** - 加载、合并和保存公共/私有 JSON 配置
+- **`src/hooks/useConfig.ts`** - 加载、合并和保存公共/私有 JSON 配置，支持预设
 - **`src/command/add-alias.command.ts`** - 添加/修改别名的命令处理器
+- **`src/command/apply-preset.command.ts`** - 应用/切换预设的命令处理器
+- **`src/command/save-preset.command.ts`** - 将配置保存为预设的命令处理器
+- **`src/command/delete-preset.command.ts`** - 删除用户预设的命令处理器
 - **`src/command/refresh-aliases.command.ts`** - 刷新所有别名的命令处理器
+- **`src/typings/preset.typing.ts`** - 预设类型定义，支持本地化
+- **`src/utils/preset.util.ts`** - 预设工具函数（加载、保存、本地化、合并）
 - **`src/utils/file.util.ts`** - 配置管理的文件 I/O 工具
 - **`src/utils/logger.util.ts`** - 日志工具
 
@@ -201,6 +263,59 @@ private-folder-alias.json
 5. 运行检查：`pnpm lint`
 6. 提交更改并推送
 7. 提交拉取请求
+
+### 贡献预设
+
+我们欢迎新预设的贡献！预设帮助开发者快速为常见项目类型设置别名。
+
+#### 预设文件格式
+
+在 `media/presets/` 中创建 JSON 文件，格式如下：
+
+```json
+{
+  "name": "我的预设",
+  "description": "此预设的用途说明",
+  "localized": {
+    "zh-cn": {
+      "name": "我的预设",
+      "description": "此预设的用途说明",
+      "aliases": {
+        "path/to/file": { "description": "中文描述", "tooltip": "中文提示" }
+      }
+    }
+  },
+  "aliases": {
+    "path/to/file": { "description": "English description", "tooltip": "English tooltip" }
+  }
+}
+```
+
+#### 预设规范
+
+- **文件命名**：使用小写加连字符（例如 `react-framework.json`）
+- **描述格式**：使用 `"工具名 + 描述类型"` 格式（例如 `"Vite配置"`、`"ESLint配置"`）
+- **工具提示**：提供清晰简洁的中英文说明
+- **别名**：包含项目类型最常用和有用的文件/目录
+- **本地化**：始终包含英文（默认）和中文（`zh-cn`）翻译
+- **避免重复**：检查现有预设以避免冗余
+
+#### 当前可用预设
+
+| 预设 | 描述 |
+|------|------|
+| `ai-agents.json` | AI 代理配置目录和指令文件 |
+| `frontend-tooling.json` | 前端构建工具和配置文件 |
+
+#### 提交新预设
+
+1. 在 `media/presets/` 中创建预设文件
+2. 遵循上述格式和规范
+3. 运行 `pnpm test` 确保一切正常
+4. 提交拉取请求，并清晰描述：
+   - 此预设针对的项目类型
+   - 为什么对开发者有用
+   - 使用示例
 
 ## 📄 许可证
 
