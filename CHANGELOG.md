@@ -28,6 +28,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [1.0.0]
 
 ### Added
+- `.vscode` directory configuration priority
+- Smart initialization: only creates root-level config files when `.vscode` versions don't exist
+- Improved file organization: keep workspace root clean by using `.vscode/` directory
+- Refresh command for manual alias updates
+- Chinese translation for README
 - Internationalization (i18n) support for English and Chinese
 - Workspace manager for multi-workspace folder support
 - Context menu grouping for Add Alias and Refresh Aliases
@@ -37,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Unit tests for useConfig, file.util, and workspace manager
 
 ### Changed
+- Cancel auto-addition of config files during initialization
 - Migrated from lodash-es to es-toolkit for smaller bundle size
 - Simplified findInstanceByUri with es-toolkit maxBy
 - Simplified refresh-aliases URI collection with flatMap
@@ -63,14 +69,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [0.1.1]
 
 ### Added
-- `.vscode` directory configuration priority
-- Smart initialization: only creates root-level config files when `.vscode` versions don't exist
-- Improved file organization: keep workspace root clean by using `.vscode/` directory
-- Refresh command for manual alias updates
-- Chinese translation for README
+- Dark and light theme icons
 
 ### Changed
-- Cancel auto-addition of config files during initialization
+- Remove unused commands and simplify file alias handling
+- Replace JSON.parse with destr for config parsing
+- Update README.md with installation and usage instructions
 
 ## [0.1.0]
 
