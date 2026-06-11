@@ -14,6 +14,7 @@ A powerful VS Code extension that allows you to add customizable aliases and rem
 
 - **Customizable Aliases**: Add meaningful names and descriptions to any file or folder
 - **Dual Configuration**: Support for both public (shared) and private (personal) aliases
+- **Preset System**: Pre-built alias sets for common workspace configurations (AI agents, frontend tooling)
 - **Visual Integration**: Seamlessly integrated into VS Code's file explorer
 - **Easy Management**: Simple right-click interface for adding and modifying aliases
 - **Persistent Storage**: Aliases are saved in JSON configuration files within your workspace
@@ -63,6 +64,49 @@ After manually editing the JSON configuration files, you can refresh the file ex
 2. Select **"Refresh Aliases"**
 3. Or use **Command Palette** (`Ctrl+Shift+P` / `Cmd+Shift+P`) and type "Refresh Aliases"
 4. The file explorer will reload all alias configurations from the JSON files
+
+### Presets
+
+Presets allow you to quickly apply pre-configured alias sets for common workspace configurations. Preset aliases are loaded at runtime and have **lower priority** than your workspace config (workspace config wins over presets).
+
+#### Available Presets
+
+| Preset | Description |
+|--------|-------------|
+| **AI Agents** | Common AI agent config directories and instruction files (Claude Code, Cursor, Copilot, MCP, etc.) |
+| **Frontend Tooling** | Common frontend build tools and configuration files (Vite, Webpack, ESLint, Prettier, Tailwind, etc.) |
+
+#### Applying a Preset
+
+1. **Right-click** on a workspace folder in the Explorer, or use **Command Palette** (`Ctrl+Shift+P`)
+2. Select **"Apply Preset"**
+3. Choose a preset from the list (built-in presets are marked with 📄)
+4. The preset aliases will be applied to your workspace
+5. Select an already-applied preset again to remove it
+
+#### Saving Custom Presets
+
+1. Add the aliases you want to save
+2. **Right-click** on the workspace folder, or use **Command Palette**
+3. Select **"Save Config as Preset"**
+4. Enter a name for your preset
+5. The preset is saved to `.vscode/folder-alias-presets/`
+
+#### Deleting Custom Presets
+
+1. **Right-click** on the workspace folder, or use **Command Palette**
+2. Select **"Delete Preset"**
+3. Choose a custom preset to delete
+
+#### Preset Storage
+
+- **Built-in presets**: Shipped with the extension (`media/presets/`)
+- **User presets**: Stored in `.vscode/folder-alias-presets/<name>.json`
+- **Selected presets**: Stored in `.vscode/folder-alias-selected-presets.json`
+
+#### Multi-language Support
+
+Presets support localization. The extension detects your workspace language and displays preset names and descriptions in the appropriate language (currently supports English and Chinese).
 
 ### File Structure
 
@@ -173,9 +217,14 @@ private-folder-alias.json
 - **`src/index.ts`** - Extension entry point, registers decoration provider and commands
 - **`src/file-alias.ts`** - File decoration provider and alias management per workspace folder
 - **`src/hooks/useWorkspaceManager.ts`** - Manages workspace folder instances and URI resolution
-- **`src/hooks/useConfig.ts`** - Loads, merges, and saves public/private JSON configs
+- **`src/hooks/useConfig.ts`** - Loads, merges, and saves public/private JSON configs with preset support
 - **`src/command/add-alias.command.ts`** - Command handler for adding/modifying aliases
+- **`src/command/apply-preset.command.ts`** - Command handler for applying/toggling presets
+- **`src/command/save-preset.command.ts`** - Command handler for saving config as preset
+- **`src/command/delete-preset.command.ts`** - Command handler for deleting user presets
 - **`src/command/refresh-aliases.command.ts`** - Command handler for refreshing all aliases
+- **`src/typings/preset.typing.ts`** - Preset type definitions with localization support
+- **`src/utils/preset.util.ts`** - Preset utilities (load, save, localize, merge)
 - **`src/utils/file.util.ts`** - File I/O utilities for configuration management
 - **`src/utils/logger.util.ts`** - Logging utility
 
