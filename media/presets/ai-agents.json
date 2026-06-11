@@ -26,21 +26,21 @@
     }
   },
   "aliases": {
-    ".claude/": { "description": "Claude配置", "tooltip": "Claude Code configuration" },
-    ".cursor/": { "description": "Cursor配置", "tooltip": "Cursor IDE configuration" },
-    ".github/copilot-instructions.md": { "description": "GitHub指令", "tooltip": "GitHub Copilot custom instructions" },
-    ".vscode/copilot-instructions.md": { "description": "VS指令", "tooltip": "VS Code Copilot custom instructions" },
-    "CLAUDE.md": { "description": "Claude指令", "tooltip": "Claude project instructions" },
-    "AGENTS.md": { "description": "代理指令", "tooltip": "General AI agent instructions" },
-    ".clinerules": { "description": "Cline规则", "tooltip": "Cline AI agent rules" },
-    ".windsurfrules": { "description": "Windsurf规则", "tooltip": "Windsurf AI agent rules" },
-    ".aiderignore": { "description": "Aider忽略", "tooltip": "Aider AI coding assistant ignore list" },
-    ".aider.model.settings.yml": { "description": "Aider模型", "tooltip": "Aider model configuration" },
-    ".opencode/": { "description": "OpenCode配置", "tooltip": "OpenCode configuration" },
-    ".roo/": { "description": "Roo配置", "tooltip": "Roo Code agent configuration" },
-    ".roomodes": { "description": "Roo模式", "tooltip": "Roo Code agent modes" },
-    ".cline_mcp_settings.json": { "description": "MCP配置", "tooltip": "Cline MCP server configuration" },
-    ".mcp.json": { "description": "MCP配置", "tooltip": "Model Context Protocol server config" },
-    "mcp.json": { "description": "MCP配置", "tooltip": "Model Context Protocol server config" }
+    ".claude/": { "description": "Claude Code config", "tooltip": "Claude Code configuration" },
+    ".cursor/": { "description": "Cursor config", "tooltip": "Cursor IDE configuration" },
+    ".github/copilot-instructions.md": { "description": "GitHub Copilot", "tooltip": "GitHub Copilot custom instructions" },
+    ".vscode/copilot-instructions.md": { "description": "VS Copilot", "tooltip": "VS Code Copilot custom instructions" },
+    "CLAUDE.md": { "description": "Claude instructions", "tooltip": "Claude project instructions" },
+    "AGENTS.md": { "description": "Agent instructions", "tooltip": "General AI agent instructions" },
+    ".clinerules": { "description": "Cline rules", "tooltip": "Cline AI agent rules" },
+    ".windsurfrules": { "description": "Windsurf rules", "tooltip": "Windsurf AI agent rules" },
+    ".aiderignore": { "description": "Aider ignore", "tooltip": "Aider AI coding assistant ignore list" },
+    ".aider.model.settings.yml": { "description": "Aider model", "tooltip": "Aider model configuration" },
+    ".opencode/": { "description": "OpenCode config", "tooltip": "OpenCode configuration" },
+    ".roo/": { "description": "Roo Code config", "tooltip": "Roo Code agent configuration" },
+    ".roomodes": { "description": "Roo Code modes", "tooltip": "Roo Code agent modes" },
+    ".cline_mcp_settings.json": { "description": "MCP Cline", "tooltip": "Cline MCP server configuration" },
+    ".mcp.json": { "description": "MCP config", "tooltip": "Model Context Protocol server config" },
+    "mcp.json": { "description": "MCP config", "tooltip": "Model Context Protocol server config" }
   }
 }
