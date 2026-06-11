@@ -32,6 +32,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Workspace manager for multi-workspace folder support
 - Context menu grouping for Add Alias and Refresh Aliases
 - CI/CD via GitHub Actions
+- Global decoration change event emitter for cross-workspace updates
+- Workspace URI scoping on decoration providers
 - Unit tests for useConfig, file.util, and workspace manager
 
 ### Changed
@@ -41,6 +43,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Migrated to vitest for testing
 - Improved error handling in file I/O utilities
 - Narrowed FileSystemWatcher scope for better performance
+- Improved package.json metadata (license SPDX, keywords, gallery banner)
+- Updated README.md with current architecture and scripts
+- Updated README.zh-CN.md to match English README
 
 ### Fixed
 - Fixed `merge()` mutating publicConfig in computed
@@ -54,12 +59,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Dead code: `update.util.ts`, `config.ts`, unused types
 - lodash-es dependency (replaced by es-toolkit)
 
-## [0.1.3]
+## [0.1.1]
 
 ### Added
 - `.vscode` directory configuration priority
 - Smart initialization: only creates root-level config files when `.vscode` versions don't exist
 - Improved file organization: keep workspace root clean by using `.vscode/` directory
+- Refresh command for manual alias updates
+- Chinese translation for README
+
+### Changed
+- Cancel auto-addition of config files during initialization
 
 ## [0.1.0]
 
