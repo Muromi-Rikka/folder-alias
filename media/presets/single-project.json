@@ -2,11 +2,11 @@
   "name": "Single Project",
   "description": "Standard Node/Python project structure",
   "aliases": {
-    "src/": { "description": "📁", "tooltip": "Source code" },
-    "tests/": { "description": "🧪", "tooltip": "Test files" },
-    "docs/": { "description": "📖", "tooltip": "Documentation" },
-    "config/": { "description": "⚙️", "tooltip": "Configuration files" },
-    "scripts/": { "description": "📜", "tooltip": "Build and utility scripts" },
-    "dist/": { "description": "📦", "tooltip": "Build output" }
+    "src/": { "description": "src", "tooltip": "Source code" },
+    "tests/": { "description": "tst", "tooltip": "Test files" },
+    "docs/": { "description": "doc", "tooltip": "Documentation" },
+    "config/": { "description": "cfg", "tooltip": "Configuration files" },
+    "scripts/": { "description": "scs", "tooltip": "Build and utility scripts" },
+    "dist/": { "description": "dst", "tooltip": "Build output" }
   }
 }

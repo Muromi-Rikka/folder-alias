@@ -2,12 +2,12 @@
   "name": "Next.js",
   "description": "Alias structure for Next.js applications",
   "aliases": {
-    "app/": { "description": "📄", "tooltip": "App router pages" },
-    "components/": { "description": "🧩", "tooltip": "React components" },
-    "lib/": { "description": "📚", "tooltip": "Utility libraries" },
-    "public/": { "description": "🌐", "tooltip": "Static assets" },
-    "styles/": { "description": "🎨", "tooltip": "CSS and style files" },
-    "hooks/": { "description": "🪝", "tooltip": "Custom React hooks" },
-    "api/": { "description": "🔌", "tooltip": "API routes" }
+    "app/": { "description": "app", "tooltip": "App router pages" },
+    "components/": { "description": "cmp", "tooltip": "React components" },
+    "lib/": { "description": "lib", "tooltip": "Utility libraries" },
+    "public/": { "description": "pub", "tooltip": "Static assets" },
+    "styles/": { "description": "sty", "tooltip": "CSS and style files" },
+    "hooks/": { "description": "hks", "tooltip": "Custom React hooks" },
+    "api/": { "description": "api", "tooltip": "API routes" }
   }
 }

@@ -91,8 +91,8 @@ function deleteUserPreset(workspacePath: string, presetName: string): boolean {
   return false;
 }
 
-function mergePresetIntoConfig(existing: RecordConfig, preset: Preset): RecordConfig {
-  return merge(merge({}, preset.aliases), existing);
+function mergePresetIntoConfig(_existing: RecordConfig, preset: Preset): RecordConfig {
+  return { ...preset.aliases };
 }
 
 export {

@@ -13,7 +13,7 @@ vi.mock("../logger.util", () => ({
   },
 }));
 
-const TEST_DIR = join(__dirname, "__fixtures__");
+const TEST_DIR = join(__dirname, "__fixtures_preset__");
 
 beforeEach(() => {
   mkdirSync(TEST_DIR, { recursive: true });
@@ -76,7 +76,7 @@ describe("getUserPresets", () => {
 });
 
 describe("mergePresetIntoConfig", () => {
-  it("adds preset entries without removing existing ones", async () => {
+  it("replaces config with preset entries", async () => {
     const { mergePresetIntoConfig } = await import("../preset.util");
     const existing: RecordConfig = {
       "src/": { description: "Existing src" },
@@ -84,12 +84,11 @@ describe("mergePresetIntoConfig", () => {
     const preset: Preset = {
       name: "test",
       aliases: {
-        "src/": { description: "Preset src" },
         "lib/": { description: "Preset lib" },
       },
     };
     const result = mergePresetIntoConfig(existing, preset);
-    expect(result["src/"].description).toBe("Existing src");
+    expect(result["src/"]).toBeUndefined();
     expect(result["lib/"].description).toBe("Preset lib");
   });
 

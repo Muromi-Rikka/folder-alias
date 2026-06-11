@@ -2,11 +2,11 @@
   "name": "Monorepo",
   "description": "Alias structure for pnpm/yarn workspace monorepos",
   "aliases": {
-    "packages/": { "description": "📦", "tooltip": "Shared packages" },
-    "apps/": { "description": "🚀", "tooltip": "Applications" },
-    "libs/": { "description": "📚", "tooltip": "Internal libraries" },
-    "shared/": { "description": "🔗", "tooltip": "Shared utilities" },
-    "tools/": { "description": "🛠️", "tooltip": "Build tools and scripts" },
-    "config/": { "description": "⚙️", "tooltip": "Workspace configuration" }
+    "packages/": { "description": "pkg", "tooltip": "Shared packages" },
+    "apps/": { "description": "app", "tooltip": "Applications" },
+    "libs/": { "description": "lib", "tooltip": "Internal libraries" },
+    "shared/": { "description": "shr", "tooltip": "Shared utilities" },
+    "tools/": { "description": "tls", "tooltip": "Build tools and scripts" },
+    "config/": { "description": "cfg", "tooltip": "Workspace configuration" }
   }
 }
