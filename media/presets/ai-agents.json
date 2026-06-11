@@ -1,0 +1,22 @@
+{
+  "name": "AI Agents",
+  "description": "Common AI agent config directories and instruction files",
+  "aliases": {
+    ".claude/": { "description": "🤖", "tooltip": "Claude Code configuration" },
+    ".cursor/": { "description": "✏️", "tooltip": "Cursor IDE configuration" },
+    ".github/copilot-instructions.md": { "description": "🐙", "tooltip": "GitHub Copilot custom instructions" },
+    ".vscode/copilot-instructions.md": { "description": "📘", "tooltip": "VS Code Copilot custom instructions" },
+    "CLAUDE.md": { "description": "🤖", "tooltip": "Claude project instructions" },
+    "AGENTS.md": { "description": "🧠", "tooltip": "General AI agent instructions" },
+    ".clinerules": { "description": "🔧", "tooltip": "Cline AI agent rules" },
+    ".windsurfrules": { "description": "🏄", "tooltip": "Windsurf AI agent rules" },
+    ".aiderignore": { "description": "🪓", "tooltip": "Aider AI coding assistant ignore list" },
+    ".aider.model.settings.yml": { "description": "🪓", "tooltip": "Aider model configuration" },
+    ".opencode/": { "description": "🔓", "tooltip": "OpenCode configuration" },
+    ".roo/": { "description": "🦘", "tooltip": "Roo Code agent configuration" },
+    ".roomodes": { "description": "🦘", "tooltip": "Roo Code agent modes" },
+    ".cline_mcp_settings.json": { "description": "🔌", "tooltip": "Cline MCP server configuration" },
+    ".mcp.json": { "description": "🔌", "tooltip": "Model Context Protocol server config" },
+    "mcp.json": { "description": "🔌", "tooltip": "Model Context Protocol server config" }
+  }
+}
