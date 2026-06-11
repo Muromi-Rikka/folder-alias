@@ -120,11 +120,11 @@ describe("loadSelectedPresetAliases", () => {
 
   it("loads aliases from selected presets", async () => {
     const { loadSelectedPresetAliases, saveSelectedPresets } = await import("../preset.util");
-    saveSelectedPresets(TEST_DIR, ["Monorepo"]);
+    saveSelectedPresets(TEST_DIR, ["AI Agents"]);
 
     const result = loadSelectedPresetAliases(TEST_DIR);
-    expect(result["packages/"]).toBeTruthy();
-    expect(result["apps/"]).toBeTruthy();
+    expect(result[".claude/"]).toBeTruthy();
+    expect(result[".cursor/"]).toBeTruthy();
   });
 });
 
