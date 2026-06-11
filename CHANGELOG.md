@@ -58,6 +58,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Removed
 - Dead code: `update.util.ts`, `config.ts`, unused types
 - lodash-es dependency (replaced by es-toolkit)
+- `dist/` directory from git tracking
 
 ## [0.1.1]
 
