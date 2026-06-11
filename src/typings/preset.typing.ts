@@ -1,4 +1,4 @@
-import type { ConfigItem } from './common.typing';
+import type { ConfigItem } from "./common.typing";
 
 export interface Preset {
   name: string;
