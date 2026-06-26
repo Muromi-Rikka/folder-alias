@@ -25,7 +25,9 @@ function applyPreset(
 ) {
   useCommand("folder-alias.applyPreset", async (uri?: vscode.Uri) => {
     const targetUri = await resolveWorkspaceFolder(uri, vscode.l10n.t("Select workspace folder"));
-    if (!targetUri) return;
+    if (!targetUri) {
+      return;
+    }
     applyPresetToFolder(targetUri, workspaceManager, decorationChangeEvent);
   });
 }

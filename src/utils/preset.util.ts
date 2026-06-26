@@ -1,6 +1,6 @@
 import type { Uri } from "vscode";
 import type { RecordConfig } from "../typings/common.typing";
-import type { Preset, PresetLocalized } from "../typings/preset.typing";
+import type { Preset } from "../typings/preset.typing";
 import { existsSync, mkdirSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { destr } from "destr";
 import { merge } from "es-toolkit";
@@ -40,7 +40,7 @@ function localizePreset(preset: Preset): Preset {
     name: localized.name ?? preset.name,
     description: localized.description ?? preset.description,
     aliases: localized.aliases
-      ? merge({}, preset.aliases, localized.aliases)
+      ? merge(merge({}, preset.aliases), localized.aliases)
       : preset.aliases,
   };
 }

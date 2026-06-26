@@ -8,7 +8,9 @@ function savePreset(
 ) {
   useCommand("folder-alias.saveAsPreset", async (uri?: vscode.Uri) => {
     const targetUri = await resolveWorkspaceFolder(uri, vscode.l10n.t("Select workspace folder to save preset from"));
-    if (!targetUri) return;
+    if (!targetUri) {
+      return;
+    }
     savePresetFromFolder(targetUri, workspaceManager);
   });
 }
@@ -36,7 +38,9 @@ function savePresetFromFolder(
     prompt: vscode.l10n.t("Enter a name for this preset"),
     placeHolder: vscode.l10n.t("my-preset"),
   }).then((name) => {
-    if (!name) return;
+    if (!name) {
+      return;
+    }
 
     vscode.window.showInputBox({
       title: vscode.l10n.t("Preset description"),

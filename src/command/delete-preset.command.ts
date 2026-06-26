@@ -14,7 +14,9 @@ function deletePreset(
 ) {
   useCommand("folder-alias.deletePreset", async (uri?: vscode.Uri) => {
     const targetUri = await resolveWorkspaceFolder(uri, vscode.l10n.t("Select workspace folder"));
-    if (!targetUri) return;
+    if (!targetUri) {
+      return;
+    }
     deletePresetFromFolder(targetUri, decorationChangeEvent);
   });
 }
