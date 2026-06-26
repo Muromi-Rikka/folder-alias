@@ -26,5 +26,7 @@
   "Preset \"{0}\" deleted.": "Preset \"{0}\" deleted.",
   "Preset description": "Preset description",
   "Enter a description for this preset (optional)": "Enter a description for this preset (optional)",
-  "Common AI agent config directories": "Common AI agent config directories"
+  "Common AI agent config directories": "Common AI agent config directories",
+  "No aliases found.": "No aliases found.",
+  "Search aliases...": "Search aliases..."
 }

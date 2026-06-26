@@ -94,6 +94,10 @@
       {
         "command": "folder-alias.deletePreset",
         "title": "%command.deletePreset%"
+      },
+      {
+        "command": "folder-alias.searchAlias",
+        "title": "%command.searchAlias%"
       }
     ],
     "menus": {
@@ -143,6 +147,10 @@
         },
         {
           "command": "folder-alias.deletePreset"
+        },
+        {
+          "command": "folder-alias.searchAlias",
+          "when": "workspaceHasFolderAlias"
         }
       ]
     }

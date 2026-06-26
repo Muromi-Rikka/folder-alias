@@ -11,5 +11,6 @@
   "command.deleteAlias": "删除别名",
   "command.applyPreset": "应用预设",
   "command.saveAsPreset": "将配置保存为预设",
-  "command.deletePreset": "删除预设"
+  "command.deletePreset": "删除预设",
+  "command.searchAlias": "搜索别名"
 }

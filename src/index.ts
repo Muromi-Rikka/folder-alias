@@ -1,7 +1,7 @@
 import type { Uri } from "vscode";
 import { defineExtension, useEventEmitter } from "reactive-vscode";
 import { commands, FileDecoration, window, workspace } from "vscode";
-import { addAlias, applyPreset, deleteAlias, deletePreset, refreshAliases, savePreset } from "./command";
+import { addAlias, applyPreset, deleteAlias, deletePreset, refreshAliases, savePreset, searchAlias } from "./command";
 import { useWorkspaceManager } from "./hooks/useWorkspaceManager";
 
 const { activate, deactivate } = defineExtension(async () => {
@@ -37,6 +37,7 @@ const { activate, deactivate } = defineExtension(async () => {
   refreshAliases(workspaceManager, decorationChangeEvent.emitter);
   deletePreset(workspaceManager, decorationChangeEvent.emitter);
   savePreset(workspaceManager);
+  searchAlias(workspaceManager);
 
   // Set context to enable refresh command in command palette
   commands.executeCommand("setContext", "workspaceHasFolderAlias", true);

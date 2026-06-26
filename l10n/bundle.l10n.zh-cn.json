@@ -26,5 +26,7 @@
   "Preset \"{0}\" deleted.": "预设 \"{0}\" 已删除。",
   "Preset description": "预设描述",
   "Enter a description for this preset (optional)": "输入预设描述（可选）",
-  "Common AI agent config directories": "常见 AI 代理配置目录"
+  "Common AI agent config directories": "常见 AI 代理配置目录",
+  "No aliases found.": "未找到别名。",
+  "Search aliases...": "搜索别名..."
 }

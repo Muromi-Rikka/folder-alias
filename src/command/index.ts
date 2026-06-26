@@ -4,3 +4,4 @@ export { deleteAlias } from "./delete-alias.command";
 export { deletePreset } from "./delete-preset.command";
 export { refreshAliases } from "./refresh-aliases.command";
 export { savePreset } from "./save-preset.command";
+export { searchAlias } from "./search-alias.command";

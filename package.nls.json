@@ -11,5 +11,6 @@
   "command.deleteAlias": "Delete Alias",
   "command.applyPreset": "Apply Preset",
   "command.saveAsPreset": "Save Config as Preset",
-  "command.deletePreset": "Delete Preset"
+  "command.deletePreset": "Delete Preset",
+  "command.searchAlias": "Search Alias"
 }
