@@ -134,6 +134,23 @@ describe("loadSelectedPresetAliases", () => {
   });
 });
 
+describe("toSafeFilename", () => {
+  it("converts name to lowercase with underscores", async () => {
+    const { toSafeFilename } = await import("../preset.util");
+    expect(toSafeFilename("My Preset")).toBe("my_preset");
+  });
+
+  it("handles special characters", async () => {
+    const { toSafeFilename } = await import("../preset.util");
+    expect(toSafeFilename("hello@world!")).toBe("hello_world_");
+  });
+
+  it("throws on empty result", async () => {
+    const { toSafeFilename } = await import("../preset.util");
+    expect(() => toSafeFilename("---")).toThrow();
+  });
+});
+
 describe("saveUserPreset", () => {
   it("creates preset directory and file", async () => {
     const { saveUserPreset } = await import("../preset.util");
@@ -162,7 +179,7 @@ describe("deleteUserPreset", () => {
     saveUserPreset(TEST_DIR, preset);
     const result = deleteUserPreset(TEST_DIR, "Delete Me");
     expect(result).toBe(true);
-    const filePath = join(TEST_DIR, ".vscode", "folder-alias-presets", "delete-me.json");
+    const filePath = join(TEST_DIR, ".vscode", "folder-alias-presets", "delete_me.json");
     expect(existsSync(filePath)).toBe(false);
   });
 

@@ -97,12 +97,20 @@ function getUserPresets(workspacePath: string): Preset[] {
   return presets;
 }
 
+function toSafeFilename(name: string): string {
+  const safe = name.replace(/[^\w-]/g, "_").toLowerCase();
+  if (!safe || !/\w/.test(safe)) {
+    throw new Error(`Invalid preset name: "${name}" produces empty filename`);
+  }
+  return safe;
+}
+
 function saveUserPreset(workspacePath: string, preset: Preset): void {
   const dir = getUserPresetsDir(workspacePath);
   if (!existsSync(dir)) {
     mkdirSync(dir, { recursive: true });
   }
-  const safeName = preset.name.replace(/[^\w-]/g, "_").toLowerCase();
+  const safeName = toSafeFilename(preset.name);
   const filePath = join(dir, `${safeName}.json`);
   writeFileSync(filePath, JSON.stringify(preset, null, 4));
 }
@@ -112,7 +120,7 @@ function deleteUserPreset(workspacePath: string, presetName: string): boolean {
   if (!existsSync(dir)) {
     return false;
   }
-  const safeName = presetName.replace(/[^\w-]/g, "_").toLowerCase();
+  const safeName = toSafeFilename(presetName);
   const filePath = join(dir, `${safeName}.json`);
   if (existsSync(filePath)) {
     unlinkSync(filePath);
@@ -180,4 +188,5 @@ export {
   loadSelectedPresetAliases,
   saveSelectedPresets,
   saveUserPreset,
+  toSafeFilename,
 };
