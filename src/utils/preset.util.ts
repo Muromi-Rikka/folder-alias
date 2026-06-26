@@ -1,10 +1,11 @@
+import type { Uri } from "vscode";
 import type { RecordConfig } from "../typings/common.typing";
 import type { Preset, PresetLocalized } from "../typings/preset.typing";
 import { existsSync, mkdirSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { destr } from "destr";
 import { merge } from "es-toolkit";
 import { join } from "pathe";
-import { env } from "vscode";
+import { env, l10n, window, workspace } from "vscode";
 import { logger } from "./logger.util";
 
 const BUILT_IN_PRESETS_DIR = existsSync(join(__dirname, "..", "media", "presets"))
@@ -120,6 +121,32 @@ function toSafeFilename(name: string): string {
   return safe;
 }
 
+async function resolveWorkspaceFolder(uri?: Uri, title?: string): Promise<Uri | undefined> {
+  if (uri) {
+    return uri;
+  }
+  const folders = workspace.workspaceFolders;
+  if (!folders || folders.length === 0) {
+    window.showWarningMessage(l10n.t("No workspace folder open."));
+    return undefined;
+  }
+  if (folders.length === 1) {
+    return folders[0].uri;
+  }
+  const items = folders.map(f => ({
+    label: f.name,
+    description: f.uri.fsPath,
+  }));
+  const selected = await window.showQuickPick(items, {
+    title: title || l10n.t("Select workspace folder"),
+  });
+  if (!selected) {
+    return undefined;
+  }
+  const folder = folders.find(f => f.name === selected.label);
+  return folder?.uri;
+}
+
 function invalidatePresetCache(workspacePath?: string): void {
   if (workspacePath) {
     userPresetsCache.delete(workspacePath);
@@ -224,6 +251,7 @@ export {
   getUserPresets,
   invalidatePresetCache,
   loadSelectedPresetAliases,
+  resolveWorkspaceFolder,
   saveSelectedPresets,
   saveUserPreset,
   toSafeFilename,

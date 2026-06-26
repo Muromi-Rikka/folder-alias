@@ -2,7 +2,7 @@ import type { EventEmitter as VscodeEventEmitter } from "vscode";
 import type { UseWorkspaceManagerReturn } from "../hooks/useWorkspaceManager";
 import { useCommand } from "reactive-vscode";
 import * as vscode from "vscode";
-import { deleteUserPreset, getSelectedPresets, getUserPresets, saveSelectedPresets } from "../utils/preset.util";
+import { deleteUserPreset, getSelectedPresets, getUserPresets, resolveWorkspaceFolder, saveSelectedPresets } from "../utils/preset.util";
 
 interface PresetQuickPickItem extends vscode.QuickPickItem {
   presetName: string;
@@ -13,36 +13,8 @@ function deletePreset(
   decorationChangeEvent: VscodeEventEmitter<undefined | vscode.Uri | vscode.Uri[]>,
 ) {
   useCommand("folder-alias.deletePreset", async (uri?: vscode.Uri) => {
-    let targetUri: vscode.Uri | undefined = uri;
-
-    if (!targetUri) {
-      const folders = vscode.workspace.workspaceFolders;
-      if (!folders || folders.length === 0) {
-        vscode.window.showWarningMessage(vscode.l10n.t("No workspace folder open."));
-        return;
-      }
-      if (folders.length === 1) {
-        targetUri = folders[0].uri;
-      }
-      else {
-        const items: vscode.QuickPickItem[] = folders.map(f => ({
-          label: f.name,
-          description: f.uri.fsPath,
-        }));
-        vscode.window.showQuickPick(items, {
-          title: vscode.l10n.t("Select workspace folder"),
-        }).then((selected) => {
-          if (selected) {
-            const folder = folders.find(f => f.name === selected.label);
-            if (folder) {
-              deletePresetFromFolder(folder.uri, decorationChangeEvent);
-            }
-          }
-        });
-        return;
-      }
-    }
-
+    const targetUri = await resolveWorkspaceFolder(uri, vscode.l10n.t("Select workspace folder"));
+    if (!targetUri) return;
     deletePresetFromFolder(targetUri, decorationChangeEvent);
   });
 }

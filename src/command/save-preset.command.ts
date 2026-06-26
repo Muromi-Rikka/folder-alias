@@ -1,42 +1,14 @@
 import type { UseWorkspaceManagerReturn } from "../hooks/useWorkspaceManager";
 import { useCommand } from "reactive-vscode";
 import * as vscode from "vscode";
-import { saveUserPreset } from "../utils/preset.util";
+import { resolveWorkspaceFolder, saveUserPreset } from "../utils/preset.util";
 
 function savePreset(
   workspaceManager: UseWorkspaceManagerReturn,
 ) {
-  useCommand("folder-alias.saveAsPreset", (uri?: vscode.Uri) => {
-    let targetUri: vscode.Uri | undefined = uri;
-
-    if (!targetUri) {
-      const folders = vscode.workspace.workspaceFolders;
-      if (!folders || folders.length === 0) {
-        vscode.window.showWarningMessage(vscode.l10n.t("No workspace folder open."));
-        return;
-      }
-      if (folders.length === 1) {
-        targetUri = folders[0].uri;
-      }
-      else {
-        const items: vscode.QuickPickItem[] = folders.map(f => ({
-          label: f.name,
-          description: f.uri.fsPath,
-        }));
-        vscode.window.showQuickPick(items, {
-          title: vscode.l10n.t("Select workspace folder to save preset from"),
-        }).then((selected) => {
-          if (selected) {
-            const folder = folders.find(f => f.name === selected.label);
-            if (folder) {
-              savePresetFromFolder(folder.uri, workspaceManager);
-            }
-          }
-        });
-        return;
-      }
-    }
-
+  useCommand("folder-alias.saveAsPreset", async (uri?: vscode.Uri) => {
+    const targetUri = await resolveWorkspaceFolder(uri, vscode.l10n.t("Select workspace folder to save preset from"));
+    if (!targetUri) return;
     savePresetFromFolder(targetUri, workspaceManager);
   });
 }
