@@ -5,6 +5,14 @@ import { useCommand } from "reactive-vscode";
 import * as vscode from "vscode";
 import { getBuiltInPresets, getSelectedPresets, getUserPresets, resolveWorkspaceFolder, saveSelectedPresets } from "../utils/preset.util";
 
+const PREVIEW_COUNT = 5;
+
+function formatAliasPreview(aliases: Record<string, unknown>): string {
+  const keys = Object.keys(aliases);
+  const preview = keys.slice(0, PREVIEW_COUNT).join(", ");
+  return keys.length > PREVIEW_COUNT ? `${preview}...` : preview;
+}
+
 interface PresetQuickPickItem extends vscode.QuickPickItem {
   preset: Preset;
   isBuiltIn: boolean;
@@ -41,7 +49,7 @@ function applyPresetToFolder(
     ...builtInPresets.map(p => ({
       label: `$(file) ${p.name}`,
       description: p.description,
-      detail: `Built-in · ${Object.keys(p.aliases).length} aliases`,
+      detail: `Built-in · ${Object.keys(p.aliases).length} aliases · ${formatAliasPreview(p.aliases)}`,
       preset: p,
       isBuiltIn: true,
       picked: selectedNames.includes(p.name),
@@ -49,7 +57,7 @@ function applyPresetToFolder(
     ...userPresets.map(p => ({
       label: `$(settings) ${p.name}`,
       description: p.description,
-      detail: `Custom · ${Object.keys(p.aliases).length} aliases`,
+      detail: `Custom · ${Object.keys(p.aliases).length} aliases · ${formatAliasPreview(p.aliases)}`,
       preset: p,
       isBuiltIn: false,
       picked: selectedNames.includes(p.name),
