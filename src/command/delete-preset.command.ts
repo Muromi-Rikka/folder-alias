@@ -1,7 +1,8 @@
+import type { EventEmitter as VscodeEventEmitter } from "vscode";
 import type { UseWorkspaceManagerReturn } from "../hooks/useWorkspaceManager";
 import { useCommand } from "reactive-vscode";
 import * as vscode from "vscode";
-import { deleteUserPreset, getUserPresets } from "../utils/preset.util";
+import { deleteUserPreset, getSelectedPresets, getUserPresets, saveSelectedPresets } from "../utils/preset.util";
 
 interface PresetQuickPickItem extends vscode.QuickPickItem {
   presetName: string;
@@ -9,8 +10,9 @@ interface PresetQuickPickItem extends vscode.QuickPickItem {
 
 function deletePreset(
   _workspaceManager: UseWorkspaceManagerReturn,
+  decorationChangeEvent: VscodeEventEmitter<undefined | vscode.Uri | vscode.Uri[]>,
 ) {
-  useCommand("folder-alias.deletePreset", (uri?: vscode.Uri) => {
+  useCommand("folder-alias.deletePreset", async (uri?: vscode.Uri) => {
     let targetUri: vscode.Uri | undefined = uri;
 
     if (!targetUri) {
@@ -33,7 +35,7 @@ function deletePreset(
           if (selected) {
             const folder = folders.find(f => f.name === selected.label);
             if (folder) {
-              deletePresetFromFolder(folder.uri);
+              deletePresetFromFolder(folder.uri, decorationChangeEvent);
             }
           }
         });
@@ -41,11 +43,14 @@ function deletePreset(
       }
     }
 
-    deletePresetFromFolder(targetUri);
+    deletePresetFromFolder(targetUri, decorationChangeEvent);
   });
 }
 
-function deletePresetFromFolder(folderUri: vscode.Uri) {
+function deletePresetFromFolder(
+  folderUri: vscode.Uri,
+  decorationChangeEvent: VscodeEventEmitter<undefined | vscode.Uri | vscode.Uri[]>,
+) {
   const userPresets = getUserPresets(folderUri.fsPath);
 
   if (userPresets.length === 0) {
@@ -66,6 +71,16 @@ function deletePresetFromFolder(folderUri: vscode.Uri) {
   }).then((selected) => {
     if (selected) {
       deleteUserPreset(folderUri.fsPath, selected.presetName);
+
+      const selectedPresets = getSelectedPresets(folderUri.fsPath);
+      if (selectedPresets.includes(selected.presetName)) {
+        saveSelectedPresets(
+          folderUri.fsPath,
+          selectedPresets.filter(n => n !== selected.presetName),
+        );
+        decorationChangeEvent.fire(folderUri);
+      }
+
       vscode.window.showInformationMessage(
         vscode.l10n.t("Preset \"{0}\" deleted.", selected.presetName),
       );

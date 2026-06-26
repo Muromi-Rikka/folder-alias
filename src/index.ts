@@ -35,7 +35,7 @@ const { activate, deactivate } = defineExtension(async () => {
   applyPreset(workspaceManager, decorationChangeEvent.emitter);
   deleteAlias(workspaceManager, decorationChangeEvent.emitter);
   refreshAliases(workspaceManager, decorationChangeEvent.emitter);
-  deletePreset(workspaceManager);
+  deletePreset(workspaceManager, decorationChangeEvent.emitter);
   savePreset(workspaceManager);
 
   // Set context to enable refresh command in command palette
