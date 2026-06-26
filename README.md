@@ -13,6 +13,7 @@ A powerful VS Code extension that allows you to add customizable aliases and rem
 - **Customizable Aliases**: Add meaningful names and descriptions to any file or folder
 - **Dual Configuration**: Support for both public (shared) and private (personal) aliases
 - **Preset System**: Pre-built alias sets for common workspace configurations (AI agents, frontend tooling)
+- **Search by Alias**: Quickly find and open files by their alias names across all workspace folders
 - **Visual Integration**: Seamlessly integrated into VS Code's file explorer
 - **Easy Management**: Simple right-click interface for adding and modifying aliases
 - **Persistent Storage**: Aliases are saved in JSON configuration files within your workspace
@@ -66,6 +67,24 @@ The quickest way to get started is to apply a preset that matches your project t
 2. Select **"Add Alias"**
 3. Edit the existing text or clear it to remove the alias
 4. Press **Enter** to update
+
+### Deleting an Alias
+
+1. **Right-click** on a file/folder that has an alias
+2. Select **"Delete Alias"**
+3. Choose the scope (public or private) to delete from
+4. Confirm the deletion
+
+### Searching by Alias
+
+Quickly find and open files by their alias names:
+
+1. Open **Command Palette** (`Ctrl+Shift+P` / `Cmd+Shift+P`)
+2. Type **"Search Alias"** and select it
+3. Browse or type to filter the alias list
+4. Select an alias to open the corresponding file in the editor
+
+> **Note**: The search matches against alias names only, across all workspace folders. If no aliases are configured, you'll see a "No aliases found" message.
 
 ### Refreshing Aliases
 
@@ -230,6 +249,8 @@ private-folder-alias.json
 - **`src/hooks/useWorkspaceManager.ts`** - Manages workspace folder instances and URI resolution
 - **`src/hooks/useConfig.ts`** - Loads, merges, and saves public/private JSON configs with preset support
 - **`src/command/add-alias.command.ts`** - Command handler for adding/modifying aliases
+- **`src/command/delete-alias.command.ts`** - Command handler for deleting aliases
+- **`src/command/search-alias.command.ts`** - Command handler for searching aliases and opening files
 - **`src/command/apply-preset.command.ts`** - Command handler for applying/toggling presets
 - **`src/command/save-preset.command.ts`** - Command handler for saving config as preset
 - **`src/command/delete-preset.command.ts`** - Command handler for deleting user presets
