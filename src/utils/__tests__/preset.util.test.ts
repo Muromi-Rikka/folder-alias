@@ -20,12 +20,16 @@ vi.mock("vscode", () => ({
 
 const TEST_DIR = join(__dirname, "__fixtures_preset__");
 
-beforeEach(() => {
+beforeEach(async () => {
+  const { invalidatePresetCache } = await import("../preset.util");
+  invalidatePresetCache();
   mkdirSync(TEST_DIR, { recursive: true });
 });
 
-afterEach(() => {
+afterEach(async () => {
   rmSync(TEST_DIR, { recursive: true, force: true });
+  const { invalidatePresetCache } = await import("../preset.util");
+  invalidatePresetCache();
 });
 
 describe("getBuiltInPresets", () => {

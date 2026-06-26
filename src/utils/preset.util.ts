@@ -11,6 +11,10 @@ const BUILT_IN_PRESETS_DIR = existsSync(join(__dirname, "..", "media", "presets"
   ? join(__dirname, "..", "media", "presets")
   : join(__dirname, "..", "..", "media", "presets");
 
+let builtInCache: Preset[] | null = null;
+const userPresetsCache = new Map<string, Preset[]>();
+const selectedPresetsCache = new Map<string, string[]>();
+
 function getWorkspaceLanguage(): string {
   const lang = env.language;
   if (lang.startsWith("zh")) {
@@ -63,6 +67,9 @@ function readPresetFile(filePath: string): Preset | null {
 }
 
 function getBuiltInPresets(): Preset[] {
+  if (builtInCache) {
+    return builtInCache;
+  }
   if (!existsSync(BUILT_IN_PRESETS_DIR)) {
     return [];
   }
@@ -74,6 +81,7 @@ function getBuiltInPresets(): Preset[] {
       presets.push(localizePreset(preset));
     }
   }
+  builtInCache = presets;
   return presets;
 }
 
@@ -82,6 +90,12 @@ function getUserPresetsDir(workspacePath: string): string {
 }
 
 function getUserPresets(workspacePath: string): Preset[] {
+  if (existsSync(workspacePath)) {
+    const cached = userPresetsCache.get(workspacePath);
+    if (cached) {
+      return cached;
+    }
+  }
   const dir = getUserPresetsDir(workspacePath);
   if (!existsSync(dir)) {
     return [];
@@ -94,6 +108,7 @@ function getUserPresets(workspacePath: string): Preset[] {
       presets.push(localizePreset(preset));
     }
   }
+  userPresetsCache.set(workspacePath, presets);
   return presets;
 }
 
@@ -105,6 +120,18 @@ function toSafeFilename(name: string): string {
   return safe;
 }
 
+function invalidatePresetCache(workspacePath?: string): void {
+  if (workspacePath) {
+    userPresetsCache.delete(workspacePath);
+    selectedPresetsCache.delete(workspacePath);
+  }
+  else {
+    builtInCache = null;
+    userPresetsCache.clear();
+    selectedPresetsCache.clear();
+  }
+}
+
 function saveUserPreset(workspacePath: string, preset: Preset): void {
   const dir = getUserPresetsDir(workspacePath);
   if (!existsSync(dir)) {
@@ -113,6 +140,7 @@ function saveUserPreset(workspacePath: string, preset: Preset): void {
   const safeName = toSafeFilename(preset.name);
   const filePath = join(dir, `${safeName}.json`);
   writeFileSync(filePath, JSON.stringify(preset, null, 4));
+  userPresetsCache.delete(workspacePath);
 }
 
 function deleteUserPreset(workspacePath: string, presetName: string): boolean {
@@ -124,6 +152,7 @@ function deleteUserPreset(workspacePath: string, presetName: string): boolean {
   const filePath = join(dir, `${safeName}.json`);
   if (existsSync(filePath)) {
     unlinkSync(filePath);
+    userPresetsCache.delete(workspacePath);
     return true;
   }
   return false;
@@ -134,6 +163,12 @@ function getSelectedPresetsPath(workspacePath: string): string {
 }
 
 function getSelectedPresets(workspacePath: string): string[] {
+  if (existsSync(workspacePath)) {
+    const cached = selectedPresetsCache.get(workspacePath);
+    if (cached) {
+      return cached;
+    }
+  }
   const filePath = getSelectedPresetsPath(workspacePath);
   if (!existsSync(filePath)) {
     return [];
@@ -144,6 +179,7 @@ function getSelectedPresets(workspacePath: string): string[] {
     if (!Array.isArray(parsed)) {
       return [];
     }
+    selectedPresetsCache.set(workspacePath, parsed);
     return parsed;
   }
   catch {
@@ -158,6 +194,7 @@ function saveSelectedPresets(workspacePath: string, presetNames: string[]): void
   }
   const filePath = getSelectedPresetsPath(workspacePath);
   writeFileSync(filePath, JSON.stringify(presetNames, null, 4));
+  selectedPresetsCache.delete(workspacePath);
 }
 
 function loadSelectedPresetAliases(workspacePath: string): RecordConfig {
@@ -185,6 +222,7 @@ export {
   getBuiltInPresets,
   getSelectedPresets,
   getUserPresets,
+  invalidatePresetCache,
   loadSelectedPresetAliases,
   saveSelectedPresets,
   saveUserPreset,
