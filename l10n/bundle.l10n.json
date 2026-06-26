@@ -23,5 +23,8 @@
   "Select preset to delete": "Select preset to delete",
   "Choose a custom preset to remove": "Choose a custom preset to remove",
   "No custom presets found in this workspace.": "No custom presets found in this workspace.",
-  "Preset \"{0}\" deleted.": "Preset \"{0}\" deleted."
+  "Preset \"{0}\" deleted.": "Preset \"{0}\" deleted.",
+  "Preset description": "Preset description",
+  "Enter a description for this preset (optional)": "Enter a description for this preset (optional)",
+  "Common AI agent config directories": "Common AI agent config directories"
 }

@@ -23,5 +23,8 @@
   "Select preset to delete": "选择要删除的预设",
   "Choose a custom preset to remove": "选择要删除的自定义预设",
   "No custom presets found in this workspace.": "在此工作区中未找到自定义预设。",
-  "Preset \"{0}\" deleted.": "预设 \"{0}\" 已删除。"
+  "Preset \"{0}\" deleted.": "预设 \"{0}\" 已删除。",
+  "Preset description": "预设描述",
+  "Enter a description for this preset (optional)": "输入预设描述（可选）",
+  "Common AI agent config directories": "常见 AI 代理配置目录"
 }

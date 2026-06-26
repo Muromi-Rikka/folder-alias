@@ -36,15 +36,22 @@ function savePresetFromFolder(
     prompt: vscode.l10n.t("Enter a name for this preset"),
     placeHolder: vscode.l10n.t("my-preset"),
   }).then((name) => {
-    if (name) {
+    if (!name) return;
+
+    vscode.window.showInputBox({
+      title: vscode.l10n.t("Preset description"),
+      prompt: vscode.l10n.t("Enter a description for this preset (optional)"),
+      placeHolder: vscode.l10n.t("Common AI agent config directories"),
+    }).then((description) => {
       saveUserPreset(folderUri.fsPath, {
         name,
+        description: description || undefined,
         aliases: { ...currentConfig },
       });
       vscode.window.showInformationMessage(
         vscode.l10n.t("Preset \"{0}\" saved successfully.", name),
       );
-    }
+    });
   });
 }
 
