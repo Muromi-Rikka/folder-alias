@@ -8,6 +8,7 @@ import { getBuiltInPresets, getSelectedPresets, getUserPresets, resolveWorkspace
 interface PresetQuickPickItem extends vscode.QuickPickItem {
   preset: Preset;
   isBuiltIn: boolean;
+  picked?: boolean;
 }
 
 function applyPreset(
@@ -40,16 +41,18 @@ function applyPresetToFolder(
     ...builtInPresets.map(p => ({
       label: `$(file) ${p.name}`,
       description: p.description,
-      detail: `${selectedNames.includes(p.name) ? "$(check) " : ""}Built-in · ${Object.keys(p.aliases).length} aliases`,
+      detail: `Built-in · ${Object.keys(p.aliases).length} aliases`,
       preset: p,
       isBuiltIn: true,
+      picked: selectedNames.includes(p.name),
     })),
     ...userPresets.map(p => ({
       label: `$(settings) ${p.name}`,
       description: p.description,
-      detail: `${selectedNames.includes(p.name) ? "$(check) " : ""}Custom · ${Object.keys(p.aliases).length} aliases`,
+      detail: `Custom · ${Object.keys(p.aliases).length} aliases`,
       preset: p,
       isBuiltIn: false,
+      picked: selectedNames.includes(p.name),
     })),
   ];
 
@@ -58,32 +61,25 @@ function applyPresetToFolder(
     return;
   }
 
-  vscode.window.showQuickPick(items, {
-    title: vscode.l10n.t("Select preset to apply"),
-    placeHolder: vscode.l10n.t("Choose a preset to enable for this workspace"),
-  }).then((selected) => {
-    if (selected) {
-      const currentSelected = getSelectedPresets(folderUri.fsPath);
-      const presetName = selected.preset.name;
+  const quickPick = vscode.window.createQuickPick<PresetQuickPickItem>();
+  quickPick.title = vscode.l10n.t("Select presets to apply");
+  quickPick.placeholder = vscode.l10n.t("Choose presets to enable for this workspace");
+  quickPick.canSelectMany = true;
+  quickPick.items = items;
+  quickPick.selectedItems = items.filter(i => i.picked);
 
-      if (currentSelected.includes(presetName)) {
-        const newSelected = currentSelected.filter(n => n !== presetName);
-        saveSelectedPresets(folderUri.fsPath, newSelected);
-        vscode.window.showInformationMessage(
-          vscode.l10n.t("Preset \"{0}\" removed.", presetName),
-        );
-      }
-      else {
-        const newSelected = [...currentSelected, presetName];
-        saveSelectedPresets(folderUri.fsPath, newSelected);
-        vscode.window.showInformationMessage(
-          vscode.l10n.t("Preset \"{0}\" applied successfully.", presetName),
-        );
-      }
-
-      decorationChangeEvent.fire(folderUri);
-    }
+  quickPick.onDidAccept(() => {
+    const newSelected = quickPick.selectedItems.map(i => i.preset.name);
+    saveSelectedPresets(folderUri.fsPath, newSelected);
+    decorationChangeEvent.fire(folderUri);
+    vscode.window.showInformationMessage(
+      vscode.l10n.t("Preset \"{0}\" applied successfully.", newSelected.join(", ")),
+    );
+    quickPick.dispose();
   });
+
+  quickPick.onDidHide(() => quickPick.dispose());
+  quickPick.show();
 }
 
 export { applyPreset };
