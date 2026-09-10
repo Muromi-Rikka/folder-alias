@@ -183,7 +183,7 @@
     "taze": "^19.14.1",
     "tsdown": "^0.22.2",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.8",
+    "vitest": "^4.1.11",
     "vscode-ext-gen": "^1.6.0"
   }
 }
